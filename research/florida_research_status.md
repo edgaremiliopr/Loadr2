@@ -5,8 +5,9 @@ Date: 2026-03-04
 ## What is in this batch
 
 - `florida_carriers_research.csv`: public-web verified carriers in Florida advertising truck-mounted forklift / piggyback / Moffett-style self-unload capability.
-- `florida_carrier_verification_targets.csv`: actual carrier-only prospects that still need phone verification before they should be treated as broker-usable carriers.
-- `florida_private_fleet_targets.csv`: shipper-owned or distributor-owned delivery fleets that show strong equipment signals but should not be treated as carrier prospects for brokerage sourcing.
+- `florida_carrier_verification_targets.csv`: carrier-only prospects that may be worth calling, but currently lack explicit public forklift-on-truck confirmation.
+- `florida_private_fleet_excluded.csv`: fleets confirmed as shipper/distributor internal operations and therefore excluded from broker carrier prospecting.
+- `florida_private_fleet_targets_scrapling.json`: Scrapling pass output used to validate private-fleet signals and identify non-carrier patterns.
 - `florida_shippers_research.csv`: Florida shippers with strong fit for direct-to-jobsite freight brokerage, especially scaffold, lumber, truss, steel, roofing and specialty building products.
 - `florida_excel_leads_review.csv`: review of the two Excel lead files, with each lead classified as usable carrier, shipper prospect, false positive, broker/3PL, or out-of-state.
 - `florida_scaffold_branches.csv`: branch-level file for scaffold companies in Florida so outreach can be run by branch, not just parent company.
@@ -20,11 +21,11 @@ Date: 2026-03-04
 ## Current totals
 
 - `8` carriers
-- `51` shippers
+- `54` shippers
 - `35` scaffold branches
 - `19` roofing / builder branches
-- `3` low-confidence carrier-only prospects
-- `11` private-fleet targets
+- `5` low-confidence carrier-only prospects
+- `11` private fleets excluded from carrier sourcing
 
 ## Current reality
 
@@ -52,18 +53,22 @@ For that reason, a credible "all Florida" carrier list requires a second pass us
 
 ## What changed in this pass
 
-- Split the old mixed call-target sheet into:
-  - `florida_carrier_verification_targets.csv` for carrier-only prospects that may still be worth testing by phone
-  - `florida_private_fleet_targets.csv` for shipper fleets and distributor fleets
-- Removed `Miami Pallets` from carrier prospects because it is not a fit for the brokerage carrier sheet.
-- Kept `NEXLIFT`, `ByGrace Transports`, and `428 Transport` only as low-confidence carrier prospects; they are real delivery operations, but none has public forklift-on-truck confirmation.
-- Preserved the Tampa Bay shipper expansion while removing private fleets from the broker carrier target list.
+- Confirmed and excluded `11` internal fleets from carrier prospecting; they now live in `florida_private_fleet_excluded.csv`.
+- Ran a targeted Scrapling pass for private-fleet validation and stored results in `florida_private_fleet_targets_scrapling.json`.
+- Expanded Orlando/Central Florida shippers with strong delivery-freight fit:
+  - `Master Construction Products` (Orlando/Kissimmee footprint with delivery-fleet signal)
+  - `Bedrock Orlando` (explicit delivery radius and outsourced heavy deliveries)
+  - `Surplus Steel & Supply` (Apopka-based Central Florida delivery footprint)
+- Expanded Orlando-area carrier call list with low-confidence prospects:
+  - `Comet Delivery Services`
+  - `Ultimate Heavy Hauling Express`
+  - plus existing `NEXLIFT`, `ByGrace Transports`, and `428 Transport`
 
 ## Highest-value next expansion
 
 1. Continue web research for Florida-based carriers that explicitly market truck-mounted forklift, Moffett, piggyback, or self-unload construction delivery
-2. Treat the `3` rows in `florida_carrier_verification_targets.csv` as low-confidence and only call them if you want broader contractor-carrier coverage
-3. Use `florida_private_fleet_targets.csv` only for shipper intelligence, not for the broker carrier sheet
+2. Treat the `5` rows in `florida_carrier_verification_targets.csv` as low-confidence and call only to validate forklift-on-truck assets
+3. Keep `florida_private_fleet_excluded.csv` as intelligence only and out of the broker carrier sheet
 
 ## Recommended data standard for next pass
 

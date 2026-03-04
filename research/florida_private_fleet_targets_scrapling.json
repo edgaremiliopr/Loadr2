@@ -1,0 +1,144 @@
+[
+  {
+    "id": "mercedes-electric-supply",
+    "name": "CED Mercedes Electric Supply",
+    "website": "https://mercedeselectric.com/about-us/delivery-fleet-services/",
+    "ok": false,
+    "error": "Failed to perform, curl: (60) SSL certificate problem: certificate has expired. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+  },
+  {
+    "id": "capitol-materials-coastal",
+    "name": "Capitol Materials Coastal",
+    "website": "https://cmcoastal.com/s/content/secmcoastal_faqs",
+    "ok": true,
+    "keyword_hits": [
+      "jobsite delivery",
+      "delivery"
+    ],
+    "emails": [
+      "sesales@gms.com"
+    ],
+    "phones": [],
+    "preview": "Capitol Materials Coastal - FAQs Shop by Store Saved Lists Catalogs Order History & Status Invoices Customer Portal Register OR Sign in Welcome to the Customer Portal Something went wrong, please try again or contact us at sesales@gms.com Username Password Remember Me Sign in Register for an Account"
+  },
+  {
+    "id": "blue-sky-metals",
+    "name": "Blue Sky Metals",
+    "website": "https://www.bluesky-metals.com/job-site-delivery",
+    "ok": true,
+    "keyword_hits": [
+      "truck mounted forklift",
+      "piggyback forklift",
+      "piggyback",
+      "delivery"
+    ],
+    "emails": [
+      "office@bluesky-metals.com"
+    ],
+    "phones": [
+      "(813) 703-2583"
+    ],
+    "preview": "Blue Sky Metals | Palmetto Florida | Rebar Fabrication & Distribution top of page Rebar Fabricator 813-703-Blue Online Catalog Go Rebar Login (2583) \"Whatever your hand finds to do, do it with all your might\" Ecclesiastes 9:10 Go Rebar is a free bar listing portal for existing customers. Ask your sa"
+  },
+  {
+    "id": "cornerstone-building-brands",
+    "name": "Cornerstone Building Brands",
+    "website": "https://jobs.cornerstonebuildingbrands.com/job/cdl-class-a-driver-in-jacksonville-fl-jid-3650",
+    "ok": true,
+    "keyword_hits": [
+      "moffett",
+      "flatbed",
+      "delivery"
+    ],
+    "emails": [],
+    "phones": [],
+    "preview": "CDL Class A Driver job in Jacksonville, FL | Cornerstone JUMP TO CONTENT Jobs Keyword Search 0 Careers Home Employee experience is our passion Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi porro exercitationem saepe sunt. Find out more Work At Cornerstone Building Brands Our Soc"
+  },
+  {
+    "id": "gator-gypsum",
+    "name": "Gator Gypsum",
+    "website": "https://gatorgypsum.com",
+    "ok": true,
+    "keyword_hits": [
+      "delivery"
+    ],
+    "emails": [
+      "sesales@gms.com"
+    ],
+    "phones": [],
+    "preview": "Gator Gypsum Shop by Store Saved Lists Catalogs Order History & Status Invoices Customer Portal Register OR Sign in Welcome to the Customer Portal Something went wrong, please try again or contact us at sesales@gms.com Username Password Remember Me Sign in Register for an Account Forgot password? 0 "
+  },
+  {
+    "id": "kimco-supply-company",
+    "name": "Kimco Supply Company",
+    "website": "https://kimcosupply.com",
+    "ok": true,
+    "keyword_hits": [
+      "delivery"
+    ],
+    "emails": [],
+    "phones": [
+      "(813) 443-0791"
+    ],
+    "preview": "Home - Kimco Supply Tampa Make A Payment Home About Us Supplies Contact (813) 443-0791 Make A Payment Home About Us Supplies Contact (813) 443-0791 YOUR TRUSTED SOURCE FOR ALL YOUR About Us Whether it's commercial or residential, Kimco Supply has a full range of building and construction supplies to"
+  },
+  {
+    "id": "rs-elliott-specialty-supply",
+    "name": "R.S. Elliott Specialty Supply",
+    "website": "https://rselliott.com",
+    "ok": true,
+    "keyword_hits": [
+      "delivery"
+    ],
+    "emails": [
+      "sesales@gms.com"
+    ],
+    "phones": [],
+    "preview": "R S Elliott Specialty Supply Shop by Store Saved Lists Catalogs Order History & Status Invoices Customer Portal Register OR Sign in Welcome to the Customer Portal Something went wrong, please try again or contact us at sesales@gms.com Username Password Remember Me Sign in Register for an Account For"
+  },
+  {
+    "id": "construction-supply-swfl",
+    "name": "Construction Supply of Southwest Florida",
+    "website": "https://constructionsupplyswfl.com",
+    "ok": false,
+    "error": "Failed to perform, curl: (6) Could not resolve host: constructionsupplyswfl.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details."
+  },
+  {
+    "id": "olympia-building-supplies",
+    "name": "Olympia Building Supplies",
+    "website": "https://olympiabuildingsupplies.com",
+    "ok": true,
+    "keyword_hits": [
+      "delivery"
+    ],
+    "emails": [
+      "sesales@gms.com"
+    ],
+    "phones": [],
+    "preview": "Gator Gypsum Shop by Store Saved Lists Catalogs Order History & Status Invoices Customer Portal Register OR Sign in Welcome to the Customer Portal Something went wrong, please try again or contact us at sesales@gms.com Username Password Remember Me Sign in Register for an Account Forgot password? 0 "
+  },
+  {
+    "id": "fbm-tampa",
+    "name": "FBM Tampa",
+    "website": "https://locations.fbmsales.com/fl/tampa/6001-orient-road",
+    "ok": true,
+    "keyword_hits": [],
+    "emails": [],
+    "phones": [],
+    "preview": "Page not found | Branch Management System (BMS) Skip to main content Branch Management System (BMS) Page not found The requested page could not be found."
+  },
+  {
+    "id": "construction-equipment-inc",
+    "name": "Construction Equipment Inc.",
+    "website": "https://www.constructionequipmentinc.com",
+    "ok": true,
+    "keyword_hits": [
+      "delivery"
+    ],
+    "emails": [],
+    "phones": [
+      "727-441-3850"
+    ],
+    "preview": "SCAFFOLDING RENTAL SERVICES- serving Tampa Bay & Beyond Clearwater, St. Pete, Largo, Pinellas, Pasco, and Hillsborough Counties, Florida. Call Today! 727-441-3850 SCAFFOLDING RENTAL SERVICES Home About Us Scaffolding Rentals SHOWROOM Contact MENU On-Site Store In addition to all your scaffolding nee"
+  }
+]

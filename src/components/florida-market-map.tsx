@@ -1,29 +1,69 @@
 "use client";
 
+import { geoMercator, geoPath } from "d3-geo";
+import type { Feature, FeatureCollection, Geometry } from "geojson";
+import statesAtlas from "us-atlas/states-10m.json";
+import { feature } from "topojson-client";
+import type { Topology } from "topojson-specification";
+
 import type { Company } from "@/types/freight";
 
-const FLORIDA_BOUNDS = {
-  minLat: 24.3,
-  maxLat: 31.1,
-  minLng: -87.7,
-  maxLng: -80.0,
-};
+const VIEWBOX_WIDTH = 920;
+const VIEWBOX_HEIGHT = 660;
+const FLORIDA_ID = 12;
 
-function markerPosition(lat: number, lng: number) {
-  const x =
-    ((lng - FLORIDA_BOUNDS.minLng) /
-      (FLORIDA_BOUNDS.maxLng - FLORIDA_BOUNDS.minLng)) *
-    100;
-  const y =
-    (1 -
-      (lat - FLORIDA_BOUNDS.minLat) /
-        (FLORIDA_BOUNDS.maxLat - FLORIDA_BOUNDS.minLat)) *
-    100;
+type AtlasGeometry = Topology["objects"][string];
 
-  return {
-    left: `${Math.max(6, Math.min(94, x))}%`,
-    top: `${Math.max(8, Math.min(92, y))}%`,
-  };
+const atlas = statesAtlas as unknown as Topology<Record<string, AtlasGeometry>>;
+const stateFeatures = feature(
+  atlas,
+  atlas.objects.states,
+) as FeatureCollection<Geometry>;
+
+const florida = stateFeatures.features.find(
+  (state) => Number(state.id) === FLORIDA_ID,
+) as Feature<Geometry>;
+
+const projection = geoMercator().fitExtent(
+  [
+    [84, 44],
+    [VIEWBOX_WIDTH - 74, VIEWBOX_HEIGHT - 54],
+  ],
+  florida,
+);
+
+const floridaPath = geoPath(projection)(florida) ?? "";
+
+const cityLabels = [
+  { name: "Pensacola", lat: 30.4213, lng: -87.2169 },
+  { name: "Jacksonville", lat: 30.3322, lng: -81.6557 },
+  { name: "Orlando", lat: 28.5383, lng: -81.3792 },
+  { name: "Tampa", lat: 27.9506, lng: -82.4572 },
+  { name: "Miami", lat: 25.7617, lng: -80.1918 },
+];
+
+function projectPoint(lat: number, lng: number) {
+  const projected = projection([lng, lat]);
+
+  if (!projected) {
+    return { x: 0, y: 0 };
+  }
+
+  return { x: projected[0], y: projected[1] };
+}
+
+function markerTone(kind: Company["kind"]) {
+  return kind === "carrier"
+    ? {
+        fill: "#67e8f9",
+        ring: "rgba(103, 232, 249, 0.28)",
+        stroke: "#e0f2fe",
+      }
+    : {
+        fill: "#facc15",
+        ring: "rgba(250, 204, 21, 0.25)",
+        stroke: "#fef3c7",
+      };
 }
 
 export function FloridaMarketMap({
@@ -36,17 +76,21 @@ export function FloridaMarketMap({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-[linear-gradient(160deg,rgba(10,38,53,0.98),rgba(4,14,27,0.96))] p-6 shadow-[0_30px_90px_rgba(7,17,29,0.28)]">
+    <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,20,36,0.94),rgba(5,13,24,0.98))] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.34)]">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.35em] text-cyan-100/70">
+          <p className="text-xs uppercase tracking-[0.35em] text-cyan-200/60">
             Florida Coverage
           </p>
-          <h3 className="mt-2 text-2xl font-semibold text-white">
+          <h3 className="mt-2 text-2xl font-semibold text-slate-100">
             Carrier + shipper map
           </h3>
+          <p className="mt-2 text-sm text-slate-400">
+            Real Florida outline with lat/lng-based company markers.
+          </p>
         </div>
-        <div className="flex gap-3 text-xs text-white/75">
+
+        <div className="flex gap-4 text-xs text-white/75">
           <span className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-cyan-300" />
             Carriers
@@ -58,66 +102,156 @@ export function FloridaMarketMap({
         </div>
       </div>
 
-      <div className="relative min-h-[440px] rounded-[1.6rem] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),transparent_36%),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))]">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:48px_48px] opacity-40" />
-        <div className="florida-shape absolute inset-[8%_8%_7%_6%] rounded-[2rem] bg-[linear-gradient(180deg,rgba(15,118,110,0.42),rgba(8,47,73,0.82))] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_0_80px_rgba(34,211,238,0.16)]" />
+      <div className="overflow-hidden rounded-[1.6rem] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.10),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))]">
+        <svg
+          viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}
+          className="h-full w-full"
+          aria-label="Florida market map"
+        >
+          <defs>
+            <linearGradient id="waterGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(34,211,238,0.12)" />
+              <stop offset="100%" stopColor="rgba(15,23,42,0.02)" />
+            </linearGradient>
+            <linearGradient id="stateFill" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(16,185,129,0.22)" />
+              <stop offset="70%" stopColor="rgba(8,145,178,0.30)" />
+              <stop offset="100%" stopColor="rgba(14,116,144,0.38)" />
+            </linearGradient>
+            <filter id="stateShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow
+                dx="0"
+                dy="20"
+                stdDeviation="24"
+                floodColor="rgba(6,182,212,0.18)"
+              />
+            </filter>
+          </defs>
 
-        {["Pensacola", "Jacksonville", "Orlando", "Tampa", "Miami"].map(
-          (city) => {
-            const cityLabelPosition: Record<
-              string,
-              { left: string; top: string }
-            > = {
-              Pensacola: { left: "13%", top: "18%" },
-              Jacksonville: { left: "76%", top: "11%" },
-              Orlando: { left: "61%", top: "39%" },
-              Tampa: { left: "45%", top: "49%" },
-              Miami: { left: "77%", top: "83%" },
-            };
+          <rect
+            x="0"
+            y="0"
+            width={VIEWBOX_WIDTH}
+            height={VIEWBOX_HEIGHT}
+            fill="url(#waterGlow)"
+          />
+
+          {Array.from({ length: 11 }).map((_, index) => (
+            <line
+              key={`v-${index}`}
+              x1={70 + index * 78}
+              y1="0"
+              x2={70 + index * 78}
+              y2={VIEWBOX_HEIGHT}
+              stroke="rgba(255,255,255,0.045)"
+            />
+          ))}
+          {Array.from({ length: 8 }).map((_, index) => (
+            <line
+              key={`h-${index}`}
+              x1="0"
+              y1={72 + index * 84}
+              x2={VIEWBOX_WIDTH}
+              y2={72 + index * 84}
+              stroke="rgba(255,255,255,0.045)"
+            />
+          ))}
+
+          <path
+            d={floridaPath}
+            fill="url(#stateFill)"
+            stroke="rgba(180, 244, 255, 0.18)"
+            strokeWidth="1.4"
+            filter="url(#stateShadow)"
+          />
+
+          <text
+            x={118}
+            y={VIEWBOX_HEIGHT - 84}
+            fill="rgba(148,163,184,0.4)"
+            fontSize="18"
+            letterSpacing="0.42em"
+          >
+            Gulf of Mexico
+          </text>
+          <text
+            x={VIEWBOX_WIDTH - 228}
+            y={VIEWBOX_HEIGHT - 116}
+            fill="rgba(148,163,184,0.38)"
+            fontSize="18"
+            letterSpacing="0.42em"
+          >
+            Atlantic Ocean
+          </text>
+
+          {cityLabels.map((city) => {
+            const point = projectPoint(city.lat, city.lng);
 
             return (
-              <span
-                key={city}
-                className="absolute text-[11px] uppercase tracking-[0.28em] text-white/45"
-                style={cityLabelPosition[city]}
-              >
-                {city}
-              </span>
+              <g key={city.name}>
+                <circle
+                  cx={point.x}
+                  cy={point.y}
+                  r="3"
+                  fill="rgba(255,255,255,0.44)"
+                />
+                <text
+                  x={point.x + 10}
+                  y={point.y - 10}
+                  fill="rgba(203,213,225,0.58)"
+                  fontSize="12"
+                  letterSpacing="0.28em"
+                >
+                  {city.name.toUpperCase()}
+                </text>
+              </g>
             );
-          },
-        )}
+          })}
 
-        {companies.map((company) => {
-          const selected = company.id === selectedId;
+          {companies.map((company) => {
+            const point = projectPoint(company.lat, company.lng);
+            const tone = markerTone(company.kind);
+            const selected = company.id === selectedId;
 
-          return (
-            <button
-              key={company.id}
-              type="button"
-              onClick={() => onSelect(company.id)}
-              className="group absolute -translate-x-1/2 -translate-y-1/2"
-              style={markerPosition(company.lat, company.lng)}
-              aria-label={company.name}
-            >
-              <span
-                className={`absolute inset-0 rounded-full blur-md transition ${
-                  company.kind === "carrier"
-                    ? "bg-cyan-300/45"
-                    : "bg-amber-200/45"
-                } ${selected ? "scale-[2.4]" : "scale-[1.7] opacity-65 group-hover:scale-[2.1]"}`}
-              />
-              <span
-                className={`relative flex h-4 w-4 items-center justify-center rounded-full border ${
-                  company.kind === "carrier"
-                    ? "border-cyan-50 bg-cyan-300"
-                    : "border-amber-50 bg-amber-300"
-                } ${selected ? "scale-125" : "group-hover:scale-110"}`}
+            return (
+              <g
+                key={company.id}
+                role="button"
+                tabIndex={0}
+                aria-label={company.name}
+                className="cursor-pointer outline-none"
+                onClick={() => onSelect(company.id)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onSelect(company.id);
+                  }
+                }}
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-slate-950" />
-              </span>
-            </button>
-          );
-        })}
+                <circle
+                  cx={point.x}
+                  cy={point.y}
+                  r={selected ? 24 : 18}
+                  fill={tone.ring}
+                />
+                <circle
+                  cx={point.x}
+                  cy={point.y}
+                  r={selected ? 10 : 8}
+                  fill={tone.fill}
+                  stroke={tone.stroke}
+                  strokeWidth={selected ? 3 : 2.5}
+                />
+                <circle
+                  cx={point.x}
+                  cy={point.y}
+                  r="3.2"
+                  fill="#020617"
+                />
+              </g>
+            );
+          })}
+        </svg>
       </div>
     </div>
   );

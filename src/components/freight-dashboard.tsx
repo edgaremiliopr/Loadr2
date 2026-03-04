@@ -3,8 +3,8 @@
 import { useState, type ReactNode } from "react";
 
 import { FloridaMarketMap } from "@/components/florida-market-map";
+import { companiesCatalog as companies } from "@/data/company-catalog";
 import {
-  companies,
   compliance,
   loads,
   metroFocus,
@@ -22,6 +22,7 @@ const tabs = [
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
+type CompanyFilter = "all" | Company["kind"] | "scaffold";
 
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -115,39 +116,62 @@ function complianceClass(status: (typeof compliance)[number]["status"]) {
   return badgeClass("rose");
 }
 
-function scoreAverage(kind: Company["kind"]) {
-  const filtered = companies.filter((company) => company.kind === kind);
+function isScaffoldBranch(company: Company) {
+  return company.tags.includes("scaffold-branch");
+}
+
+function scoreAverage(filter: (company: Company) => boolean) {
+  const filtered = companies.filter(filter);
   const total = filtered.reduce((sum, company) => sum + company.fitScore, 0);
   return Math.round(total / filtered.length);
 }
 
-function companyKindCount(kind: Company["kind"]) {
-  return companies.filter((company) => company.kind === kind).length;
+function companyCount(filter: (company: Company) => boolean) {
+  return companies.filter(filter).length;
 }
 
-function forkliftReadyCarriers() {
+function verifiedForkliftCarriers() {
   return companies.filter(
-    (company) => company.kind === "carrier" && company.forkliftConfirmed,
+    (company) =>
+      company.kind === "carrier" &&
+      company.forkliftConfirmed &&
+      company.verification === "verified",
   ).length;
 }
 
 export function FreightDashboard() {
   const [activeTab, setActiveTab] = useState<TabId>("command");
-  const [companyFilter, setCompanyFilter] = useState<"all" | Company["kind"]>(
-    "all",
-  );
+  const [companyFilter, setCompanyFilter] = useState<CompanyFilter>("all");
   const [selectedCompanyId, setSelectedCompanyId] = useState(companies[0].id);
 
-  const visibleCompanies =
-    companyFilter === "all"
-      ? companies
-      : companies.filter((company) => company.kind === companyFilter);
+  const visibleCompanies = companies.filter((company) => {
+    if (companyFilter === "all") {
+      return true;
+    }
+
+    if (companyFilter === "scaffold") {
+      return isScaffoldBranch(company);
+    }
+
+    if (companyFilter === "shipper") {
+      return company.kind === "shipper" && !isScaffoldBranch(company);
+    }
+
+    return company.kind === companyFilter;
+  });
+
+  const resolvedSelectedCompanyId = visibleCompanies.some(
+    (company) => company.id === selectedCompanyId,
+  )
+    ? selectedCompanyId
+    : visibleCompanies[0]?.id ?? companies[0].id;
 
   const selectedCompany =
-    companies.find((company) => company.id === selectedCompanyId) ?? companies[0];
+    visibleCompanies.find((company) => company.id === resolvedSelectedCompanyId) ??
+    companies.find((company) => company.id === resolvedSelectedCompanyId) ??
+    companies[0];
 
   const openTasks = tasks.filter((task) => task.status !== "done");
-  const monthlyGrossMargin = loads.reduce((sum, load) => sum + load.margin, 0);
 
   return (
     <main className="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 lg:px-10">
@@ -177,27 +201,27 @@ export function FreightDashboard() {
             <div className="grid gap-3 sm:grid-cols-2">
               <MetricCard
                 label="Verified carriers"
-                value={String(forkliftReadyCarriers())}
+                value={String(verifiedForkliftCarriers())}
                 tone="cyan"
-                detail="Truck-mounted forklift confirmed"
+                detail="Verified + forklift confirmed"
               />
               <MetricCard
-                label="Starter shippers"
-                value={String(companyKindCount("shipper"))}
+                label="Parent shippers"
+                value={String(companyCount((company) => company.kind === "shipper" && !isScaffoldBranch(company)))}
                 tone="amber"
                 detail="Qualified Florida targets"
               />
               <MetricCard
-                label="Open tasks"
-                value={String(openTasks.length)}
+                label="Scaffold branches"
+                value={String(companyCount(isScaffoldBranch))}
                 tone="slate"
-                detail="Prospecting + compliance"
+                detail="Branch-level Florida coverage"
               />
               <MetricCard
-                label="Tracked margin"
-                value={currency.format(monthlyGrossMargin)}
+                label="Open tasks"
+                value={String(openTasks.length)}
                 tone="emerald"
-                detail="Sample load book"
+                detail="Prospecting + compliance"
               />
             </div>
           </div>
@@ -306,19 +330,19 @@ export function FreightDashboard() {
                 <div className="space-y-4">
                   <ReadinessRow
                     label="Carrier fit score"
-                    value={`${scoreAverage("carrier")}/100`}
+                    value={`${scoreAverage((company) => company.kind === "carrier")}/100`}
                   />
                   <ReadinessRow
                     label="Shipper fit score"
-                    value={`${scoreAverage("shipper")}/100`}
+                    value={`${scoreAverage((company) => company.kind === "shipper" && !isScaffoldBranch(company))}/100`}
                   />
                   <ReadinessRow
                     label="Carrier packet ready"
-                    value={`${compliance.filter((item) => item.status === "ready").length}/${companyKindCount("carrier")}`}
+                    value={`${compliance.filter((item) => item.status === "ready").length}/${companyCount((company) => company.kind === "carrier")}`}
                   />
                   <ReadinessRow
                     label="Florida metros covered"
-                    value="South / Central / SW"
+                    value="Panhandle / North / Central / South / SW"
                   />
                 </div>
               </Panel>
@@ -331,21 +355,20 @@ export function FreightDashboard() {
             <div className="grid gap-6">
               <Panel
                 eyebrow="Target Database"
-                title="Starter carrier + shipper research"
-                description="Use the filter to isolate carriers, shippers or the full Florida prospect base."
+                title="Florida carrier + shipper research"
+                description="Use the filter to isolate carriers, parent shippers, scaffold branches or the full Florida prospect base."
               >
                 <div className="mb-5 flex flex-wrap gap-3">
                   {[
                     { id: "all", label: "All companies" },
                     { id: "carrier", label: "Carriers" },
                     { id: "shipper", label: "Shippers" },
+                    { id: "scaffold", label: "Scaffold branches" },
                   ].map((filter) => (
                     <button
                       key={filter.id}
                       type="button"
-                      onClick={() =>
-                        setCompanyFilter(filter.id as "all" | Company["kind"])
-                      }
+                      onClick={() => setCompanyFilter(filter.id as CompanyFilter)}
                       className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                         companyFilter === filter.id
                           ? "border border-cyan-400/40 bg-cyan-400/14 text-cyan-100"
@@ -375,7 +398,7 @@ export function FreightDashboard() {
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <div>
                             <p className="text-xs uppercase tracking-[0.28em] text-slate-500">
-                              {company.kind}
+                              {isScaffoldBranch(company) ? "scaffold branch" : company.kind}
                             </p>
                             <h3 className="mt-2 text-xl font-semibold text-slate-100">
                               {company.name}
@@ -537,7 +560,7 @@ export function FreightDashboard() {
           <section className="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
             <FloridaMarketMap
               companies={visibleCompanies}
-              selectedId={selectedCompanyId}
+              selectedId={resolvedSelectedCompanyId}
               onSelect={setSelectedCompanyId}
             />
 

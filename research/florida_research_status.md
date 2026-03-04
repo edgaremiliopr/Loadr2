@@ -19,9 +19,10 @@ Date: 2026-03-04
 ## Current totals
 
 - `8` carriers
-- `41` shippers
+- `51` shippers
 - `35` scaffold branches
 - `19` roofing / builder branches
+- `13` carrier / fleet verification targets
 
 ## Current reality
 
@@ -54,11 +55,13 @@ For that reason, a credible "all Florida" carrier list requires a second pass us
   - regional equipment-usage signals
   - leads that should stay out of the master list until phone-verified
 - Logged `Miami Pallets` as a promising verification target rather than a master carrier because the official pages show strong forklift / moffett language but inconsistent company identity signals.
+- Added a Tampa Bay-focused shipper expansion covering steel, rebar, scaffold supply, lumber and interior-building-products distributors with stronger direct-to-jobsite and fleet signals.
+- Identified a better discovery channel through the official `Partners In Supply` delivery page, which publicly describes Florida fleets using boom trucks, flatbeds, semi-tractors and portable forklifts across several operating brands.
 
 ## Highest-value next expansion
 
-1. Jacksonville and Panhandle carriers with mounted-forklift capability
-2. statewide builder-supply and roofing branches beyond the current core set
+1. Tampa Bay phone verification on the new fleet-heavy targets in `florida_carrier_verification_targets.csv`
+2. Jacksonville and Panhandle carriers with mounted-forklift capability
 3. branch-level contacts for truss / scaffold / builder-supply manufacturers and distributors
 
 ## Recommended data standard for next pass

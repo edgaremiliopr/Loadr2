@@ -43,28 +43,28 @@ function carrierForQuote(quote: Quote) {
 
 function tabClass(active: boolean) {
   return active
-    ? "bg-slate-950 text-white shadow-[0_10px_30px_rgba(15,23,42,0.22)]"
-    : "bg-white/80 text-slate-700 hover:bg-white";
+    ? "border border-cyan-400/40 bg-cyan-400/14 text-cyan-100 shadow-[0_10px_30px_rgba(6,182,212,0.18)]"
+    : "border border-white/10 bg-white/5 text-slate-300 hover:border-white/20 hover:bg-white/9";
 }
 
 function badgeClass(tone: "cyan" | "amber" | "slate" | "rose" | "emerald") {
   if (tone === "cyan") {
-    return "bg-cyan-100 text-cyan-900";
+    return "border border-cyan-400/30 bg-cyan-400/12 text-cyan-100";
   }
 
   if (tone === "amber") {
-    return "bg-amber-100 text-amber-900";
+    return "border border-amber-300/30 bg-amber-300/12 text-amber-100";
   }
 
   if (tone === "rose") {
-    return "bg-rose-100 text-rose-900";
+    return "border border-rose-400/30 bg-rose-400/12 text-rose-100";
   }
 
   if (tone === "emerald") {
-    return "bg-emerald-100 text-emerald-900";
+    return "border border-emerald-400/30 bg-emerald-400/12 text-emerald-100";
   }
 
-  return "bg-slate-200 text-slate-800";
+  return "border border-white/10 bg-white/8 text-slate-200";
 }
 
 function priorityClass(priority: string) {
@@ -151,21 +151,22 @@ export function FreightDashboard() {
 
   return (
     <main className="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 lg:px-10">
-      <div className="absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_35%),radial-gradient(circle_at_top_right,rgba(251,191,36,0.14),transparent_30%),linear-gradient(180deg,rgba(15,23,42,0.08),transparent)]" />
+      <div className="absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_35%),radial-gradient(circle_at_top_right,rgba(251,191,36,0.12),transparent_30%),linear-gradient(180deg,rgba(15,23,42,0.16),transparent)]" />
+      <div className="absolute inset-x-[10%] top-40 h-64 rounded-full bg-cyan-400/8 blur-3xl" />
 
       <div className="relative mx-auto flex w-full max-w-[1440px] flex-col gap-6">
-        <section className="overflow-hidden rounded-[2rem] border border-white/70 bg-white/82 p-6 shadow-[0_30px_90px_rgba(15,23,42,0.10)] backdrop-blur sm:p-8">
+        <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.72),rgba(7,17,31,0.9))] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.34)] backdrop-blur sm:p-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <p className="text-sm uppercase tracking-[0.42em] text-cyan-700">
+              <p className="text-sm uppercase tracking-[0.42em] text-cyan-300">
                 Florida Freight Broker OS
               </p>
-              <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-5xl lg:text-6xl">
+              <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-slate-50 sm:text-5xl lg:text-6xl">
                 Brokerage app for Florida jobsite freight with
-                <span className="text-cyan-700"> Moffett / piggyback</span>
-                <span className="text-slate-500"> delivery focus.</span>
+                <span className="text-cyan-300"> Moffett / piggyback</span>
+                <span className="text-slate-400"> delivery focus.</span>
               </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
                 The product is structured around a one-person brokerage workflow:
                 carrier research, shipper prospecting, Florida market mapping,
                 compliance, quote tracking, dispatch follow-up and load margin
@@ -252,12 +253,12 @@ export function FreightDashboard() {
                   {metroFocus.map((metro) => (
                     <div
                       key={metro.name}
-                      className="rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-5"
+                      className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5"
                     >
                       <p className="text-sm uppercase tracking-[0.28em] text-slate-500">
                         {metro.name}
                       </p>
-                      <p className="mt-3 text-sm leading-6 text-slate-700">
+                      <p className="mt-3 text-sm leading-6 text-slate-300">
                         {metro.note}
                       </p>
                     </div>
@@ -276,10 +277,10 @@ export function FreightDashboard() {
                   {openTasks.slice(0, 4).map((task) => (
                     <div
                       key={task.id}
-                      className="rounded-[1.25rem] border border-slate-200 bg-white p-4"
+                      className="rounded-[1.25rem] border border-white/10 bg-white/5 p-4"
                     >
                       <div className="flex items-start justify-between gap-3">
-                        <p className="text-sm font-medium text-slate-900">
+                        <p className="text-sm font-medium text-slate-100">
                           {task.title}
                         </p>
                         <span
@@ -288,7 +289,7 @@ export function FreightDashboard() {
                           {task.priority}
                         </span>
                       </div>
-                      <p className="mt-2 text-sm text-slate-600">{task.notes}</p>
+                      <p className="mt-2 text-sm text-slate-400">{task.notes}</p>
                       <p className="mt-3 text-xs uppercase tracking-[0.2em] text-slate-400">
                         Due {task.due}
                       </p>
@@ -347,8 +348,8 @@ export function FreightDashboard() {
                       }
                       className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                         companyFilter === filter.id
-                          ? "bg-slate-950 text-white"
-                          : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                          ? "border border-cyan-400/40 bg-cyan-400/14 text-cyan-100"
+                          : "border border-white/10 bg-white/6 text-slate-300 hover:bg-white/10"
                       }`}
                     >
                       {filter.label}
@@ -367,19 +368,19 @@ export function FreightDashboard() {
                         onClick={() => setSelectedCompanyId(company.id)}
                         className={`rounded-[1.6rem] border p-5 text-left transition ${
                           selectedCompanyId === company.id
-                            ? "border-cyan-300 bg-cyan-50/80 shadow-[0_18px_45px_rgba(8,145,178,0.14)]"
-                            : "border-slate-200 bg-white hover:border-slate-300"
+                            ? "border-cyan-400/40 bg-cyan-400/8 shadow-[0_18px_45px_rgba(8,145,178,0.18)]"
+                            : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/7"
                         }`}
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <div>
-                            <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
+                            <p className="text-xs uppercase tracking-[0.28em] text-slate-500">
                               {company.kind}
                             </p>
-                            <h3 className="mt-2 text-xl font-semibold text-slate-950">
+                            <h3 className="mt-2 text-xl font-semibold text-slate-100">
                               {company.name}
                             </h3>
-                            <p className="mt-2 text-sm text-slate-600">
+                            <p className="mt-2 text-sm text-slate-400">
                               {company.sector} • {company.city}
                             </p>
                           </div>
@@ -389,13 +390,13 @@ export function FreightDashboard() {
                             >
                               {company.verification}
                             </span>
-                            <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white">
+                            <span className="rounded-full border border-white/10 bg-slate-950/80 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-100">
                               Fit {company.fitScore}
                             </span>
                           </div>
                         </div>
 
-                        <div className="mt-4 grid gap-3 text-sm text-slate-600 md:grid-cols-3">
+                        <div className="mt-4 grid gap-3 text-sm text-slate-400 md:grid-cols-3">
                           <InfoLine label="Coverage" value={company.coverage.join(", ")} />
                           <InfoLine label="Phone" value={company.phone ?? "Need verification"} />
                           <InfoLine
@@ -410,7 +411,7 @@ export function FreightDashboard() {
                           />
                         </div>
 
-                        <p className="mt-4 text-sm leading-6 text-slate-700">
+                        <p className="mt-4 text-sm leading-6 text-slate-300">
                           {company.opportunity}
                         </p>
                       </button>
@@ -425,7 +426,7 @@ export function FreightDashboard() {
                 title={selectedCompany.name}
                 description={selectedCompany.notes}
               >
-                <div className="space-y-4 text-sm text-slate-700">
+                <div className="space-y-4 text-sm text-slate-300">
                   <DetailGroup label="Address" value={selectedCompany.address} />
                   <DetailGroup
                     label="Capabilities"
@@ -445,7 +446,7 @@ export function FreightDashboard() {
                   {selectedCompany.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700"
+                      className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-xs font-medium text-slate-200"
                     >
                       {tag}
                     </span>
@@ -456,16 +457,16 @@ export function FreightDashboard() {
                   {selectedCompany.contacts.map((contact) => (
                     <div
                       key={`${selectedCompany.id}-${contact.name}`}
-                      className="rounded-[1.1rem] border border-slate-200 bg-slate-50/80 p-4"
+                      className="rounded-[1.1rem] border border-white/10 bg-white/5 p-4"
                     >
-                      <p className="font-medium text-slate-900">{contact.name}</p>
+                      <p className="font-medium text-slate-100">{contact.name}</p>
                       <p className="text-sm text-slate-500">{contact.title}</p>
-                      <p className="mt-2 text-sm text-slate-700">
+                      <p className="mt-2 text-sm text-slate-300">
                         {[contact.phone, contact.email].filter(Boolean).join(" • ") ||
                           "Need phone / email enrichment"}
                       </p>
                       {contact.notes ? (
-                        <p className="mt-2 text-sm text-slate-600">
+                        <p className="mt-2 text-sm text-slate-400">
                           {contact.notes}
                         </p>
                       ) : null}
@@ -480,15 +481,15 @@ export function FreightDashboard() {
                       href={source.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="block rounded-[1.1rem] border border-slate-200 bg-white p-4 transition hover:border-cyan-300"
+                      className="block rounded-[1.1rem] border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/40 hover:bg-white/7"
                     >
-                      <p className="text-sm font-medium text-slate-950">
+                      <p className="text-sm font-medium text-slate-100">
                         {source.label}
                       </p>
-                      <p className="mt-1 break-all text-xs text-cyan-800">
+                      <p className="mt-1 break-all text-xs text-cyan-300">
                         {source.url}
                       </p>
-                      <p className="mt-2 text-sm text-slate-600">{source.note}</p>
+                      <p className="mt-2 text-sm text-slate-400">{source.note}</p>
                     </a>
                   ))}
                 </div>
@@ -503,14 +504,14 @@ export function FreightDashboard() {
                   {researchQueue.map((item) => (
                     <div
                       key={item.id}
-                      className="rounded-[1.2rem] border border-slate-200 bg-white p-4"
+                      className="rounded-[1.2rem] border border-white/10 bg-white/5 p-4"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <p className="text-sm font-medium text-slate-900">
+                          <p className="text-sm font-medium text-slate-100">
                             {item.company}
                           </p>
-                          <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">
+                          <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500">
                             {item.market}
                           </p>
                         </div>
@@ -520,7 +521,7 @@ export function FreightDashboard() {
                           {item.priority}
                         </span>
                       </div>
-                      <p className="mt-3 text-sm text-slate-700">{item.nextAction}</p>
+                      <p className="mt-3 text-sm text-slate-300">{item.nextAction}</p>
                       <p className="mt-2 text-xs text-slate-500">
                         {item.sourceHint}
                       </p>
@@ -577,7 +578,7 @@ export function FreightDashboard() {
                 title="How to use this tab"
                 description="This is meant for territory planning, calling routes and quick lane matching."
               >
-                <ul className="space-y-3 text-sm leading-6 text-slate-700">
+                <ul className="space-y-3 text-sm leading-6 text-slate-300">
                   <li>
                     Use carriers as geographic anchors and then build nearby
                     shippers around each cluster.
@@ -612,17 +613,17 @@ export function FreightDashboard() {
                     return (
                       <div
                         key={load.id}
-                        className="rounded-[1.5rem] border border-slate-200 bg-white p-5"
+                        className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5"
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <div>
-                            <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
+                            <p className="text-xs uppercase tracking-[0.28em] text-slate-500">
                               {load.id}
                             </p>
-                            <h3 className="mt-2 text-lg font-semibold text-slate-950">
+                            <h3 className="mt-2 text-lg font-semibold text-slate-100">
                               {load.origin} → {load.destination}
                             </h3>
-                            <p className="mt-2 text-sm text-slate-600">
+                            <p className="mt-2 text-sm text-slate-400">
                               {shipper?.name ?? "Unknown shipper"} • {load.commodity}
                             </p>
                           </div>
@@ -633,7 +634,7 @@ export function FreightDashboard() {
                           </span>
                         </div>
 
-                        <div className="mt-4 grid gap-3 text-sm text-slate-600 md:grid-cols-4">
+                        <div className="mt-4 grid gap-3 text-sm text-slate-400 md:grid-cols-4">
                           <InfoLine label="Equipment" value={load.equipment} />
                           <InfoLine label="Appointment" value={load.appointment} />
                           <InfoLine
@@ -646,7 +647,7 @@ export function FreightDashboard() {
                           />
                         </div>
 
-                        <p className="mt-4 text-sm leading-6 text-slate-700">
+                        <p className="mt-4 text-sm leading-6 text-slate-300">
                           {load.notes}
                         </p>
 
@@ -658,15 +659,15 @@ export function FreightDashboard() {
                               return (
                                 <div
                                   key={quote.id}
-                                  className="rounded-[1.1rem] border border-slate-200 bg-slate-50/80 p-4"
+                                  className="rounded-[1.1rem] border border-white/10 bg-white/4 p-4"
                                 >
-                                  <p className="text-sm font-medium text-slate-900">
+                                  <p className="text-sm font-medium text-slate-100">
                                     {carrier?.name ?? "Carrier"}
                                   </p>
-                                  <p className="mt-1 text-sm text-slate-600">
+                                  <p className="mt-1 text-sm text-slate-400">
                                     {currency.format(quote.rate)} • {quote.eta}
                                   </p>
-                                  <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400">
+                                  <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-500">
                                     {quote.status}
                                   </p>
                                 </div>
@@ -695,14 +696,14 @@ export function FreightDashboard() {
                       return (
                         <div
                           key={item.id}
-                          className="rounded-[1.2rem] border border-slate-200 bg-white p-4"
+                          className="rounded-[1.2rem] border border-white/10 bg-white/5 p-4"
                         >
                           <div className="flex items-start justify-between gap-3">
                             <div>
-                              <p className="text-sm font-medium text-slate-900">
+                              <p className="text-sm font-medium text-slate-100">
                                 {carrier?.name ?? "Carrier"}
                               </p>
-                              <p className="mt-1 text-sm text-slate-600">
+                              <p className="mt-1 text-sm text-slate-400">
                                 {item.packetStatus}
                               </p>
                             </div>
@@ -713,7 +714,7 @@ export function FreightDashboard() {
                             </span>
                           </div>
 
-                          <div className="mt-3 grid gap-2 text-sm text-slate-600">
+                          <div className="mt-3 grid gap-2 text-sm text-slate-400">
                             <InfoLine
                               label="MC verified"
                               value={item.mcVerified ? "Yes" : "No"}
@@ -728,7 +729,7 @@ export function FreightDashboard() {
                             />
                           </div>
 
-                          <p className="mt-3 text-sm text-slate-700">{item.notes}</p>
+                          <p className="mt-3 text-sm text-slate-300">{item.notes}</p>
                         </div>
                       );
                     })}
@@ -740,7 +741,7 @@ export function FreightDashboard() {
                   title="Minimum viable controls"
                   description="These controls are not optional if you want to scale cleanly from one person."
                 >
-                  <div className="space-y-3 text-sm leading-6 text-slate-700">
+                  <div className="space-y-3 text-sm leading-6 text-slate-300">
                     <ControlRow title="Shipper qualification" body="Track whether the shipper controls freight, project type, urgency profile and branch footprint." />
                     <ControlRow title="Carrier verification" body="Verify MC, insurance, service radius and whether forklift capability is owned or outsourced." />
                     <ControlRow title="Margin discipline" body="Keep quote, award and invoice on the same record so every load shows actual gross margin." />
@@ -768,14 +769,14 @@ function Panel({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-[2rem] border border-white/60 bg-white/84 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-      <p className="text-xs uppercase tracking-[0.32em] text-slate-400">
+    <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.74),rgba(9,16,30,0.92))] p-6 shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur">
+      <p className="text-xs uppercase tracking-[0.32em] text-slate-500">
         {eyebrow}
       </p>
-      <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-slate-950">
+      <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-slate-100">
         {title}
       </h2>
-      <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
+      <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-400">
         {description}
       </p>
       <div className="mt-6">{children}</div>
@@ -796,42 +797,42 @@ function MetricCard({
 }) {
   const toneClass =
     tone === "cyan"
-      ? "from-cyan-500/16 to-cyan-300/8"
+      ? "from-cyan-400/16 to-cyan-400/3"
       : tone === "amber"
-        ? "from-amber-500/18 to-amber-300/8"
+        ? "from-amber-300/18 to-amber-300/4"
         : tone === "emerald"
-          ? "from-emerald-500/18 to-emerald-300/8"
-          : "from-slate-500/14 to-slate-300/8";
+          ? "from-emerald-400/18 to-emerald-400/4"
+          : "from-slate-400/12 to-slate-300/3";
 
   return (
     <div
-      className={`rounded-[1.5rem] border border-slate-200 bg-gradient-to-br ${toneClass} p-4`}
+      className={`rounded-[1.5rem] border border-white/10 bg-gradient-to-br ${toneClass} p-4`}
     >
       <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
         {label}
       </p>
-      <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
+      <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-50">
         {value}
       </p>
-      <p className="mt-2 text-sm text-slate-600">{detail}</p>
+      <p className="mt-2 text-sm text-slate-400">{detail}</p>
     </div>
   );
 }
 
 function ActionCard({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-5">
-      <h3 className="text-lg font-medium text-slate-950">{title}</h3>
-      <p className="mt-3 text-sm leading-6 text-slate-600">{body}</p>
+    <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5">
+      <h3 className="text-lg font-medium text-slate-100">{title}</h3>
+      <p className="mt-3 text-sm leading-6 text-slate-400">{body}</p>
     </div>
   );
 }
 
 function ReadinessRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-[1.2rem] border border-slate-200 bg-white px-4 py-3">
-      <span className="text-sm text-slate-600">{label}</span>
-      <span className="text-sm font-semibold text-slate-950">{value}</span>
+    <div className="flex items-center justify-between gap-4 rounded-[1.2rem] border border-white/10 bg-white/5 px-4 py-3">
+      <span className="text-sm text-slate-400">{label}</span>
+      <span className="text-sm font-semibold text-slate-100">{value}</span>
     </div>
   );
 }
@@ -839,8 +840,8 @@ function ReadinessRow({ label, value }: { label: string; value: string }) {
 function DetailGroup({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{label}</p>
-      <p className="mt-2 leading-6 text-slate-700">{value}</p>
+      <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{label}</p>
+      <p className="mt-2 leading-6 text-slate-300">{value}</p>
     </div>
   );
 }
@@ -848,17 +849,17 @@ function DetailGroup({ label, value }: { label: string; value: string }) {
 function InfoLine({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-xs uppercase tracking-[0.18em] text-slate-400">{label}</p>
-      <p className="mt-1 text-sm text-slate-700">{value}</p>
+      <p className="text-xs uppercase tracking-[0.18em] text-slate-500">{label}</p>
+      <p className="mt-1 text-sm text-slate-300">{value}</p>
     </div>
   );
 }
 
 function ControlRow({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-[1.2rem] border border-slate-200 bg-white p-4">
-      <p className="font-medium text-slate-900">{title}</p>
-      <p className="mt-2 text-sm text-slate-600">{body}</p>
+    <div className="rounded-[1.2rem] border border-white/10 bg-white/5 p-4">
+      <p className="font-medium text-slate-100">{title}</p>
+      <p className="mt-2 text-sm text-slate-400">{body}</p>
     </div>
   );
 }

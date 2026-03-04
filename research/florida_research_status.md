@@ -17,7 +17,7 @@ Date: 2026-03-04
 ## Current totals
 
 - `8` carriers
-- `34` shippers
+- `38` shippers
 - `35` scaffold branches
 
 ## Current reality

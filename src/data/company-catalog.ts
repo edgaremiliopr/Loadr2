@@ -44,8 +44,10 @@ const cityCoordinates: Record<string, { lat: number; lng: number }> = {
   "Mount Dora": { lat: 28.8108, lng: -81.644 },
   "St. Petersburg": { lat: 27.7676, lng: -82.6403 },
   Clearwater: { lat: 27.9659, lng: -82.8001 },
+  "Lake Mary": { lat: 28.7589, lng: -81.3178 },
   "Boynton Beach": { lat: 26.5318, lng: -80.0905 },
   Apopka: { lat: 28.6934, lng: -81.5322 },
+  Doral: { lat: 25.8195, lng: -80.3553 },
   Longwood: { lat: 28.7031, lng: -81.3384 },
   "Winter Haven": { lat: 28.0222, lng: -81.7329 },
   Palmetto: { lat: 27.5214, lng: -82.5723 },
@@ -1939,6 +1941,120 @@ const catalogSeeds: CatalogSeed[] = [
     opportunity: "Use for Nassau County and North Jacksonville scaffold outreach.",
     sourceLabel: "Official branch page",
     sourceNote: "Confirms Yulee branch address and phone.",
+  },
+  {
+    id: "american-builders-supply",
+    kind: "shipper",
+    name: "American Builders Supply",
+    sector: "Builder supply / doors / windows / truss shipper",
+    address: "1525 International Parkway, Suite 2071, Lake Mary, FL 32746",
+    city: "Lake Mary",
+    region: "Florida statewide",
+    coverage: ["Sanford", "Jacksonville", "Fort Myers", "Ocala", "Florida statewide"],
+    phone: "(407) 574-6515",
+    email: "inquiry@americanbuildsupply.com",
+    website: "https://www.americanbuildsupply.com/",
+    capabilities: ["Doors and millwork", "Windows", "Trusses", "Lumber and siding"],
+    workTypes: ["Single-family builders", "Multi-family builders", "Jobsite support"],
+    tags: ["shipper", "builder-supply", "truss", "statewide"],
+    fitScore: 90,
+    verification: "verified",
+    forkliftEvidence:
+      "Official site and locations page confirm statewide Florida building-material operations and direct jobsite delivery / installation support.",
+    notes:
+      "Strong Florida builder-supply target with multiple operating locations and product lines that regularly move direct to builders and jobsites.",
+    opportunity:
+      "Prioritize as a statewide builder-supply account for truss, window, lumber and branch replenishment freight.",
+    sourceLabel: "Official site and locations page",
+    sourceNote:
+      "Confirms Florida coverage, Lake Mary headquarters and multiple Florida operating locations.",
+    contact: {
+      name: "General contact",
+      title: "Corporate contact",
+      phone: "(407) 574-6515",
+      email: "inquiry@americanbuildsupply.com",
+    },
+  },
+  {
+    id: "discount-roofing-supply",
+    kind: "shipper",
+    name: "Discount Roofing Supply",
+    sector: "Roofing distributor / shipper",
+    address: "Florida branches",
+    city: "Multiple",
+    region: "Florida statewide",
+    coverage: ["Maitland", "Tampa", "Fort Myers", "Jupiter", "Boynton Beach"],
+    website: "https://www.discountroofingsupply.com/",
+    capabilities: ["Roofing materials", "Florida branch network"],
+    workTypes: ["Roofing supply", "Contractor supply", "Branch delivery"],
+    tags: ["shipper", "roofing", "statewide", "branch-network"],
+    fitScore: 83,
+    verification: "partial",
+    forkliftEvidence:
+      "Official site and Florida location pages confirm multiple Florida roofing-supply branches.",
+    notes:
+      "Usable Florida roofing-distributor target, but public corporate contact and explicit delivery language still need enrichment.",
+    opportunity:
+      "Qualify branch-by-branch for outside freight and overflow delivery support.",
+    sourceLabel: "Official site and location pages",
+    sourceNote:
+      "Confirms Florida branch footprint through official Maitland, Tampa and Fort Myers location pages.",
+  },
+  {
+    id: "express-roofing-supply",
+    kind: "shipper",
+    name: "Express Roofing Supply",
+    sector: "Roofing distributor / shipper",
+    address: "2281 NW 95th Ave, Doral, FL 33172",
+    city: "Doral",
+    region: "South Florida",
+    coverage: ["Doral", "Hallandale Beach", "Lake Worth Beach", "South Florida"],
+    phone: "(786) 671-7777",
+    website: "https://www.expressroofsupply.com/",
+    capabilities: ["Roofing supplies", "Construction materials", "Express deliveries"],
+    workTypes: ["Roofing supply", "South Florida contractor delivery", "Branch pickup and delivery"],
+    tags: ["shipper", "roofing", "south-florida"],
+    fitScore: 85,
+    verification: "verified",
+    forkliftEvidence:
+      "Official site states the company serves all South Florida, offers express deliveries six days a week and lists Doral, Hallandale Beach and Lake Worth Beach locations.",
+    notes:
+      "Good South Florida roofing-supply target because the site explicitly markets delivery frequency and regional branch coverage.",
+    opportunity:
+      "Use for South Florida roofing and building-material overflow moves where store-to-jobsite delivery gets tight.",
+    sourceLabel: "Official website",
+    sourceNote:
+      "Confirms South Florida service scope, deliveries six days a week, phone and branch cities.",
+    contact: {
+      name: "General contact",
+      title: "Sales / office",
+      phone: "(786) 671-7777",
+    },
+  },
+  {
+    id: "gulfeagle-supply",
+    kind: "shipper",
+    name: "Gulfeagle Supply",
+    sector: "Roofing and building products distributor",
+    address: "Tampa, FL headquarters",
+    city: "Tampa",
+    region: "Florida statewide",
+    coverage: ["Tampa", "Florida statewide"],
+    website: "https://www.gulfeaglesupply.com/company/",
+    capabilities: ["Roofing products", "Building products", "Jobsite delivery"],
+    workTypes: ["Residential roofing", "Commercial roofing", "Branch delivery"],
+    tags: ["shipper", "roofing", "statewide"],
+    fitScore: 84,
+    verification: "verified",
+    forkliftEvidence:
+      "Official company page confirms the business was founded in Tampa, still operates from Tampa headquarters and offers job site delivery.",
+    notes:
+      "Large roofing-and-building-products distributor with Florida roots and explicit jobsite-delivery language.",
+    opportunity:
+      "Good statewide roofing target for overflow delivery and hard-to-cover branch lanes.",
+    sourceLabel: "Official company page",
+    sourceNote:
+      "Confirms Tampa headquarters, roofing/building-products focus and jobsite delivery language.",
   },
 ];
 

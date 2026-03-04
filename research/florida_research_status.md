@@ -23,7 +23,7 @@ Date: 2026-03-04
 - `51` shippers
 - `35` scaffold branches
 - `19` roofing / builder branches
-- `4` carrier-only verification targets
+- `3` low-confidence carrier-only prospects
 - `11` private-fleet targets
 
 ## Current reality
@@ -53,16 +53,16 @@ For that reason, a credible "all Florida" carrier list requires a second pass us
 ## What changed in this pass
 
 - Split the old mixed call-target sheet into:
-  - `florida_carrier_verification_targets.csv` for actual carrier-only prospects
+  - `florida_carrier_verification_targets.csv` for carrier-only prospects that may still be worth testing by phone
   - `florida_private_fleet_targets.csv` for shipper fleets and distributor fleets
-- Kept `Miami Pallets` as a carrier prospect, but not a master carrier, because the official pages show strong forklift / moffett language with inconsistent company identity signals.
-- Added new carrier-only prospects such as `NEXLIFT`, `ByGrace Transports`, and `428 Transport` where the official sites show real delivery operations but still need forklift confirmation.
+- Removed `Miami Pallets` from carrier prospects because it is not a fit for the brokerage carrier sheet.
+- Kept `NEXLIFT`, `ByGrace Transports`, and `428 Transport` only as low-confidence carrier prospects; they are real delivery operations, but none has public forklift-on-truck confirmation.
 - Preserved the Tampa Bay shipper expansion while removing private fleets from the broker carrier target list.
 
 ## Highest-value next expansion
 
-1. Phone-verify the `4` carrier-only prospects in `florida_carrier_verification_targets.csv`
-2. Continue web research for Florida-based carriers that explicitly market truck-mounted forklift, Moffett, piggyback, or construction jobsite delivery
+1. Continue web research for Florida-based carriers that explicitly market truck-mounted forklift, Moffett, piggyback, or self-unload construction delivery
+2. Treat the `3` rows in `florida_carrier_verification_targets.csv` as low-confidence and only call them if you want broader contractor-carrier coverage
 3. Use `florida_private_fleet_targets.csv` only for shipper intelligence, not for the broker carrier sheet
 
 ## Recommended data standard for next pass

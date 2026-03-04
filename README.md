@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Florida Freight Broker OS
 
-## Getting Started
+Next.js app for a Florida freight brokerage focused on:
 
-First, run the development server:
+- carriers with truck-mounted forklifts / piggybacks / Moffetts
+- shippers that deliver direct to jobsites
+- a solo-broker operating model with research, map and TMS views in one app
+
+## What is included
+
+- `Command` tab for launch priorities, market focus and daily playbook
+- `Research` tab with starter carrier + shipper database, fit scoring, sources and contact data
+- `Map` tab with a Florida coverage map that plots carriers and shippers
+- `TMS` tab with sample load pipeline, quote comparisons and carrier compliance status
+- `research/seed-targets.csv` to expand the public-company seed list
+- `scripts/scrape_companies.py` starter scraper using `Scrapling 0.4.1`
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scraping workflow
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Install Python deps:
 
-## Learn More
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-To learn more about Next.js, take a look at the following resources:
+Run the starter scrape:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+python scripts/scrape_companies.py research/seed-targets.csv
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This writes `research/seed-targets.json` with extracted public signals such as:
 
-## Deploy on Vercel
+- page title
+- detected emails
+- detected phone numbers
+- keyword hits for forklift / piggyback / Moffett positioning
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Current data caveat
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The app includes a curated starter set of Florida targets gathered from public company websites. It is not yet an exhaustive statewide database. The intended next step is to keep enriching the seed list and feed verified records into a real database once you decide on production persistence.
+
+## Deploy
+
+This project is structured for Vercel:
+
+```bash
+vercel
+```
+
+For production, the next practical upgrade is adding a hosted database and auth before multi-user use or large-scale research imports.

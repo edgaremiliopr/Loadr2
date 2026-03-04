@@ -8,6 +8,7 @@ Date: 2026-03-04
 - `florida_shippers_research.csv`: Florida shippers with strong fit for direct-to-jobsite freight brokerage, especially scaffold, lumber, truss, steel, roofing and specialty building products.
 - `florida_excel_leads_review.csv`: review of the two Excel lead files, with each lead classified as usable carrier, shipper prospect, false positive, broker/3PL, or out-of-state.
 - `florida_scaffold_branches.csv`: branch-level file for scaffold companies in Florida so outreach can be run by branch, not just parent company.
+- `florida_roofing_builder_branches.csv`: branch-level file for roofing and builder-supply companies in Florida for branch-level outreach and mapping.
 
 ## What is verified vs partial
 
@@ -17,8 +18,9 @@ Date: 2026-03-04
 ## Current totals
 
 - `8` carriers
-- `40` shippers
+- `41` shippers
 - `35` scaffold branches
+- `19` roofing / builder branches
 
 ## Current reality
 

@@ -50,6 +50,7 @@ const cityCoordinates: Record<string, { lat: number; lng: number }> = {
   Apopka: { lat: 28.6934, lng: -81.5322 },
   Doral: { lat: 25.8195, lng: -80.3553 },
   Longwood: { lat: 28.7031, lng: -81.3384 },
+  OrangePark: { lat: 30.1661, lng: -81.7065 },
   "Winter Haven": { lat: 28.0222, lng: -81.7329 },
   Palmetto: { lat: 27.5214, lng: -82.5723 },
   Hialeah: { lat: 25.8576, lng: -80.2781 },
@@ -72,6 +73,10 @@ const cityCoordinates: Record<string, { lat: number; lng: number }> = {
   Bushnell: { lat: 28.6644, lng: -82.1129 },
   "St. Augustine": { lat: 29.9012, lng: -81.3124 },
   Yulee: { lat: 30.6319, lng: -81.6065 },
+  Riverview: { lat: 27.8661, lng: -82.3265 },
+  Gibsonton: { lat: 27.8509, lng: -82.3826 },
+  Melbourne: { lat: 28.0836, lng: -80.6081 },
+  Sarasota: { lat: 27.3364, lng: -82.5307 },
 };
 
 function makeSource(seed: CatalogSeed): CompanySource[] {
@@ -2111,6 +2116,37 @@ const catalogSeeds: CatalogSeed[] = [
       name: "General contact",
       title: "Sales / office",
       phone: "(727) 599-2428",
+    },
+  },
+  {
+    id: "agm-supply",
+    kind: "shipper",
+    name: "AGM Supply",
+    sector: "Roofing and construction products distributor",
+    address: "7859 Northwest 15th Street, Doral, FL 33126",
+    city: "Doral",
+    region: "South Florida / Southwest Florida",
+    coverage: ["Doral", "Cape Coral", "South Florida", "Southwest Florida"],
+    phone: "(786) 843-7478",
+    website: "https://www.agmsupply.com/",
+    capabilities: ["Roofing products", "Construction products", "Contractor support"],
+    workTypes: ["Roofing supply", "Contractor supply", "Branch distribution"],
+    tags: ["shipper", "roofing", "partial", "south-florida"],
+    fitScore: 81,
+    verification: "partial",
+    forkliftEvidence:
+      "Official site confirms AGM is a roofing and construction products distributor and publishes a Doral branch location.",
+    notes:
+      "Useful Florida roofing lead, but public delivery model and best logistics contact still need qualification.",
+    opportunity:
+      "Qualify for branch transfer and contractor delivery support across South Florida and Southwest Florida.",
+    sourceLabel: "Official site",
+    sourceNote:
+      "Confirms Doral branch, phone and roofing / construction products focus.",
+    contact: {
+      name: "Doral branch",
+      title: "General contact",
+      phone: "(786) 843-7478",
     },
   },
 ];

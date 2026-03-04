@@ -200,22 +200,22 @@ export function FreightDashboard() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               <MetricCard
-                label="Verified carriers"
-                value={String(verifiedForkliftCarriers())}
+                label="Total carriers"
+                value={String(companyCount((company) => company.kind === "carrier"))}
                 tone="cyan"
-                detail="Verified + forklift confirmed"
+                detail="All carrier records in app"
               />
               <MetricCard
-                label="Parent shippers"
-                value={String(companyCount((company) => company.kind === "shipper" && !isScaffoldBranch(company)))}
+                label="Total shippers"
+                value={String(companyCount((company) => company.kind === "shipper"))}
                 tone="amber"
-                detail="Qualified Florida targets"
+                detail="Includes scaffold branches"
               />
               <MetricCard
-                label="Scaffold branches"
-                value={String(companyCount(isScaffoldBranch))}
+                label="Verified forklift carriers"
+                value={String(verifiedForkliftCarriers())}
                 tone="slate"
-                detail="Branch-level Florida coverage"
+                detail="Verified + forklift confirmed"
               />
               <MetricCard
                 label="Open tasks"
@@ -362,7 +362,7 @@ export function FreightDashboard() {
                   {[
                     { id: "all", label: "All companies" },
                     { id: "carrier", label: "Carriers" },
-                    { id: "shipper", label: "Shippers" },
+                    { id: "shipper", label: "Parent shippers" },
                     { id: "scaffold", label: "Scaffold branches" },
                   ].map((filter) => (
                     <button

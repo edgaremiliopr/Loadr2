@@ -44,6 +44,7 @@ const cityCoordinates: Record<string, { lat: number; lng: number }> = {
   "Mount Dora": { lat: 28.8108, lng: -81.644 },
   "St. Petersburg": { lat: 27.7676, lng: -82.6403 },
   Clearwater: { lat: 27.9659, lng: -82.8001 },
+  Largo: { lat: 27.9095, lng: -82.7873 },
   "Lake Mary": { lat: 28.7589, lng: -81.3178 },
   "Boynton Beach": { lat: 26.5318, lng: -80.0905 },
   Apopka: { lat: 28.6934, lng: -81.5322 },
@@ -2055,6 +2056,62 @@ const catalogSeeds: CatalogSeed[] = [
     sourceLabel: "Official company page",
     sourceNote:
       "Confirms Tampa headquarters, roofing/building-products focus and jobsite delivery language.",
+  },
+  {
+    id: "krs-roofing-supply",
+    kind: "shipper",
+    name: "KRS Roofing Supply",
+    sector: "Roofing distributor / shipper",
+    address: "Kissimmee and Tampa, FL",
+    city: "Kissimmee",
+    region: "Central / West Florida",
+    coverage: ["Kissimmee", "Tampa", "Central Florida", "West Florida"],
+    website: "https://krsroofingsupply.com/",
+    capabilities: ["Roofing materials", "Project-site delivery"],
+    workTypes: ["Roofing supply", "Contractor delivery", "Project material supply"],
+    tags: ["shipper", "roofing", "central-florida"],
+    fitScore: 82,
+    verification: "verified",
+    forkliftEvidence:
+      "Official site states delivery is available straight to the project location and confirms Kissimmee and Tampa operations.",
+    notes:
+      "Regional roofing-supply target with explicit delivery-to-project-location language.",
+    opportunity:
+      "Use for Central and West Florida roofing freight and overflow jobsite deliveries.",
+    sourceLabel: "Official website",
+    sourceNote:
+      "Confirms roofing-material focus, Kissimmee/Tampa footprint and project-location delivery language.",
+  },
+  {
+    id: "florida-building-stair-supply",
+    kind: "shipper",
+    name: "Florida Building & Stair Supply",
+    sector: "Builder supply / lumber / flooring distributor",
+    address: "12580 Enterprise Blvd, Suite C, Largo, FL 33773",
+    city: "Largo",
+    region: "West Florida",
+    coverage: ["Largo", "Pinellas", "Tampa Bay", "West Coast of Florida"],
+    phone: "(727) 599-2428",
+    website: "https://floridabuildingandstairsupply.com/building-supply/",
+    capabilities: ["Lumber", "Flooring", "Doors", "Plywood", "Own delivery truck"],
+    workTypes: ["Builder supply", "Jobsite delivery", "Contractor supply"],
+    tags: ["shipper", "builder-supply", "west-florida"],
+    fitScore: 84,
+    verification: "verified",
+    forkliftEvidence:
+      "Official building-supply page says the company has its own delivery truck and brings materials to the job site or home.",
+    notes:
+      "Good West Coast Florida builder-supply target with explicit in-house delivery capability.",
+    opportunity:
+      "Use for Tampa Bay and west-coast building-material freight where in-house capacity may need overflow support.",
+    sourceLabel: "Official building supply page",
+    sourceNote:
+      "Confirms Largo address, phone, west-coast market and own delivery truck language.",
+    contact: {
+      name: "General contact",
+      title: "Sales / office",
+      phone: "(727) 599-2428",
+    },
   },
 ];
 

@@ -5,7 +5,8 @@ Date: 2026-03-04
 ## What is in this batch
 
 - `florida_carriers_research.csv`: public-web verified carriers in Florida advertising truck-mounted forklift / piggyback / Moffett-style self-unload capability.
-- `florida_carrier_verification_targets.csv`: high-potential carrier or private-fleet leads that surfaced during research but still need phone verification before they should be treated as broker-usable carriers.
+- `florida_carrier_verification_targets.csv`: actual carrier-only prospects that still need phone verification before they should be treated as broker-usable carriers.
+- `florida_private_fleet_targets.csv`: shipper-owned or distributor-owned delivery fleets that show strong equipment signals but should not be treated as carrier prospects for brokerage sourcing.
 - `florida_shippers_research.csv`: Florida shippers with strong fit for direct-to-jobsite freight brokerage, especially scaffold, lumber, truss, steel, roofing and specialty building products.
 - `florida_excel_leads_review.csv`: review of the two Excel lead files, with each lead classified as usable carrier, shipper prospect, false positive, broker/3PL, or out-of-state.
 - `florida_scaffold_branches.csv`: branch-level file for scaffold companies in Florida so outreach can be run by branch, not just parent company.
@@ -22,7 +23,8 @@ Date: 2026-03-04
 - `51` shippers
 - `35` scaffold branches
 - `19` roofing / builder branches
-- `13` carrier / fleet verification targets
+- `4` carrier-only verification targets
+- `11` private-fleet targets
 
 ## Current reality
 
@@ -50,19 +52,18 @@ For that reason, a credible "all Florida" carrier list requires a second pass us
 
 ## What changed in this pass
 
-- Added `florida_carrier_verification_targets.csv` to separate:
-  - likely overflow or private-fleet targets
-  - regional equipment-usage signals
-  - leads that should stay out of the master list until phone-verified
-- Logged `Miami Pallets` as a promising verification target rather than a master carrier because the official pages show strong forklift / moffett language but inconsistent company identity signals.
-- Added a Tampa Bay-focused shipper expansion covering steel, rebar, scaffold supply, lumber and interior-building-products distributors with stronger direct-to-jobsite and fleet signals.
-- Identified a better discovery channel through the official `Partners In Supply` delivery page, which publicly describes Florida fleets using boom trucks, flatbeds, semi-tractors and portable forklifts across several operating brands.
+- Split the old mixed call-target sheet into:
+  - `florida_carrier_verification_targets.csv` for actual carrier-only prospects
+  - `florida_private_fleet_targets.csv` for shipper fleets and distributor fleets
+- Kept `Miami Pallets` as a carrier prospect, but not a master carrier, because the official pages show strong forklift / moffett language with inconsistent company identity signals.
+- Added new carrier-only prospects such as `NEXLIFT`, `ByGrace Transports`, and `428 Transport` where the official sites show real delivery operations but still need forklift confirmation.
+- Preserved the Tampa Bay shipper expansion while removing private fleets from the broker carrier target list.
 
 ## Highest-value next expansion
 
-1. Tampa Bay phone verification on the new fleet-heavy targets in `florida_carrier_verification_targets.csv`
-2. Jacksonville and Panhandle carriers with mounted-forklift capability
-3. branch-level contacts for truss / scaffold / builder-supply manufacturers and distributors
+1. Phone-verify the `4` carrier-only prospects in `florida_carrier_verification_targets.csv`
+2. Continue web research for Florida-based carriers that explicitly market truck-mounted forklift, Moffett, piggyback, or construction jobsite delivery
+3. Use `florida_private_fleet_targets.csv` only for shipper intelligence, not for the broker carrier sheet
 
 ## Recommended data standard for next pass
 

@@ -160,15 +160,8 @@ export function FreightDashboard() {
     return company.kind === companyFilter;
   });
 
-  const resolvedSelectedCompanyId = visibleCompanies.some(
-    (company) => company.id === selectedCompanyId,
-  )
-    ? selectedCompanyId
-    : visibleCompanies[0]?.id ?? companies[0].id;
-
   const selectedCompany =
-    visibleCompanies.find((company) => company.id === resolvedSelectedCompanyId) ??
-    companies.find((company) => company.id === resolvedSelectedCompanyId) ??
+    companies.find((company) => company.id === selectedCompanyId) ??
     companies[0];
 
   const openTasks = tasks.filter((task) => task.status !== "done");
@@ -559,8 +552,8 @@ export function FreightDashboard() {
         {activeTab === "map" ? (
           <section className="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
             <FloridaMarketMap
-              companies={visibleCompanies}
-              selectedId={resolvedSelectedCompanyId}
+              companies={companies}
+              selectedId={selectedCompany.id}
               onSelect={setSelectedCompanyId}
             />
 

@@ -1,4 +1,5 @@
 import type { Company, CompanyContact, CompanySource, VerificationStatus } from "@/types/freight";
+import { companyGeocodes } from "@/data/company-geocodes";
 
 type CatalogSeed = {
   id: string;
@@ -90,7 +91,10 @@ function makeSource(seed: CatalogSeed): CompanySource[] {
 }
 
 function makeCompany(seed: CatalogSeed): Company {
-  const coords = cityCoordinates[seed.city] ?? cityCoordinates.Florida;
+  const coords =
+    companyGeocodes[seed.id] ??
+    cityCoordinates[seed.city] ??
+    cityCoordinates.Florida;
 
   return {
     id: seed.id,

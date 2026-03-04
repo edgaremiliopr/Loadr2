@@ -5,6 +5,7 @@ Date: 2026-03-04
 ## What is in this batch
 
 - `florida_carriers_research.csv`: public-web verified carriers in Florida advertising truck-mounted forklift / piggyback / Moffett-style self-unload capability.
+- `florida_carrier_verification_targets.csv`: high-potential carrier or private-fleet leads that surfaced during research but still need phone verification before they should be treated as broker-usable carriers.
 - `florida_shippers_research.csv`: Florida shippers with strong fit for direct-to-jobsite freight brokerage, especially scaffold, lumber, truss, steel, roofing and specialty building products.
 - `florida_excel_leads_review.csv`: review of the two Excel lead files, with each lead classified as usable carrier, shipper prospect, false positive, broker/3PL, or out-of-state.
 - `florida_scaffold_branches.csv`: branch-level file for scaffold companies in Florida so outreach can be run by branch, not just parent company.
@@ -45,6 +46,14 @@ For that reason, a credible "all Florida" carrier list requires a second pass us
 1. Google Maps / local business listings by metro and keyword cluster
 2. FMCSA / SAFER + company website matching
 3. direct phone verification of capability, service radius and broker setup acceptance
+
+## What changed in this pass
+
+- Added `florida_carrier_verification_targets.csv` to separate:
+  - likely overflow or private-fleet targets
+  - regional equipment-usage signals
+  - leads that should stay out of the master list until phone-verified
+- Logged `Miami Pallets` as a promising verification target rather than a master carrier because the official pages show strong forklift / moffett language but inconsistent company identity signals.
 
 ## Highest-value next expansion
 

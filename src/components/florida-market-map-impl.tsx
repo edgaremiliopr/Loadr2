@@ -10,6 +10,7 @@ import {
   Popup,
   TileLayer,
   useMap,
+  useMapEvents,
 } from "react-leaflet";
 
 import type { Company } from "@/types/freight";
@@ -231,6 +232,16 @@ function FitMapToMarkers({ points }: { points: [number, number][] }) {
   return null;
 }
 
+function ClearCoverageOnMapClick({ onClear }: { onClear: () => void }) {
+  useMapEvents({
+    click: () => {
+      onClear();
+    },
+  });
+
+  return null;
+}
+
 export function FloridaMarketMap({
   companies,
   selectedId,
@@ -242,6 +253,7 @@ export function FloridaMarketMap({
 }) {
   const [showCarriers, setShowCarriers] = useState(true);
   const [showShippers, setShowShippers] = useState(true);
+  const [activeCarrierCoverageId, setActiveCarrierCoverageId] = useState<string | null>(null);
 
   const mapCompanies = useMemo(() => {
     return companies.filter((company) => {
@@ -299,10 +311,12 @@ export function FloridaMarketMap({
     [markerCompanies],
   );
 
-  const selectedCompany = companies.find((company) => company.id === selectedId);
+  const selectedCarrier = companies.find(
+    (company) => company.id === activeCarrierCoverageId && company.kind === "carrier",
+  );
   const selectedCoverage =
-    selectedCompany && selectedCompany.kind === "shipper" && showShippers
-      ? coverageShapeForCompany(selectedCompany)
+    selectedCarrier && showCarriers
+      ? coverageShapeForCompany(selectedCarrier)
       : null;
 
   return (
@@ -312,7 +326,7 @@ export function FloridaMarketMap({
           <p className="text-xs uppercase tracking-[0.35em] text-cyan-200/65">Florida Coverage</p>
           <h3 className="mt-2 text-2xl font-semibold text-slate-100">Interactive carrier + shipper map</h3>
           <p className="mt-2 text-sm text-slate-400">
-            Pan, zoom, toggle segments and tap a shipper to see service coverage.
+            Pan, zoom, toggle segments and tap a carrier to see service coverage.
           </p>
         </div>
 
@@ -360,6 +374,7 @@ export function FloridaMarketMap({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; CARTO'
           />
 
+          <ClearCoverageOnMapClick onClear={() => setActiveCarrierCoverageId(null)} />
           <FitMapToMarkers points={markerPoints} />
 
           {selectedCoverage?.type === "polygon" ? (
@@ -394,8 +409,14 @@ export function FloridaMarketMap({
               key={company.id}
               center={[markerLat, markerLng]}
               pathOptions={companyStyle(company.kind, company.id === selectedId)}
+              bubblingMouseEvents={false}
               eventHandlers={{
-                click: () => onSelect(company.id),
+                click: () => {
+                  onSelect(company.id);
+                  setActiveCarrierCoverageId(
+                    company.kind === "carrier" ? company.id : null,
+                  );
+                },
               }}
             >
               <Popup>

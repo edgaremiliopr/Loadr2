@@ -14,7 +14,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Florida Freight Broker OS",
+  title: "Loadr",
   description:
     "Research, mapping and TMS workspace for a Florida freight brokerage focused on jobsite deliveries that need truck-mounted forklifts, piggybacks or Moffetts.",
 };

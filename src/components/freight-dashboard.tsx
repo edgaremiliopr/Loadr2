@@ -176,7 +176,7 @@ export function FreightDashboard() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <p className="text-sm uppercase tracking-[0.42em] text-cyan-300">
-                Florida Freight Broker OS
+                Loadr
               </p>
               <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-slate-50 sm:text-5xl lg:text-6xl">
                 Brokerage app for Florida jobsite freight with

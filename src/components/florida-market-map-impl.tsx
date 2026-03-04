@@ -257,9 +257,46 @@ export function FloridaMarketMap({
     });
   }, [companies, showCarriers, showShippers]);
 
+  const markerCompanies = useMemo(() => {
+    const sorted = [...mapCompanies].sort((left, right) => {
+      if (left.kind === right.kind) {
+        return 0;
+      }
+
+      return left.kind === "shipper" ? -1 : 1;
+    });
+
+    const seen = new Map<string, number>();
+
+    return sorted.map((company) => {
+      const key = `${company.lat.toFixed(5)}:${company.lng.toFixed(5)}`;
+      const overlapIndex = seen.get(key) ?? 0;
+      seen.set(key, overlapIndex + 1);
+
+      if (overlapIndex === 0) {
+        return {
+          company,
+          markerLat: company.lat,
+          markerLng: company.lng,
+        };
+      }
+
+      const ring = Math.ceil(overlapIndex / 6);
+      const angleDeg = (overlapIndex % 6) * 60;
+      const angle = (angleDeg * Math.PI) / 180;
+      const delta = 0.012 * ring;
+
+      return {
+        company,
+        markerLat: company.lat + Math.sin(angle) * delta,
+        markerLng: company.lng + Math.cos(angle) * delta,
+      };
+    });
+  }, [mapCompanies]);
+
   const markerPoints = useMemo<[number, number][]>(
-    () => mapCompanies.map((company) => [company.lat, company.lng]),
-    [mapCompanies],
+    () => markerCompanies.map((item) => [item.markerLat, item.markerLng]),
+    [markerCompanies],
   );
 
   const selectedCompany = companies.find((company) => company.id === selectedId);
@@ -352,10 +389,10 @@ export function FloridaMarketMap({
             />
           ) : null}
 
-          {mapCompanies.map((company) => (
+          {markerCompanies.map(({ company, markerLat, markerLng }) => (
             <CircleMarker
               key={company.id}
-              center={[company.lat, company.lng]}
+              center={[markerLat, markerLng]}
               pathOptions={companyStyle(company.kind, company.id === selectedId)}
               eventHandlers={{
                 click: () => onSelect(company.id),

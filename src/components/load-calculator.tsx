@@ -296,14 +296,14 @@ export function LoadCalculator() {
           value={originText}
           onChange={(v) => { setOriginText(v); setOriginCoords(null); }}
           onSelect={(lat, lon, d) => { setOriginCoords({ lat, lon }); setOriginText(d); }}
-          placeholder="City or address..."
+          placeholder="City, ZIP, or landmark..."
         />
         <AddressInput
           label="Delivery"
           value={destText}
           onChange={(v) => { setDestText(v); setDestCoords(null); }}
           onSelect={(lat, lon, d) => { setDestCoords({ lat, lon }); setDestText(d); }}
-          placeholder="City or address..."
+          placeholder="City, ZIP, or landmark..."
         />
 
         {/* Load dimensions */}

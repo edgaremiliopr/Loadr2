@@ -2319,7 +2319,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "contractors-access-equipment-cae-inc",
-    kind: "carrier",
+    kind: "shipper",
     name: "Contractors Access Equipment (CAE, Inc.)",
     sector: "Scaffolding Delivery",
     address: "1851 Massaro Blvd, Suite B, Tampa, FL 33619",
@@ -2342,7 +2342,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "j-m-scaffolds-of-florida-inc",
-    kind: "carrier",
+    kind: "shipper",
     name: "J & M Scaffolds of Florida, Inc.",
     sector: "Scaffolding Delivery",
     address: "11050 NW 36th Ave, Miami, FL 33167",
@@ -2365,7 +2365,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "banner-supply-co",
-    kind: "carrier",
+    kind: "shipper",
     name: "Banner Supply Co.",
     sector: "Drywall / Building Material Delivery",
     address: "7195 NW 30th St, Miami, FL 33122",
@@ -2388,7 +2388,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "kj-drywall-supply",
-    kind: "carrier",
+    kind: "shipper",
     name: "KJ Drywall Supply",
     sector: "Drywall / Building Material Delivery",
     address: "7970 NW 56th St, Doral, FL 33166",
@@ -2411,7 +2411,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "gator-gypsum-tampa",
-    kind: "carrier",
+    kind: "shipper",
     name: "Gator Gypsum - Tampa",
     sector: "Drywall / Building Material Delivery",
     address: "3904 E Adamo Dr, Tampa, FL 33605",
@@ -2434,7 +2434,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "gator-gypsum-orlando",
-    kind: "carrier",
+    kind: "shipper",
     name: "Gator Gypsum - Orlando",
     sector: "Drywall / Building Material Delivery",
     address: "371 W Taft Vineland Rd, Orlando, FL 32824",
@@ -2457,7 +2457,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "gator-gypsum-sarasota",
-    kind: "carrier",
+    kind: "shipper",
     name: "Gator Gypsum - Sarasota",
     sector: "Drywall / Building Material Delivery",
     address: "2006 72nd Dr E, Sarasota, FL 34243",
@@ -2480,7 +2480,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "florida-lumber",
-    kind: "carrier",
+    kind: "shipper",
     name: "Florida Lumber",
     sector: "Lumber Delivery",
     address: "2431 NW 20th St, Miami, FL 33142",
@@ -2503,7 +2503,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "peninsular-lumber-company",
-    kind: "carrier",
+    kind: "shipper",
     name: "Peninsular Lumber Company",
     sector: "Lumber Delivery",
     address: "4812 N Grady Ave, Tampa, FL 33614",
@@ -2526,7 +2526,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "north-rome-lumber",
-    kind: "carrier",
+    kind: "shipper",
     name: "North Rome Lumber",
     sector: "Lumber Delivery",
     address: "5810 N Rome Ave, Tampa, FL 33603",
@@ -2549,7 +2549,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "shell-lumber-hardware",
-    kind: "carrier",
+    kind: "shipper",
     name: "Shell Lumber & Hardware",
     sector: "Lumber Delivery",
     address: "2733 SW 27th Ave, Miami, FL 33133",
@@ -2572,7 +2572,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "1st-coast-metal-roofing-supply",
-    kind: "carrier",
+    kind: "shipper",
     name: "1st Coast Metal Roofing Supply",
     sector: "Roofing Material Delivery",
     address: "186 State Road 207, East Palatka, FL 32131",
@@ -2595,7 +2595,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "tri-county-metals-trenton-hq",
-    kind: "carrier",
+    kind: "shipper",
     name: "Tri County Metals - Trenton HQ",
     sector: "Roofing Material Delivery",
     address: "301 SE 16th St, Trenton, FL 32693",
@@ -2618,7 +2618,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "tri-county-metals-ocala",
-    kind: "carrier",
+    kind: "shipper",
     name: "Tri County Metals - Ocala",
     sector: "Roofing Material Delivery",
     address: "3021 NW Blitchton Rd, Ocala, FL 34475",
@@ -2641,7 +2641,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "roof-depot-usa",
-    kind: "carrier",
+    kind: "shipper",
     name: "Roof Depot USA",
     sector: "Roofing Material Delivery",
     address: "5400 NW 37th Ave, Miami, FL 33142",
@@ -2664,7 +2664,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "oldcastle-coastal-orlando",
-    kind: "carrier",
+    kind: "shipper",
     name: "Oldcastle Coastal - Orlando",
     sector: "Masonry & Brick Delivery",
     address: "39 W Landstreet Rd, Orlando, FL 32824",
@@ -2687,7 +2687,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "oldcastle-coastal-tampa",
-    kind: "carrier",
+    kind: "shipper",
     name: "Oldcastle Coastal - Tampa",
     sector: "Masonry & Brick Delivery",
     address: "8910 N 12th St, Tampa, FL 33604",
@@ -2710,7 +2710,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "oldcastle-coastal-west-palm-beach",
-    kind: "carrier",
+    kind: "shipper",
     name: "Oldcastle Coastal - West Palm Beach",
     sector: "Masonry & Brick Delivery",
     address: "7167 Interpace Rd, West Palm Beach, FL 33407",
@@ -2733,7 +2733,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "tremron-jacksonville-hq",
-    kind: "carrier",
+    kind: "shipper",
     name: "Tremron - Jacksonville HQ",
     sector: "Masonry & Brick Delivery",
     address: "2885 Saint Clair St, Jacksonville, FL 32254",
@@ -2756,7 +2756,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "leesburg-concrete-company-inc",
-    kind: "carrier",
+    kind: "shipper",
     name: "Leesburg Concrete Company, Inc.",
     sector: "Precast Concrete Delivery",
     address: "1335 Thomas Ave, Leesburg, FL 34748",
@@ -2779,7 +2779,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "atlantic-coast-precast",
-    kind: "carrier",
+    kind: "shipper",
     name: "Atlantic Coast Precast",
     sector: "Precast Concrete Delivery",
     address: "533 NE 33rd St, Oakland Park, FL 33334",
@@ -2802,7 +2802,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "ring-power-lift-trucks",
-    kind: "carrier",
+    kind: "shipper",
     name: "Ring Power Lift Trucks",
     sector: "Moffett Dealer / Forklift Services",
     address: "Statewide FL",
@@ -2825,7 +2825,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "llmarkus-llc",
-    kind: "carrier",
+    kind: "shipper",
     name: "LLMARKUS LLC",
     sector: "Drywall / Building Material Delivery",
     address: "Florida",
@@ -2848,7 +2848,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "east-coast-lumber-supply-company",
-    kind: "carrier",
+    kind: "shipper",
     name: "East Coast Lumber & Supply Company",
     sector: "Lumber Delivery",
     address: "Fort Pierce, FL (corporate), with locations in Melbourne, Vero, Stuart, Cocoa",
@@ -2871,7 +2871,7 @@ const catalogSeeds: CatalogSeed[] = [
   },
   {
     id: "smokey-valley-stone-company",
-    kind: "carrier",
+    kind: "shipper",
     name: "Smokey Valley Stone Company",
     sector: "Masonry & Stone Delivery",
     address: "Clermont, FL",

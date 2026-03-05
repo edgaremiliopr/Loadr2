@@ -37,55 +37,64 @@ function Divider() {
 
 function HeroSection() {
   return (
-    <section className="relative pt-20 pb-12 md:pt-24 md:pb-16 overflow-hidden">
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 70% 50%, rgba(0,102,204,0.04) 0%, transparent 70%)",
-        }}
-        aria-hidden
-      />
+    <section className="relative pt-20 pb-12 md:pt-24 md:pb-16 overflow-hidden min-h-[600px] md:min-h-[680px]">
 
-      <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-[1fr_380px] gap-10 lg:gap-14 items-start">
-        {/* ── Left: copy + map ── */}
-        <div>
-          <div className="animate-fade-up">
-            <Tag>Florida&apos;s Jobsite Freight Specialist</Tag>
+      {/* ── Background map — behind everything ── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        {/* Faded map occupies left ~65% on desktop, full width on mobile */}
+        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[65%] opacity-[0.18] md:opacity-[0.22]">
+          <HeroMap />
+        </div>
+        {/* White gradient overlay: strong on left (text readable), fades right */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.75) 35%, rgba(255,255,255,0.10) 65%, rgba(255,255,255,0) 100%)",
+          }}
+        />
+        {/* Mobile overlay: covers map so text is always readable */}
+        <div
+          className="absolute inset-0 lg:hidden"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.70) 60%, rgba(255,255,255,0.88) 100%)",
+          }}
+        />
+      </div>
 
-            <h1 className="text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-bold text-gray-900 leading-[1.04] tracking-[-0.03em] mb-5">
-              Freight that<br />
-              <span className="text-gray-300">moves your</span><br />
-              project forward.
-            </h1>
+      <div className="relative max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-[1fr_380px] gap-10 lg:gap-14 items-start">
+        {/* ── Left: copy only ── */}
+        <div className="animate-fade-up">
+          <Tag>Florida&apos;s Jobsite Freight Specialist</Tag>
 
-            <p className="text-lg md:text-xl text-gray-500 leading-relaxed mb-8 max-w-[420px]">
-              Specialized in construction deliveries that need a forklift on-site.
-              Tampa&nbsp;·&nbsp;Orlando&nbsp;·&nbsp;Miami.
-            </p>
+          <h1 className="text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-bold text-gray-900 leading-[1.04] tracking-[-0.03em] mb-5">
+            Freight that<br />
+            <span className="text-gray-300">moves your</span><br />
+            project forward.
+          </h1>
 
-            <div className="flex flex-wrap gap-3 mb-10">
-              <a
-                href="#calculator"
-                className="inline-flex items-center gap-2 bg-gray-900 text-white text-[0.875rem] font-semibold px-7 py-3.5 rounded-full hover:bg-gray-700 transition-colors"
-              >
-                Get a Quote
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
-              <a
-                href="#services"
-                className="inline-flex items-center text-[0.875rem] font-semibold text-gray-600 border border-gray-200 px-7 py-3.5 rounded-full hover:border-gray-400 hover:text-gray-900 transition-all"
-              >
-                How it works
-              </a>
-            </div>
-          </div>
+          <p className="text-lg md:text-xl text-gray-500 leading-relaxed mb-8 max-w-[420px]">
+            Specialized in construction deliveries that need a forklift on-site.
+            Tampa&nbsp;·&nbsp;Orlando&nbsp;·&nbsp;Miami.
+          </p>
 
-          {/* Map — hidden on mobile, shown on md+ */}
-          <div className="hidden md:block relative h-[380px] animate-fade-up-d2">
-            <HeroMap />
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="#calculator"
+              className="inline-flex items-center gap-2 bg-gray-900 text-white text-[0.875rem] font-semibold px-7 py-3.5 rounded-full hover:bg-gray-700 transition-colors"
+            >
+              Get a Quote
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+            <a
+              href="#services"
+              className="inline-flex items-center text-[0.875rem] font-semibold text-gray-600 border border-gray-200 px-7 py-3.5 rounded-full hover:border-gray-400 hover:text-gray-900 transition-all"
+            >
+              How it works
+            </a>
           </div>
         </div>
 
@@ -126,34 +135,6 @@ function MarketInsightsSection() {
 
         {/* Industry Headlines */}
         <FreightHeadlines />
-      </div>
-    </section>
-  );
-}
-
-/* ─── Section: Stats ─────────────────────────────────────────── */
-
-const STATS = [
-  { value: "5,000+",  label: "Loads Shipped" },
-  { value: "$1.5M+",  label: "Revenue Moved" },
-  { value: "3",       label: "Major Markets" },
-  { value: "100%",    label: "Forklift-Ready Network" },
-];
-
-function StatsSection() {
-  return (
-    <section className="py-16 border-b border-gray-100">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-          {STATS.map(({ value, label }) => (
-            <div key={label} className="text-center">
-              <div className="text-[2rem] md:text-[2.5rem] font-bold text-gray-900 tracking-tight leading-none mb-2">
-                {value}
-              </div>
-              <div className="text-[0.8125rem] text-gray-400 font-medium">{label}</div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -501,7 +482,6 @@ export default function Home() {
       <main>
         <HeroSection />
         <MarketTicker />
-        <StatsSection />
         <MarketInsightsSection />
         <Divider />
         <ServicesSection />

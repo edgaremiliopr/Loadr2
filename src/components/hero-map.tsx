@@ -19,27 +19,32 @@ const FL_KEYS_2 = "M268.404,312.279L269.301,313.144L272.71,323.276L274.145,324.6
 /* ── City nodes (projected into viewBox) ─────────────────────── */
 
 const CITIES = [
-  { name: "Tampa",      x: 259, y: 242, lx: 220, ly: 237 },
-  { name: "Orlando",    x: 313, y: 208, lx: 322, ly: 205 },
-  { name: "Miami",      x: 372, y: 364, lx: 338, ly: 360 },
-  { name: "Jacksonville", x: 299, y: 106, lx: 306, ly: 103 },
-  { name: "Fort Myers",   x: 288, y: 316, lx: 248, ly: 312 },
+  { name: "Tampa",        x: 259, y: 242 },
+  { name: "Orlando",      x: 313, y: 208 },
+  { name: "Miami",        x: 372, y: 364 },
+  { name: "Jacksonville", x: 299, y: 106 },
+  { name: "Fort Myers",   x: 288, y: 316 },
 ] as const;
 
-/* ── Route bezier curves between cities ──────────────────────── */
+/* ── Route bezier curves between all 5 cities ────────────────── */
 
-const ROUTE_TPA_ORL = "M 259,242 C 278,228 296,218 313,208";
-const ROUTE_ORL_MIA = "M 313,208 C 338,260 355,310 372,364";
-const ROUTE_TPA_MIA = "M 259,242 C 300,290 340,330 372,364";
+const ROUTES = {
+  TPA_ORL: "M 259,242 C 278,228 296,218 313,208",
+  ORL_MIA: "M 313,208 C 338,260 355,310 372,364",
+  TPA_MIA: "M 259,242 C 300,290 340,330 372,364",
+  JAX_ORL: "M 299,106 C 305,140 310,174 313,208",
+  JAX_TPA: "M 299,106 C 290,160 275,200 259,242",
+  TPA_FTM: "M 259,242 C 268,272 278,295 288,316",
+  FTM_MIA: "M 288,316 C 312,332 342,348 372,364",
+  ORL_FTM: "M 313,208 C 306,252 298,284 288,316",
+  JAX_MIA: "M 299,106 C 340,200 360,282 372,364",
+  JAX_FTM: "M 299,106 C 295,192 292,254 288,316",
+};
 
 /* ── Sub-components ──────────────────────────────────────────── */
 
-function CityNode({
-  cx, cy, label, lx, ly,
-  delay = "0s", dur = "3.2s",
-}: {
-  cx: number; cy: number; label: string;
-  lx: number; ly: number; delay?: string; dur?: string;
+function CityNode({ cx, cy, delay = "0s", dur = "3.2s" }: {
+  cx: number; cy: number; delay?: string; dur?: string;
 }) {
   return (
     <g>
@@ -49,28 +54,26 @@ function CityNode({
       </circle>
       <circle cx={cx} cy={cy} r={5}   fill="#0066CC" opacity={0.2} />
       <circle cx={cx} cy={cy} r={3.5} fill="#0066CC" />
-      <text
-        x={lx} y={ly}
-        fontSize="10.5"
-        fill="#374151"
-        fontFamily="-apple-system, BlinkMacSystemFont, sans-serif"
-        fontWeight="600"
-        letterSpacing="0.2"
-      >
-        {label}
-      </text>
     </g>
   );
 }
 
 function MovingDot({
-  path, dur, begin = "0s", r = 3.5, opacity = 0.9,
+  path, dur, begin = "0s", r = 3.5, opacity = 0.9, reverse = false,
 }: {
-  path: string; dur: string; begin?: string; r?: number; opacity?: number;
+  path: string; dur: string; begin?: string; r?: number; opacity?: number; reverse?: boolean;
 }) {
   return (
     <circle r={r} fill="#0066CC">
-      <animateMotion dur={dur} repeatCount="indefinite" begin={begin} path={path} />
+      <animateMotion
+        dur={dur}
+        repeatCount="indefinite"
+        begin={begin}
+        path={path}
+        keyPoints={reverse ? "1;0" : "0;1"}
+        keyTimes="0;1"
+        calcMode="linear"
+      />
       <animate
         attributeName="opacity"
         values={`0;${opacity};${opacity};${opacity};0`}
@@ -86,8 +89,6 @@ function MovingDot({
 export function HeroMap() {
   return (
     <div className="relative w-full h-full flex items-center justify-center select-none">
-      <div className="absolute inset-0 dot-grid opacity-25 rounded-3xl" aria-hidden />
-
       <svg
         viewBox="0 0 380 500"
         fill="none"
@@ -95,32 +96,56 @@ export function HeroMap() {
         className="relative w-full max-w-[400px] h-auto"
         aria-label="Florida coverage map — Tampa, Orlando, Miami, Jacksonville, Fort Myers"
       >
-        {/* ── Florida outline (accurate Census boundary) ── */}
-        <path d={FL_MAIN}   stroke="#D1D5DB" strokeWidth="1.5" fill="#F9FAFB" strokeLinejoin="round" strokeLinecap="round" />
-        <path d={FL_KEYS_1} stroke="#D1D5DB" strokeWidth="1"   fill="#F9FAFB" strokeLinejoin="round" strokeLinecap="round" />
-        <path d={FL_KEYS_2} stroke="#D1D5DB" strokeWidth="1"   fill="#F9FAFB" strokeLinejoin="round" strokeLinecap="round" />
+        {/* ── Florida outline ── */}
+        <path d={FL_MAIN}   stroke="#D1D5DB" strokeWidth="1.5" fill="#F3F4F6" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={FL_KEYS_1} stroke="#D1D5DB" strokeWidth="1"   fill="#F3F4F6" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={FL_KEYS_2} stroke="#D1D5DB" strokeWidth="1"   fill="#F3F4F6" strokeLinejoin="round" strokeLinecap="round" />
 
         {/* ── Route lines ── */}
-        <path d={ROUTE_TPA_ORL} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.55" />
-        <path d={ROUTE_ORL_MIA} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.55" />
-        <path d={ROUTE_TPA_MIA} stroke="#0066CC" strokeWidth="1"   strokeDasharray="3 7" opacity="0.22" />
+        <path d={ROUTES.TPA_ORL} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.45" />
+        <path d={ROUTES.ORL_MIA} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.45" />
+        <path d={ROUTES.TPA_MIA} stroke="#0066CC" strokeWidth="1"   strokeDasharray="3 7" opacity="0.20" />
+        <path d={ROUTES.JAX_ORL} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.40" />
+        <path d={ROUTES.JAX_TPA} stroke="#0066CC" strokeWidth="1"   strokeDasharray="4 6" opacity="0.30" />
+        <path d={ROUTES.TPA_FTM} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.40" />
+        <path d={ROUTES.FTM_MIA} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.40" />
+        <path d={ROUTES.ORL_FTM} stroke="#0066CC" strokeWidth="1"   strokeDasharray="3 6" opacity="0.25" />
+        <path d={ROUTES.JAX_MIA} stroke="#0066CC" strokeWidth="1"   strokeDasharray="3 8" opacity="0.15" />
+        <path d={ROUTES.JAX_FTM} stroke="#0066CC" strokeWidth="1"   strokeDasharray="3 7" opacity="0.20" />
 
-        {/* ── Moving load dots ── */}
-        <MovingDot path={ROUTE_TPA_ORL} dur="3.8s" begin="0s" />
-        <MovingDot path={ROUTE_TPA_ORL} dur="3.8s" begin="2.0s" />
-        <MovingDot path={ROUTE_ORL_MIA} dur="4.6s" begin="1.2s" />
-        <MovingDot path={ROUTE_ORL_MIA} dur="4.6s" begin="3.4s" />
-        <MovingDot path={ROUTE_TPA_MIA} dur="6.8s" begin="0.6s" r={2.8} opacity={0.6} />
+        {/* ── Moving load dots — bidirectional ── */}
+        {/* TPA ↔ ORL */}
+        <MovingDot path={ROUTES.TPA_ORL} dur="3.8s" begin="0s" />
+        <MovingDot path={ROUTES.TPA_ORL} dur="3.8s" begin="1.9s" reverse />
+        {/* ORL ↔ MIA */}
+        <MovingDot path={ROUTES.ORL_MIA} dur="4.6s" begin="0.8s" />
+        <MovingDot path={ROUTES.ORL_MIA} dur="4.6s" begin="3.1s" reverse />
+        {/* TPA ↔ MIA */}
+        <MovingDot path={ROUTES.TPA_MIA} dur="6.8s" begin="1.5s" r={2.8} opacity={0.6} />
+        <MovingDot path={ROUTES.TPA_MIA} dur="6.8s" begin="4.9s" r={2.8} opacity={0.6} reverse />
+        {/* JAX ↔ ORL */}
+        <MovingDot path={ROUTES.JAX_ORL} dur="4.0s" begin="2.2s" />
+        <MovingDot path={ROUTES.JAX_ORL} dur="4.0s" begin="0.3s" reverse />
+        {/* JAX ↔ TPA */}
+        <MovingDot path={ROUTES.JAX_TPA} dur="5.2s" begin="3.5s" r={2.8} opacity={0.7} />
+        <MovingDot path={ROUTES.JAX_TPA} dur="5.2s" begin="0.8s" r={2.8} opacity={0.7} reverse />
+        {/* TPA ↔ FTM */}
+        <MovingDot path={ROUTES.TPA_FTM} dur="3.4s" begin="1.1s" />
+        <MovingDot path={ROUTES.TPA_FTM} dur="3.4s" begin="2.8s" reverse />
+        {/* FTM ↔ MIA */}
+        <MovingDot path={ROUTES.FTM_MIA} dur="4.2s" begin="0.5s" />
+        <MovingDot path={ROUTES.FTM_MIA} dur="4.2s" begin="2.6s" reverse />
+        {/* ORL ↔ FTM */}
+        <MovingDot path={ROUTES.ORL_FTM} dur="5.0s" begin="4.0s" r={2.5} opacity={0.55} />
+        <MovingDot path={ROUTES.ORL_FTM} dur="5.0s" begin="1.5s" r={2.5} opacity={0.55} reverse />
 
-        {/* ── City nodes ── */}
-        {CITIES.map((c) => (
+        {/* ── City nodes (dots only, no labels) ── */}
+        {CITIES.map((c, i) => (
           <CityNode
             key={c.name}
             cx={c.x} cy={c.y}
-            label={c.name}
-            lx={c.lx} ly={c.ly}
-            delay={`${CITIES.indexOf(c) * 0.6}s`}
-            dur={`${3.2 + CITIES.indexOf(c) * 0.5}s`}
+            delay={`${i * 0.6}s`}
+            dur={`${3.2 + i * 0.5}s`}
           />
         ))}
       </svg>

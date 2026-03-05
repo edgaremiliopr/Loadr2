@@ -8,7 +8,37 @@ interface GeoResult {
   lon: string;
 }
 
-/* ── Photon (komoot) — great for city / POI searches ── */
+/* ── US Census Geocoder — best for US street addresses (free, no key) ── */
+
+interface CensusMatch {
+  matchedAddress: string;
+  coordinates: { x: number; y: number };
+  tigerLine: { tigerLineId: string };
+}
+
+async function searchCensus(q: string): Promise<GeoResult[]> {
+  const params = new URLSearchParams({
+    address: q,
+    benchmark: "Public_AR_Current",
+    format: "json",
+  });
+
+  const res = await fetch(
+    `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?${params}`,
+    { next: { revalidate: 300 } }
+  );
+  const data = await res.json();
+  const matches: CensusMatch[] = data?.result?.addressMatches ?? [];
+
+  return matches.map((m, idx) => ({
+    place_id: idx + 900000,
+    display_name: m.matchedAddress,
+    lat: String(m.coordinates.y),
+    lon: String(m.coordinates.x),
+  }));
+}
+
+/* ── Photon (komoot) — great for city / POI / landmark searches ── */
 
 interface PhotonFeature {
   geometry: { coordinates: [number, number] };
@@ -63,7 +93,7 @@ async function searchPhoton(q: string): Promise<GeoResult[]> {
     .filter((r) => r.display_name.length > 0);
 }
 
-/* ── Nominatim — better for ZIP codes & partial addresses ── */
+/* ── Nominatim — fallback for ZIP codes ── */
 
 interface NominatimResult {
   place_id: number;
@@ -107,7 +137,6 @@ async function searchNominatim(q: string): Promise<GeoResult[]> {
   const data: NominatimResult[] = await res.json();
 
   return data.map((r) => {
-    // Build a clean display name including street address when available
     const a = r.address;
     const parts: string[] = [];
     if (a?.house_number && a?.road) parts.push(`${a.house_number} ${a.road}`);
@@ -127,23 +156,39 @@ async function searchNominatim(q: string): Promise<GeoResult[]> {
   });
 }
 
-/* ── Route handler — try Photon first, fall back to Nominatim ── */
+/* ── Detect if the query looks like a street address ── */
+function looksLikeAddress(q: string): boolean {
+  // Starts with a number followed by a word = likely a street address
+  return /^\d+\s+\w/.test(q.trim());
+}
+
+/* ── Route handler — Census for addresses, Photon for cities, Nominatim fallback ── */
 
 export async function GET(req: NextRequest) {
   const q = req.nextUrl.searchParams.get("q") ?? "";
   if (q.length < 2) return NextResponse.json([]);
 
   try {
-    // Run both in parallel, prefer Photon but fall back to Nominatim
-    const [photonResults, nominatimResults] = await Promise.all([
+    const isAddress = looksLikeAddress(q);
+
+    // Run all sources in parallel
+    const [censusResults, photonResults, nominatimResults] = await Promise.all([
+      isAddress ? searchCensus(q).catch(() => [] as GeoResult[]) : Promise.resolve([]),
       searchPhoton(q).catch(() => [] as GeoResult[]),
       searchNominatim(q).catch(() => [] as GeoResult[]),
     ]);
 
-    // Use Photon results if available, otherwise Nominatim
-    const results = photonResults.length > 0 ? photonResults : nominatimResults;
+    // Priority: Census (exact addresses) > Photon (cities/POIs) > Nominatim (ZIPs/fallback)
+    let results: GeoResult[];
+    if (censusResults.length > 0) {
+      results = censusResults;
+    } else if (photonResults.length > 0) {
+      results = photonResults;
+    } else {
+      results = nominatimResults;
+    }
 
-    // Deduplicate by rounding coords to ~1km precision
+    // Deduplicate by ~1km coordinate rounding
     const seen = new Set<string>();
     const deduped = results.filter((r) => {
       const key = `${Number(r.lat).toFixed(2)},${Number(r.lon).toFixed(2)}`;

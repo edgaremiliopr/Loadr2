@@ -1,75 +1,54 @@
 "use client";
 
 /**
- * Animated Florida SVG map — geographically accurate coordinates.
+ * Animated Florida SVG map — 100 % accurate outline from US Census
+ * Bureau TopoJSON (us-atlas/states-10m) projected via d3-geo Mercator.
  *
- * Coordinate system  (viewBox "0 0 380 500"):
- *   x = (83.5 − lon) / 3.6 × 360 + 10
- *   y = (30.5 − lat) / 6.0 × 480 + 10
- *
- * Derived cities:
- *   Tampa   82.46 °W, 27.95 °N → (114, 214)
- *   Orlando 81.38 °W, 28.54 °N → (222, 167)
- *   Miami   80.19 °W, 25.77 °N → (341, 388)
+ * Viewbox: 0 0 380 500
+ * City positions computed from the same projection.
  */
 
-// Accurate Florida peninsula outline (clockwise from NW)
-const FLORIDA_PATH = [
-  "M 10,10",
-  "L 210,10",
-  "C 200,16 196,20 195,24",
-  "Q 214,42 230,58",
-  "Q 244,88 255,113",
-  "Q 280,145 303,172",
-  "Q 313,208 316,240",
-  "Q 337,278 354,313",
-  "Q 352,338 346,360",
-  "Q 342,376 341,388",
-  "L 312,412",
-  "C 285,440 238,470 182,486",   // Keys arc → Key West
-  "C 210,472 238,454 252,434",   // Keys inner → Cape Sable
-  "L 210,378",                   // 10,000 Islands
-  "Q 192,366 180,360",           // Naples
-  "Q 175,336 173,319",           // Fort Myers
-  "Q 162,306 155,296",           // Charlotte Harbor
-  "Q 135,272 118,250",           // Manatee / Tampa Bay south entrance
-  "L  87,240",                   // Pinellas tip (bay mouth)
-  "Q  82,226  80,215",           // Clearwater / North Pinellas
-  "Q  91,206 100,200",           // Hillsborough — N side of Tampa Bay
-  "Q  94,182  90,168",           // Spring Hill / Weeki Wachee
-  "Q  96,152 101,138",           // Crystal River
-  "Q  80,128  65,120",           // Yankeetown / Levy County
-  "Q  52,112  45,107",           // Suwannee River mouth
-  "Q  36, 97  30, 90",           // Nature Coast
-  "L  10, 90",                   // Back to W edge
-  "Z",
-].join(" ");
+/* ── Florida outline (pre-computed from us-atlas TopoJSON) ───── */
 
-// Routes (cubic bezier)
-const ROUTE_TPA_ORL = "M 114,214 C 150,196 185,176 222,167";
-const ROUTE_ORL_MIA = "M 222,167 C 270,246 308,312 341,388";
-const ROUTE_TPA_MIA = "M 114,214 C 185,292 268,342 341,388";
+const FL_MAIN = "M131.511,66.666L132.587,70.622L134.561,73.224L134.92,77.376L135.996,81.125L138.508,83.523L162.908,84.771L209.736,87.567L246.695,90.112L270.916,91.808L270.019,92.506L270.378,95.347L271.634,96.643L271.095,100.18L273.069,103.963L279.707,103.316L279.707,99.582L280.784,97.241L281.322,91.309L279.169,86.768L279.887,83.773L279.707,81.325L281.143,80.525L280.425,79.326L282.578,79.726L284.193,76.776L286.884,77.126L288.14,78.776L291.19,78.926L294.419,80.325L295.675,81.575L301.596,82.524L304.646,83.423L307.158,82.674L309.49,83.623L310.208,84.272L309.49,89.912L310.028,94.5L309.311,95.597L311.105,96.843L311.822,101.574L312.002,107.197L316.128,126.512L318.461,132.903L318.461,135.427L323.484,150.355L329.226,164.554L334.429,175.82L346.091,196.035L352.908,205.824L353.626,208.904L355.42,212.959L352.191,215.742L351.473,218.378L351.294,222.622L352.191,228.958L353.267,233.633L356.138,240.687L362.417,253.752L365.109,261.801L366.006,265.87L366.903,267.274L368.876,274.047L371.926,281.394L373.541,284.581L374.618,289.117L376.95,294.373L380,306.797L379.821,318.092L378.565,326.49L377.668,336.554L377.129,338.325L375.694,352.002L375.694,360.07L375.156,363.886L373.9,367.748L373.9,369.844L372.823,368.748L373.362,366.318L372.465,365.364L369.594,366.556L367.8,371.416L366.723,372.226L366.544,375.273L365.109,377.177L364.75,380.888L365.647,382.457L365.288,384.644L366.364,385.405L364.929,387.923L363.494,388.541L363.314,390.868L367.082,389.016L371.568,379.794L372.823,377.843L372.823,379.794L371.388,383.741L365.288,394.287L363.673,398.178L359.188,402.588L353.088,409.175L348.782,412.3L348.244,411.732L354.344,405.954L356.856,404.058L358.111,401.545L358.65,397.704L359.547,396.185L358.47,395.094L356.856,395.616L355.6,394.382L354.523,395.236L348.423,396.28L345.911,398.225L344.297,398.51L341.067,396.375L337.838,396.992L336.582,398.937L331.737,399.791L327.611,400.075L324.561,397.609L323.126,394.382L323.484,390.631L324.561,387.781L325.637,387.923L325.279,385.595L323.126,380.983L321.152,378.747L321.511,377.129L320.076,374.178L318.102,372.654L317.205,368.605L316.128,367.748L314.155,368.462L312.54,363.648L308.234,362.169L308.055,361.406L304.287,359.593L300.519,356.968L298.546,357.589L297.11,359.45L294.24,353.435L291.549,346.363L290.652,338.086L289.396,332.866L288.14,330.134L283.116,324.716L281.143,324.284L280.963,321.789L278.81,320.685L278.81,323.756L276.298,324.284L276.119,321.117L274.684,315.691L272.531,313.24L273.069,312.087L275.401,312.231L277.016,314.105L278.99,306.46L278.631,302.321L277.195,301.647L277.195,299.721L278.631,299.24L277.913,297.746L275.76,297.939L274.863,299.529L272.89,300.058L274.325,307.182L272.71,308.144L269.122,308.673L268.225,311.077L268.225,307.47L267.148,305.065L264.098,300.54L259.433,292.011L257.819,287.477L254.41,280.717L249.566,273.515L247.054,270.807L246.336,268L244.542,265.046L246.336,265.966L246.516,267.419L249.207,265.966L251.001,262.479L253.154,261.122L255.486,256.372L257.819,254.722L257.46,253.607L259.972,252.345L261.945,248.267L261.048,244.624L257.101,243.604L257.998,249.093L254.051,247.636L255.127,245.985L254.948,242.826L254.051,240.93L247.233,237.477L247.413,240.639L245.439,242L247.413,243.798L250.283,244.09L252.257,249.433L250.463,251.471L250.463,254.48L249.745,255.79L245.977,256.081L245.439,257.632L246.695,259.475L245.08,260.929L244.363,258.99L244.721,254.965L242.21,250.84L240.595,249.578L239.16,246.762L240.236,237.915L239.339,234.704L238.621,226.717L240.236,226.668L240.236,231.199L240.954,235.531L242.568,235.872L241.851,228.422L243.466,226.62L243.645,224.621L245.08,222.476L245.08,220.622L246.336,218.183L246.336,216.279L247.951,213.985L248.13,209.539L249.027,205.481L247.951,202.253L248.31,199.512L245.977,198.092L246.695,196.035L245.08,190.694L247.233,187.555L243.466,182.157L244.004,180.635L242.568,177.933L240.774,177.786L241.671,176.164L241.492,173.756L240.236,173.116L231.804,171.985L230.189,174.493L228.933,174.69L227.318,169.772L227.856,167.557L225.345,165.982L223.192,165.539L222.833,162.436L221.577,159.578L219.603,157.36L216.912,157.064L216.015,154.894L211.709,152.526L211.709,147.046L210.992,143.736L208.839,143.39L207.044,141.512L204.712,140.671L202.38,137.654L202.38,135.576L200.765,133.843L199.868,131.318L197.356,129.139L192.332,126.066L185.156,122.496L180.491,118.774L178.517,118.873L173.853,120.511L168.291,119.072L168.111,120.809L163.447,124.231L165.061,129.139L164.523,130.526L162.729,130.872L160.038,130.129L159.141,128.841L154.835,129.931L149.273,133.546L137.611,140.078L136.534,139.979L137.79,137.802L135.996,137.209L134.74,139.138L132.049,141.166L125.59,141.116L127.923,143.538L128.281,145.416L131.152,146.503L136.534,143.884L141.737,141.907L146.582,137.753L147.12,138.396L142.814,142.451L137.79,144.576L131.511,147.836L129.358,148.528L127.564,146.898L124.693,145.811L120.567,143.291L117.158,142.945L114.108,144.329L111.775,139.682L110.878,133.794L112.314,131.714L112.314,136.912L113.39,141.413L114.646,142.5L116.44,140.572L116.619,135.774L113.569,130.575L110.34,127.602L107.29,126.958L104.599,124.975L101.728,121.454L96.884,119.121L92.937,115.696L85.581,110.976L77.148,107.197L66.742,103.715L61.18,102.719L50.057,101.823L44.136,102.072L35.703,103.316L24.042,105.755L18.3,106.501L17.044,106.003L5.741,108.54L8.432,107.247L7.177,106.053L8.791,105.307L10.227,101.226L13.456,99.483L9.868,96.942L9.33,94.201L12.021,89.114L11.483,85.67L5.024,81.674L4.485,79.626L0.359,75.676L0,74.525L2.332,68.769L1.794,66.866L31.577,66.766L55.798,67.117L87.016,67.117L106.752,66.916L119.49,66.666Z";
 
-interface CityNodeProps {
-  cx: number; cy: number;
-  label: string;
-  lx: number; ly: number;        // label position
-  delay?: string; dur?: string;
-}
+const FL_KEYS_1 = "M291.01,430.36L294.419,425.354L298.008,423.18L302.493,421.147L303.031,420.06L309.49,416.938L316.308,420.107L317.025,422.565L319.537,424.598L318.82,425.117L311.643,427.385L311.105,426.11L306.261,426.346L305.722,427.48L297.469,430.927L291.01,431.635Z";
 
-function CityNode({ cx, cy, label, lx, ly, delay = "0s", dur = "3.2s" }: CityNodeProps) {
+const FL_KEYS_2 = "M268.404,312.279L269.301,313.144L272.71,323.276L274.145,324.62L277.195,325.867L278.451,325.052L280.963,326.059L278.451,327.545L276.837,327.593L273.069,325.195L271.813,323.852L269.481,318.332L268.404,314.682Z";
+
+/* ── City nodes (projected into viewBox) ─────────────────────── */
+
+const CITIES = [
+  { name: "Tampa",      x: 259, y: 242, lx: 220, ly: 237 },
+  { name: "Orlando",    x: 313, y: 208, lx: 322, ly: 205 },
+  { name: "Miami",      x: 372, y: 364, lx: 338, ly: 360 },
+  { name: "Jacksonville", x: 299, y: 106, lx: 306, ly: 103 },
+  { name: "Fort Myers",   x: 288, y: 316, lx: 248, ly: 312 },
+] as const;
+
+/* ── Route bezier curves between cities ──────────────────────── */
+
+const ROUTE_TPA_ORL = "M 259,242 C 278,228 296,218 313,208";
+const ROUTE_ORL_MIA = "M 313,208 C 338,260 355,310 372,364";
+const ROUTE_TPA_MIA = "M 259,242 C 300,290 340,330 372,364";
+
+/* ── Sub-components ──────────────────────────────────────────── */
+
+function CityNode({
+  cx, cy, label, lx, ly,
+  delay = "0s", dur = "3.2s",
+}: {
+  cx: number; cy: number; label: string;
+  lx: number; ly: number; delay?: string; dur?: string;
+}) {
   return (
     <g>
-      {/* Outer pulse */}
       <circle cx={cx} cy={cy} r={8} fill="#0066CC" opacity={0.07}>
         <animate attributeName="r"       values="6;18;6"         dur={dur} begin={delay} repeatCount="indefinite" />
         <animate attributeName="opacity" values="0.07;0.02;0.07" dur={dur} begin={delay} repeatCount="indefinite" />
       </circle>
-      {/* Mid ring */}
       <circle cx={cx} cy={cy} r={5}   fill="#0066CC" opacity={0.2} />
-      {/* Core */}
       <circle cx={cx} cy={cy} r={3.5} fill="#0066CC" />
-      {/* Label */}
       <text
         x={lx} y={ly}
         fontSize="10.5"
@@ -84,10 +63,11 @@ function CityNode({ cx, cy, label, lx, ly, delay = "0s", dur = "3.2s" }: CityNod
   );
 }
 
-interface MovingDotProps {
+function MovingDot({
+  path, dur, begin = "0s", r = 3.5, opacity = 0.9,
+}: {
   path: string; dur: string; begin?: string; r?: number; opacity?: number;
-}
-function MovingDot({ path, dur, begin = "0s", r = 3.5, opacity = 0.9 }: MovingDotProps) {
+}) {
   return (
     <circle r={r} fill="#0066CC">
       <animateMotion dur={dur} repeatCount="indefinite" begin={begin} path={path} />
@@ -101,10 +81,11 @@ function MovingDot({ path, dur, begin = "0s", r = 3.5, opacity = 0.9 }: MovingDo
   );
 }
 
+/* ── Main component ──────────────────────────────────────────── */
+
 export function HeroMap() {
   return (
     <div className="relative w-full h-full flex items-center justify-center select-none">
-      {/* Dot grid background */}
       <div className="absolute inset-0 dot-grid opacity-25 rounded-3xl" aria-hidden />
 
       <svg
@@ -112,34 +93,36 @@ export function HeroMap() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="relative w-full max-w-[400px] h-auto"
-        aria-label="Florida coverage map — Tampa, Orlando, Miami"
+        aria-label="Florida coverage map — Tampa, Orlando, Miami, Jacksonville, Fort Myers"
       >
-        {/* ── Florida outline ─────────────────────── */}
-        <path
-          d={FLORIDA_PATH}
-          stroke="#D1D5DB"
-          strokeWidth="1.5"
-          fill="#F9FAFB"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
+        {/* ── Florida outline (accurate Census boundary) ── */}
+        <path d={FL_MAIN}   stroke="#D1D5DB" strokeWidth="1.5" fill="#F9FAFB" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={FL_KEYS_1} stroke="#D1D5DB" strokeWidth="1"   fill="#F9FAFB" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={FL_KEYS_2} stroke="#D1D5DB" strokeWidth="1"   fill="#F9FAFB" strokeLinejoin="round" strokeLinecap="round" />
 
-        {/* ── Route lines ──────────────────────────── */}
+        {/* ── Route lines ── */}
         <path d={ROUTE_TPA_ORL} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.55" />
         <path d={ROUTE_ORL_MIA} stroke="#0066CC" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.55" />
         <path d={ROUTE_TPA_MIA} stroke="#0066CC" strokeWidth="1"   strokeDasharray="3 7" opacity="0.22" />
 
-        {/* ── Moving load dots ─────────────────────── */}
+        {/* ── Moving load dots ── */}
         <MovingDot path={ROUTE_TPA_ORL} dur="3.8s" begin="0s" />
         <MovingDot path={ROUTE_TPA_ORL} dur="3.8s" begin="2.0s" />
         <MovingDot path={ROUTE_ORL_MIA} dur="4.6s" begin="1.2s" />
         <MovingDot path={ROUTE_ORL_MIA} dur="4.6s" begin="3.4s" />
         <MovingDot path={ROUTE_TPA_MIA} dur="6.8s" begin="0.6s" r={2.8} opacity={0.6} />
 
-        {/* ── City nodes ───────────────────────────── */}
-        <CityNode cx={114} cy={214} label="Tampa"   lx={126} ly={212} delay="0s"   dur="3.2s" />
-        <CityNode cx={222} cy={167} label="Orlando"  lx={234} ly={164} delay="0.6s" dur="3.7s" />
-        <CityNode cx={341} cy={388} label="Miami"    lx={290} ly={384} delay="1.2s" dur="4.1s" />
+        {/* ── City nodes ── */}
+        {CITIES.map((c) => (
+          <CityNode
+            key={c.name}
+            cx={c.x} cy={c.y}
+            label={c.name}
+            lx={c.lx} ly={c.ly}
+            delay={`${CITIES.indexOf(c) * 0.6}s`}
+            dur={`${3.2 + CITIES.indexOf(c) * 0.5}s`}
+          />
+        ))}
       </svg>
     </div>
   );

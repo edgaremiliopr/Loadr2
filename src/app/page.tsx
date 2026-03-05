@@ -2,6 +2,8 @@ import { Nav } from "@/components/nav";
 import { HeroMap } from "@/components/hero-map";
 import { MarketTicker } from "@/components/market-ticker";
 import { SpotChart } from "@/components/spot-chart";
+import { DieselChart } from "@/components/diesel-chart";
+import { LoadCalculator } from "@/components/load-calculator";
 
 /* ─── Small reusable primitives ──────────────────────────────── */
 
@@ -63,7 +65,7 @@ function HeroSection() {
 
           <div className="flex flex-wrap gap-3">
             <a
-              href="#contact"
+              href="#calculator"
               className="inline-flex items-center gap-2 bg-gray-900 text-white text-[0.875rem] font-semibold px-7 py-3.5 rounded-full hover:bg-gray-700 transition-colors"
             >
               Get a Quote
@@ -116,27 +118,30 @@ function MarketInsightsSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-[1fr_auto] gap-5 items-start">
+        <div className="grid md:grid-cols-2 gap-5 items-start">
           {/* Spot price chart */}
           <SpotChart />
 
-          {/* Stat tiles */}
-          <div className="grid grid-cols-2 gap-3 md:w-[280px]">
-            {MARKET_STATS.map(({ label, value, sub, note }) => (
-              <div key={label} className="rounded-2xl border border-gray-100 bg-white p-4">
-                <div className="text-[0.625rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
-                  {label}
-                </div>
-                <div className="flex items-baseline gap-0.5 mb-0.5">
-                  <span className="text-[1.375rem] font-bold text-gray-900 tracking-tight leading-none">
-                    {value}
-                  </span>
-                  {sub && <span className="text-[0.8125rem] text-gray-400 font-medium">{sub}</span>}
-                </div>
-                <div className="text-[0.6875rem] text-gray-400">{note}</div>
+          {/* Diesel price chart */}
+          <DieselChart />
+        </div>
+
+        {/* Stat tiles */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
+          {MARKET_STATS.map(({ label, value, sub, note }) => (
+            <div key={label} className="rounded-2xl border border-gray-100 bg-white p-4">
+              <div className="text-[0.625rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
+                {label}
               </div>
-            ))}
-          </div>
+              <div className="flex items-baseline gap-0.5 mb-0.5">
+                <span className="text-[1.375rem] font-bold text-gray-900 tracking-tight leading-none">
+                  {value}
+                </span>
+                {sub && <span className="text-[0.8125rem] text-gray-400 font-medium">{sub}</span>}
+              </div>
+              <div className="text-[0.6875rem] text-gray-400">{note}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -527,6 +532,13 @@ export default function Home() {
         <Divider />
         <CoverageSection />
         <AboutSection />
+        <Divider />
+        {/* ── Load Calculator ── */}
+        <section id="calculator" className="py-24">
+          <div className="max-w-6xl mx-auto px-6">
+            <LoadCalculator />
+          </div>
+        </section>
         <CTASection />
       </main>
       <Footer />

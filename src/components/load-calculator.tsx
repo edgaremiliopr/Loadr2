@@ -15,12 +15,7 @@ interface NominatimResult {
 
 interface CalcResult {
   distanceMiles: number;
-  baseRate: number;
-  loadCharge: number;
-  unloadCharge: number;
-  weightSurcharge: number;
-  oversizeSurcharge: number;
-  subtotal: number;
+  truckLabel: string;
   total: number;
 }
 
@@ -69,10 +64,24 @@ const TRUCK_TYPES = [
   },
 ] as const;
 
-type TruckId = typeof TRUCK_TYPES[number]["id"];
-
+const LOAD_UNLOAD_FEE = 150; // per service (loading or unloading with carrier's forklift)
 const MARGIN_RATE = 0.25;
 const MINIMUM_LINEHAUL = 350;
+
+/* Pick the cheapest compatible truck for the given load */
+function autoSelectTruck(l: number, w: number, h: number, lbs: number) {
+  // Sort by rate (cheapest first) so we pick the most economical option
+  const sorted = [...TRUCK_TYPES].sort((a, b) => a.ratePerMile - b.ratePerMile);
+  for (const t of sorted) {
+    if ((l <= 0 || l <= t.maxLengthFt) &&
+        (w <= 0 || w <= t.maxWidthFt) &&
+        (h <= 0 || h <= t.maxHeightFt) &&
+        (lbs <= 0 || lbs <= t.maxWeightLbs)) {
+      return t;
+    }
+  }
+  return null; // nothing fits
+}
 
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 3958.8;
@@ -220,23 +229,15 @@ export function LoadCalculator() {
   const [htFt, setHtFt] = useState("");
   const [weight, setWeight] = useState("");
 
-  const [truckType, setTruckType] = useState<TruckId>("moffett-flatbed");
+  const [needLoading, setNeedLoading] = useState(false);
+  const [needUnloading, setNeedUnloading] = useState(false);
   const [result, setResult] = useState<CalcResult | null>(null);
   const [error, setError] = useState("");
 
-  // Determine which truck types are compatible with entered dimensions
   const l = Number(lenFt) || 0;
   const w = Number(widFt) || 0;
   const h = Number(htFt) || 0;
   const lbs = Number(weight) || 0;
-
-  function isCompatible(t: typeof TRUCK_TYPES[number]) {
-    if (l > 0 && l > t.maxLengthFt) return false;
-    if (w > 0 && w > t.maxWidthFt) return false;
-    if (h > 0 && h > t.maxHeightFt) return false;
-    if (lbs > 0 && lbs > t.maxWeightLbs) return false;
-    return true;
-  }
 
   const calculate = useCallback(() => {
     setError("");
@@ -247,9 +248,9 @@ export function LoadCalculator() {
       return;
     }
 
-    const truck = TRUCK_TYPES.find((t) => t.id === truckType) ?? TRUCK_TYPES[0];
-    if (!isCompatible(truck)) {
-      setError("Selected equipment doesn't fit these dimensions. Pick a compatible option.");
+    const truck = autoSelectTruck(l, w, h, lbs);
+    if (!truck) {
+      setError("Your load exceeds all available equipment limits. Call us for a custom quote.");
       return;
     }
 
@@ -261,22 +262,14 @@ export function LoadCalculator() {
     const linehaul = Math.max(distanceMiles * truck.ratePerMile, MINIMUM_LINEHAUL);
     const weightSurcharge = lbs > 44000 ? Math.ceil((lbs - 44000) / 1000) * 35 : 0;
     const oversizeSurcharge = (w > 8.5 || h > truck.maxHeightFt) ? 250 : 0;
+    const liftFees = (needLoading ? LOAD_UNLOAD_FEE : 0) + (needUnloading ? LOAD_UNLOAD_FEE : 0);
 
-    const subtotal = linehaul + weightSurcharge + oversizeSurcharge;
+    const subtotal = linehaul + weightSurcharge + oversizeSurcharge + liftFees;
     const total = Math.round(subtotal * (1 + MARGIN_RATE));
 
-    setResult({
-      distanceMiles,
-      baseRate: Math.round(linehaul),
-      loadCharge: 0,
-      unloadCharge: 0,
-      weightSurcharge,
-      oversizeSurcharge,
-      subtotal: Math.round(subtotal),
-      total,
-    });
+    setResult({ distanceMiles, truckLabel: truck.label, total });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [originCoords, destCoords, weight, truckType, lenFt, widFt, htFt]);
+  }, [originCoords, destCoords, weight, lenFt, widFt, htFt, needLoading, needUnloading]);
 
   const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
@@ -319,34 +312,40 @@ export function LoadCalculator() {
           </div>
         </div>
 
-        {/* Truck type */}
+        {/* Loading / Unloading toggles */}
         <div>
-          <label className="block text-[0.6875rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
-            Equipment
-          </label>
+          <p className="text-[0.6875rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
+            Forklift Service
+          </p>
           <div className="grid grid-cols-2 gap-1.5">
-            {TRUCK_TYPES.map((t) => {
-              const ok = isCompatible(t);
-              const selected = truckType === t.id;
-              return (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => ok && setTruckType(t.id)}
-                  title={!ok ? `Exceeds limits: max ${t.maxLengthFt}ft × ${t.maxWidthFt}ft × ${t.maxHeightFt}ft / ${(t.maxWeightLbs/1000).toFixed(0)}k lbs` : t.note}
-                  className={`rounded-lg border px-2 py-2 text-left transition ${
-                    !ok
-                      ? "border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed opacity-50"
-                      : selected
-                        ? "border-blue-400 bg-blue-50 text-blue-700"
-                        : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
-                  }`}
-                >
-                  <div className="text-[0.6875rem] font-semibold leading-tight">{t.label}</div>
-                  <div className={`text-[0.5625rem] mt-0.5 ${selected ? "text-blue-500" : "text-gray-400"}`}>{t.note}</div>
-                </button>
-              );
-            })}
+            <button
+              type="button"
+              onClick={() => setNeedLoading((v) => !v)}
+              className={`rounded-lg border px-3 py-2.5 text-left transition ${
+                needLoading
+                  ? "border-blue-400 bg-blue-50 text-blue-700"
+                  : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+              }`}
+            >
+              <div className="text-[0.6875rem] font-semibold leading-tight">Loading</div>
+              <div className={`text-[0.5625rem] mt-0.5 ${needLoading ? "text-blue-500" : "text-gray-400"}`}>
+                Carrier loads at pickup
+              </div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setNeedUnloading((v) => !v)}
+              className={`rounded-lg border px-3 py-2.5 text-left transition ${
+                needUnloading
+                  ? "border-blue-400 bg-blue-50 text-blue-700"
+                  : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+              }`}
+            >
+              <div className="text-[0.6875rem] font-semibold leading-tight">Unloading</div>
+              <div className={`text-[0.5625rem] mt-0.5 ${needUnloading ? "text-blue-500" : "text-gray-400"}`}>
+                Carrier unloads at delivery
+              </div>
+            </button>
           </div>
         </div>
 
@@ -370,25 +369,16 @@ export function LoadCalculator() {
               </span>
             </div>
             <p className="text-[0.6875rem] text-gray-400 mt-1">
-              {result.distanceMiles.toLocaleString()} mi · {usd.format(Math.round(result.total / result.distanceMiles))}/mi · {TRUCK_TYPES.find((t) => t.id === truckType)?.label}
+              {result.distanceMiles.toLocaleString()} mi · {usd.format(Math.round(result.total / result.distanceMiles))}/mi · {result.truckLabel}
             </p>
           </div>
         )}
 
         <p className="text-[0.625rem] text-gray-300 leading-4 mt-1">
-          Estimates based on current FL market rates. All equipment includes on-site forklift service.
-          Final quotes may vary. <a href="tel:+1-800-000-0000" className="underline">Call for exact pricing.</a>
+          This is an estimate and is subject to change. Additional charges may apply for waiting time
+          at pickup or delivery. <a href="tel:+1-800-000-0000" className="underline">Call for exact pricing.</a>
         </p>
       </div>
-    </div>
-  );
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between gap-2">
-      <span className="text-[0.75rem] text-gray-500">{label}</span>
-      <span className="text-[0.75rem] font-semibold text-gray-800">{value}</span>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Nav } from "@/components/nav";
 import { HeroMap } from "@/components/hero-map";
 import { MarketTicker } from "@/components/market-ticker";
+import { SpotChart } from "@/components/spot-chart";
 
 /* ─── Small reusable primitives ──────────────────────────────── */
 
@@ -82,6 +83,60 @@ function HeroSection() {
         {/* ── Right: animated map ── */}
         <div className="relative h-[420px] md:h-[500px] animate-fade-up-d2">
           <HeroMap />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Section: Market Insights ──────────────────────────────── */
+
+const MARKET_STATS = [
+  { label: "Diesel Avg (Natl)",  value: "$3.68", sub: "/gal",  note: "EIA weekly" },
+  { label: "Load / Truck Ratio", value: "3.4",   sub: "x",     note: "FL flatbed" },
+  { label: "Fuel Surcharge",     value: "27.5",  sub: "%",     note: "Current index" },
+  { label: "Active FL Corridors",value: "3",     sub: "",      note: "Tampa · Orlando · Miami" },
+];
+
+function MarketInsightsSection() {
+  return (
+    <section className="py-16 border-b border-gray-100 bg-[#FAFAFA]">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 mb-8">
+          <div>
+            <div className="text-[0.6875rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1">
+              Market Intelligence
+            </div>
+            <h2 className="text-[1.5rem] font-bold text-gray-900 tracking-tight">
+              Real-time freight conditions
+            </h2>
+          </div>
+          <p className="text-[0.8125rem] text-gray-400 max-w-xs">
+            We monitor live market data so you always know if it&apos;s a good time to ship.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-[1fr_auto] gap-5 items-start">
+          {/* Spot price chart */}
+          <SpotChart />
+
+          {/* Stat tiles */}
+          <div className="grid grid-cols-2 gap-3 md:w-[280px]">
+            {MARKET_STATS.map(({ label, value, sub, note }) => (
+              <div key={label} className="rounded-2xl border border-gray-100 bg-white p-4">
+                <div className="text-[0.625rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
+                  {label}
+                </div>
+                <div className="flex items-baseline gap-0.5 mb-0.5">
+                  <span className="text-[1.375rem] font-bold text-gray-900 tracking-tight leading-none">
+                    {value}
+                  </span>
+                  {sub && <span className="text-[0.8125rem] text-gray-400 font-medium">{sub}</span>}
+                </div>
+                <div className="text-[0.6875rem] text-gray-400">{note}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -464,6 +519,7 @@ export default function Home() {
         <HeroSection />
         <MarketTicker />
         <StatsSection />
+        <MarketInsightsSection />
         <Divider />
         <ServicesSection />
         <Divider />

@@ -14,9 +14,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Loadr",
+  title: "Loadr — Jobsite Freight, Done Right",
   description:
-    "Research, mapping and TMS workspace for a Florida freight brokerage focused on jobsite deliveries that need truck-mounted forklifts, piggybacks or Moffetts.",
+    "Florida's specialist in forklift-required construction freight. Scaffolding, shoring, mast climbers, and heavy jobsite deliveries across Tampa, Orlando, and Miami.",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body
         className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} antialiased`}
       >

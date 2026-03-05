@@ -2,8 +2,11 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #07111f;
-  --foreground: #e5eefb;
+  --background: #ffffff;
+  --foreground: #111111;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #0066cc;
 }
 
 @theme inline {
@@ -22,13 +25,11 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-space-grotesk), sans-serif;
-  background-image:
-    radial-gradient(circle at top left, rgba(34, 211, 238, 0.11), transparent 30%),
-    radial-gradient(circle at top right, rgba(245, 158, 11, 0.08), transparent 24%),
-    linear-gradient(180deg, #08111d 0%, #07111f 34%, #050d18 100%);
+  background: #ffffff;
+  color: #111111;
+  font-family: -apple-system, BlinkMacSystemFont, var(--font-space-grotesk), "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a,
@@ -42,48 +43,57 @@ button {
     opacity 180ms ease;
 }
 
-button:hover,
-a:hover {
-  transform: translateY(-1px);
-}
-
 ::selection {
-  background: rgba(34, 211, 238, 0.28);
+  background: rgba(0, 102, 204, 0.12);
 }
 
+/* ── Ticker animation ───────────────────────────── */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-animate {
+  animation: ticker-scroll 45s linear infinite;
+  will-change: transform;
+}
+
+.ticker-animate:hover {
+  animation-play-state: paused;
+}
+
+/* ── Fade-up entrance ───────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.65s ease forwards;
+}
+
+.animate-fade-up-d1 { animation: fade-up 0.65s 0.1s ease both; }
+.animate-fade-up-d2 { animation: fade-up 0.65s 0.22s ease both; }
+.animate-fade-up-d3 { animation: fade-up 0.65s 0.36s ease both; }
+.animate-fade-up-d4 { animation: fade-up 0.65s 0.50s ease both; }
+
+/* ── Dot grid (hero background) ─────────────────── */
+.dot-grid {
+  background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* ── Florida shape clip ─────────────────────────── */
 .florida-shape {
   clip-path: polygon(
-    3% 18%,
-    26% 12%,
-    46% 13%,
-    63% 10%,
-    86% 7%,
-    96% 12%,
-    96% 20%,
-    90% 21%,
-    82% 23%,
-    74% 29%,
-    68% 37%,
-    69% 48%,
-    75% 55%,
-    80% 63%,
-    84% 72%,
-    84% 84%,
-    81% 90%,
-    73% 95%,
-    67% 88%,
-    66% 79%,
-    62% 70%,
-    57% 62%,
-    52% 56%,
-    43% 53%,
-    34% 45%,
-    24% 36%,
-    11% 29%,
-    5% 23%
+    3% 18%, 26% 12%, 46% 13%, 63% 10%, 86% 7%, 96% 12%, 96% 20%,
+    90% 21%, 82% 23%, 74% 29%, 68% 37%, 69% 48%, 75% 55%, 80% 63%,
+    84% 72%, 84% 84%, 81% 90%, 73% 95%, 67% 88%, 66% 79%, 62% 70%,
+    57% 62%, 52% 56%, 43% 53%, 34% 45%, 24% 36%, 11% 29%, 5% 23%
   );
 }
 
+/* ── Leaflet (used in /office) ──────────────────── */
 .leaflet-container {
   background: #08111d;
 }

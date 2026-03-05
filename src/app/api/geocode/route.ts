@@ -71,6 +71,8 @@ interface NominatimResult {
   lat: string;
   lon: string;
   address?: {
+    house_number?: string;
+    road?: string;
     city?: string;
     town?: string;
     village?: string;
@@ -105,9 +107,11 @@ async function searchNominatim(q: string): Promise<GeoResult[]> {
   const data: NominatimResult[] = await res.json();
 
   return data.map((r) => {
-    // Build a shorter, cleaner display name
+    // Build a clean display name including street address when available
     const a = r.address;
     const parts: string[] = [];
+    if (a?.house_number && a?.road) parts.push(`${a.house_number} ${a.road}`);
+    else if (a?.road) parts.push(a.road);
     const city = a?.city ?? a?.town ?? a?.village ?? "";
     if (city) parts.push(city);
     if (a?.state) parts.push(a.state);

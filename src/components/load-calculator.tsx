@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /* -------------------------------------------------------------------------- */
-/*  Load Calculator – compact version designed to sit beside the hero         */
-/*  Light-theme Apple-inspired design                                         */
+/*  Load Calculator — forklift-equipped freight estimator                     */
 /* -------------------------------------------------------------------------- */
 
 interface NominatimResult {
@@ -21,19 +20,56 @@ interface CalcResult {
   unloadCharge: number;
   weightSurcharge: number;
   oversizeSurcharge: number;
-  pieceSurcharge: number;
   subtotal: number;
   total: number;
 }
 
+/* ── Truck types — all include forklift/Moffett service ─────── */
+
 const TRUCK_TYPES = [
-  { id: "flatbed",    label: "Flatbed",           ratePerMile: 2.85 },
-  { id: "stepdeck",   label: "Step Deck",         ratePerMile: 3.15 },
-  { id: "lowboy",     label: "Lowboy",            ratePerMile: 4.20 },
-  { id: "moffett",    label: "Moffett",           ratePerMile: 3.65 },
-  { id: "piggyback",  label: "Piggyback",         ratePerMile: 3.55 },
-  { id: "hotshot",    label: "Hotshot",            ratePerMile: 2.45 },
+  {
+    id: "moffett-flatbed",
+    label: "Flatbed + Moffett",
+    ratePerMile: 3.65,
+    maxLengthFt: 48,
+    maxWidthFt: 8.5,
+    maxHeightFt: 8.5,
+    maxWeightLbs: 48000,
+    note: "Standard — most common",
+  },
+  {
+    id: "moffett-stepdeck",
+    label: "Step Deck + Moffett",
+    ratePerMile: 3.90,
+    maxLengthFt: 53,
+    maxWidthFt: 8.5,
+    maxHeightFt: 10.5,
+    maxWeightLbs: 46000,
+    note: "Taller loads up to 10.5 ft",
+  },
+  {
+    id: "piggyback-flatbed",
+    label: "Flatbed + Piggyback",
+    ratePerMile: 3.55,
+    maxLengthFt: 48,
+    maxWidthFt: 8.5,
+    maxHeightFt: 8.5,
+    maxWeightLbs: 46000,
+    note: "Self-unload at jobsite",
+  },
+  {
+    id: "hotshot-forklift",
+    label: "Hotshot + Forklift",
+    ratePerMile: 2.65,
+    maxLengthFt: 40,
+    maxWidthFt: 8.5,
+    maxHeightFt: 8.0,
+    maxWeightLbs: 16500,
+    note: "Small urgent loads",
+  },
 ] as const;
+
+type TruckId = typeof TRUCK_TYPES[number]["id"];
 
 const MARGIN_RATE = 0.25;
 const MINIMUM_LINEHAUL = 350;
@@ -50,10 +86,6 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-function estimateRoadMiles(straightMiles: number): number {
-  return Math.round(straightMiles * 1.28);
-}
-
 function useDebounce(value: string, ms: number) {
   const [debounced, setDebounced] = useState(value);
   useEffect(() => {
@@ -63,7 +95,7 @@ function useDebounce(value: string, ms: number) {
   return debounced;
 }
 
-/* ── Address Input ─────────────────────────────────────────────── */
+/* ── Address Input — calls /api/geocode (server-side proxy) ─── */
 
 function AddressInput({
   label, value, onChange, onSelect, placeholder,
@@ -81,24 +113,11 @@ function AddressInput({
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (debounced.length < 3) { setSuggestions([]); return; }
+    if (debounced.length < 3) { setSuggestions([]); setOpen(false); return; }
     let cancelled = false;
     setLoading(true);
 
-    // Use Nominatim with structured query + viewbox bias for Florida
-    const params = new URLSearchParams({
-      format: "json",
-      countrycodes: "us",
-      limit: "6",
-      q: debounced,
-      viewbox: "-87.63,31.00,-80.03,24.40",
-      bounded: "0",
-      addressdetails: "1",
-    });
-
-    fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
-      headers: { "Accept-Language": "en", "User-Agent": "Loadr/1.0" },
-    })
+    fetch(`/api/geocode?q=${encodeURIComponent(debounced)}`)
       .then((r) => r.json())
       .then((data: NominatimResult[]) => {
         if (!cancelled) {
@@ -131,6 +150,7 @@ function AddressInput({
           onChange={(e) => { onChange(e.target.value); }}
           onFocus={() => suggestions.length > 0 && setOpen(true)}
           placeholder={placeholder}
+          autoComplete="off"
           className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-[0.8125rem] text-gray-900 placeholder-gray-300 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
         />
         {loading && (
@@ -163,6 +183,29 @@ function AddressInput({
   );
 }
 
+/* ── Dimension Input ─────────────────────────────────────────── */
+
+function DimInput({ label, value, onChange, placeholder }: {
+  label: string; value: string;
+  onChange: (v: string) => void; placeholder: string;
+}) {
+  return (
+    <div>
+      <label className="block text-[0.625rem] font-bold text-gray-400 tracking-[0.06em] uppercase mb-1">
+        {label}
+      </label>
+      <input
+        type="number"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        min="0"
+        className="w-full rounded-lg border border-gray-200 bg-white px-2.5 py-2 text-[0.8125rem] text-gray-900 placeholder-gray-300 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+      />
+    </div>
+  );
+}
+
 /* ── Main Calculator ─────────────────────────────────────────── */
 
 export function LoadCalculator() {
@@ -170,51 +213,70 @@ export function LoadCalculator() {
   const [destText, setDestText] = useState("");
   const [originCoords, setOriginCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [destCoords, setDestCoords] = useState<{ lat: number; lon: number } | null>(null);
-  const [selfLoad, setSelfLoad] = useState(false);
-  const [selfUnload, setSelfUnload] = useState(false);
+
+  // Dimensions (ft / lbs)
+  const [lenFt, setLenFt] = useState("");
+  const [widFt, setWidFt] = useState("");
+  const [htFt, setHtFt] = useState("");
   const [weight, setWeight] = useState("");
-  const [truckType, setTruckType] = useState("flatbed");
+
+  const [truckType, setTruckType] = useState<TruckId>("moffett-flatbed");
   const [result, setResult] = useState<CalcResult | null>(null);
   const [error, setError] = useState("");
+
+  // Determine which truck types are compatible with entered dimensions
+  const l = Number(lenFt) || 0;
+  const w = Number(widFt) || 0;
+  const h = Number(htFt) || 0;
+  const lbs = Number(weight) || 0;
+
+  function isCompatible(t: typeof TRUCK_TYPES[number]) {
+    if (l > 0 && l > t.maxLengthFt) return false;
+    if (w > 0 && w > t.maxWidthFt) return false;
+    if (h > 0 && h > t.maxHeightFt) return false;
+    if (lbs > 0 && lbs > t.maxWeightLbs) return false;
+    return true;
+  }
 
   const calculate = useCallback(() => {
     setError("");
     setResult(null);
 
     if (!originCoords || !destCoords) {
-      setError("Select both addresses from the dropdown suggestions.");
+      setError("Select both pickup and delivery from the dropdown.");
+      return;
+    }
+
+    const truck = TRUCK_TYPES.find((t) => t.id === truckType) ?? TRUCK_TYPES[0];
+    if (!isCompatible(truck)) {
+      setError("Selected equipment doesn't fit these dimensions. Pick a compatible option.");
       return;
     }
 
     const straightMiles = haversine(originCoords.lat, originCoords.lon, destCoords.lat, destCoords.lon);
-    const distanceMiles = estimateRoadMiles(straightMiles);
+    const distanceMiles = Math.round(straightMiles * 1.28);
 
     if (distanceMiles < 1) { setError("Locations are too close together."); return; }
 
-    const truck = TRUCK_TYPES.find((t) => t.id === truckType) ?? TRUCK_TYPES[0];
     const linehaul = Math.max(distanceMiles * truck.ratePerMile, MINIMUM_LINEHAUL);
+    const weightSurcharge = lbs > 44000 ? Math.ceil((lbs - 44000) / 1000) * 35 : 0;
+    const oversizeSurcharge = (w > 8.5 || h > truck.maxHeightFt) ? 250 : 0;
 
-    const loadCharge = selfLoad ? 185 : 0;
-    const unloadCharge = selfUnload ? 185 : 0;
-
-    const w = Number(weight) || 0;
-    const weightSurcharge = w > 44000 ? Math.ceil((w - 44000) / 1000) * 35 : 0;
-
-    const oversizeSurcharge = 0;
-    const pieceSurcharge = 0;
-
-    const subtotal = linehaul + loadCharge + unloadCharge + weightSurcharge + oversizeSurcharge + pieceSurcharge;
-    const margin = Math.round(subtotal * MARGIN_RATE);
-    const total = subtotal + margin;
+    const subtotal = linehaul + weightSurcharge + oversizeSurcharge;
+    const total = Math.round(subtotal * (1 + MARGIN_RATE));
 
     setResult({
       distanceMiles,
       baseRate: Math.round(linehaul),
-      loadCharge, unloadCharge, weightSurcharge, oversizeSurcharge, pieceSurcharge,
+      loadCharge: 0,
+      unloadCharge: 0,
+      weightSurcharge,
+      oversizeSurcharge,
       subtotal: Math.round(subtotal),
-      total: Math.round(total),
+      total,
     });
-  }, [originCoords, destCoords, selfLoad, selfUnload, weight, truckType]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [originCoords, destCoords, weight, truckType, lenFt, widFt, htFt]);
 
   const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
@@ -228,68 +290,64 @@ export function LoadCalculator() {
       </h3>
 
       <div className="space-y-3">
+        {/* Addresses */}
         <AddressInput
           label="Pickup"
           value={originText}
-          onChange={setOriginText}
-          onSelect={(lat, lon, d) => { setOriginCoords({ lat, lon }); }}
-          placeholder="City, address, or zip..."
+          onChange={(v) => { setOriginText(v); setOriginCoords(null); }}
+          onSelect={(lat, lon, d) => { setOriginCoords({ lat, lon }); setOriginText(d); }}
+          placeholder="City or address..."
         />
         <AddressInput
           label="Delivery"
           value={destText}
-          onChange={setDestText}
-          onSelect={(lat, lon, d) => { setDestCoords({ lat, lon }); }}
-          placeholder="City, address, or zip..."
+          onChange={(v) => { setDestText(v); setDestCoords(null); }}
+          onSelect={(lat, lon, d) => { setDestCoords({ lat, lon }); setDestText(d); }}
+          placeholder="City or address..."
         />
+
+        {/* Load dimensions */}
+        <div>
+          <p className="text-[0.6875rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
+            Load Dimensions (ft) &amp; Weight (lbs)
+          </p>
+          <div className="grid grid-cols-4 gap-1.5">
+            <DimInput label="Length" value={lenFt} onChange={setLenFt} placeholder="48" />
+            <DimInput label="Width"  value={widFt} onChange={setWidFt} placeholder="8.5" />
+            <DimInput label="Height" value={htFt}  onChange={setHtFt}  placeholder="8" />
+            <DimInput label="Lbs"    value={weight} onChange={setWeight} placeholder="24000" />
+          </div>
+        </div>
 
         {/* Truck type */}
         <div>
           <label className="block text-[0.6875rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
             Equipment
           </label>
-          <div className="grid grid-cols-3 gap-1.5">
-            {TRUCK_TYPES.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setTruckType(t.id)}
-                className={`rounded-lg border px-2 py-1.5 text-[0.6875rem] font-medium transition ${
-                  truckType === t.id
-                    ? "border-blue-400 bg-blue-50 text-blue-700"
-                    : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
-                }`}
-              >
-                {t.label}
-              </button>
-            ))}
+          <div className="grid grid-cols-2 gap-1.5">
+            {TRUCK_TYPES.map((t) => {
+              const ok = isCompatible(t);
+              const selected = truckType === t.id;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => ok && setTruckType(t.id)}
+                  title={!ok ? `Exceeds limits: max ${t.maxLengthFt}ft × ${t.maxWidthFt}ft × ${t.maxHeightFt}ft / ${(t.maxWeightLbs/1000).toFixed(0)}k lbs` : t.note}
+                  className={`rounded-lg border px-2 py-2 text-left transition ${
+                    !ok
+                      ? "border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed opacity-50"
+                      : selected
+                        ? "border-blue-400 bg-blue-50 text-blue-700"
+                        : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                  }`}
+                >
+                  <div className="text-[0.6875rem] font-semibold leading-tight">{t.label}</div>
+                  <div className={`text-[0.5625rem] mt-0.5 ${selected ? "text-blue-500" : "text-gray-400"}`}>{t.note}</div>
+                </button>
+              );
+            })}
           </div>
-        </div>
-
-        {/* Self-load/unload + weight */}
-        <div className="grid grid-cols-2 gap-2">
-          <label className="flex items-center gap-2 rounded-lg border border-gray-200 px-2.5 py-2 cursor-pointer text-[0.75rem] hover:bg-gray-50 transition">
-            <input type="checkbox" checked={selfLoad} onChange={(e) => setSelfLoad(e.target.checked)} className="accent-blue-600 h-3.5 w-3.5" />
-            <span className="font-medium text-gray-700">Self-Load</span>
-          </label>
-          <label className="flex items-center gap-2 rounded-lg border border-gray-200 px-2.5 py-2 cursor-pointer text-[0.75rem] hover:bg-gray-50 transition">
-            <input type="checkbox" checked={selfUnload} onChange={(e) => setSelfUnload(e.target.checked)} className="accent-blue-600 h-3.5 w-3.5" />
-            <span className="font-medium text-gray-700">Self-Unload</span>
-          </label>
-        </div>
-
-        <div>
-          <label className="block text-[0.6875rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
-            Weight (lbs) — optional
-          </label>
-          <input
-            type="number"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
-            placeholder="e.g. 24000"
-            min="0"
-            className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-[0.8125rem] text-gray-900 placeholder-gray-300 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
-          />
         </div>
 
         <button
@@ -311,9 +369,8 @@ export function LoadCalculator() {
             </div>
             <div className="space-y-1">
               <Row label="Linehaul" value={usd.format(result.baseRate)} />
-              {result.loadCharge > 0 && <Row label="Self-load" value={usd.format(result.loadCharge)} />}
-              {result.unloadCharge > 0 && <Row label="Self-unload" value={usd.format(result.unloadCharge)} />}
-              {result.weightSurcharge > 0 && <Row label="Heavy freight" value={usd.format(result.weightSurcharge)} />}
+              {result.weightSurcharge > 0 && <Row label="Overweight surcharge" value={usd.format(result.weightSurcharge)} />}
+              {result.oversizeSurcharge > 0 && <Row label="Oversize surcharge" value={usd.format(result.oversizeSurcharge)} />}
             </div>
             <hr className="border-blue-200 my-2" />
             <div className="flex items-center justify-between">
@@ -328,12 +385,9 @@ export function LoadCalculator() {
           </div>
         )}
 
-        {/* Formula explanation */}
         <p className="text-[0.625rem] text-gray-300 leading-4 mt-1">
-          Pricing is based on current FL market rates per mile by equipment type,
-          plus applicable surcharges for self-load/unload equipment and overweight
-          freight (&gt;44,000 lbs). Distance is estimated via road-adjusted routing.
-          Final quotes may vary based on availability and special requirements.
+          Estimates based on current FL market rates. All equipment includes on-site forklift service.
+          Final quotes may vary. <a href="tel:+1-800-000-0000" className="underline">Call for exact pricing.</a>
         </p>
       </div>
     </div>

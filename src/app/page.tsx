@@ -42,7 +42,7 @@ function HeroSection() {
       {/* ── Background map — behind everything ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
         {/* Faded map occupies left ~65% on desktop, full width on mobile */}
-        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[65%] opacity-[0.18] md:opacity-[0.22]">
+        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[65%] opacity-[0.40] md:opacity-[0.55]">
           <HeroMap />
         </div>
         {/* White gradient overlay: strong on left (text readable), fades right */}

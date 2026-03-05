@@ -118,10 +118,12 @@ function AddressInput({
   const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const selected = useRef(false);
   const debounced = useDebounce(value, 400);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (selected.current) { selected.current = false; return; }
     if (debounced.length < 3) { setSuggestions([]); setOpen(false); return; }
     let cancelled = false;
     setLoading(true);
@@ -177,9 +179,11 @@ function AddressInput({
                 className="w-full px-3 py-2 text-left text-[0.75rem] text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition leading-snug"
                 onClick={() => {
                   const short = s.display_name.split(",").slice(0, 3).join(",");
+                  selected.current = true;
+                  setSuggestions([]);
+                  setOpen(false);
                   onChange(short);
                   onSelect(Number(s.lat), Number(s.lon), short);
-                  setOpen(false);
                 }}
               >
                 {s.display_name}

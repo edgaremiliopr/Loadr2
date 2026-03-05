@@ -25,7 +25,7 @@ const TRUCK_TYPES = [
   {
     id: "moffett-flatbed",
     label: "Flatbed + Moffett",
-    ratePerMile: 3.65,
+    ratePerMile: 3.25,
     maxLengthFt: 48,
     maxWidthFt: 8.5,
     maxHeightFt: 8.5,
@@ -35,7 +35,7 @@ const TRUCK_TYPES = [
   {
     id: "moffett-stepdeck",
     label: "Step Deck + Moffett",
-    ratePerMile: 3.90,
+    ratePerMile: 3.50,
     maxLengthFt: 53,
     maxWidthFt: 8.5,
     maxHeightFt: 10.5,
@@ -45,7 +45,7 @@ const TRUCK_TYPES = [
   {
     id: "piggyback-flatbed",
     label: "Flatbed + Piggyback",
-    ratePerMile: 3.55,
+    ratePerMile: 3.15,
     maxLengthFt: 48,
     maxWidthFt: 8.5,
     maxHeightFt: 8.5,
@@ -55,7 +55,7 @@ const TRUCK_TYPES = [
   {
     id: "hotshot-forklift",
     label: "Hotshot + Forklift",
-    ratePerMile: 2.65,
+    ratePerMile: 2.10,
     maxLengthFt: 40,
     maxWidthFt: 8.5,
     maxHeightFt: 8.0,
@@ -64,9 +64,9 @@ const TRUCK_TYPES = [
   },
 ] as const;
 
-const LOAD_UNLOAD_FEE = 150; // per service (loading or unloading with carrier's forklift)
-const MARGIN_RATE = 0.25;
-const MINIMUM_LINEHAUL = 350;
+const LOAD_UNLOAD_FEE = 250; // per service (loading or unloading with carrier's forklift)
+const MARGIN_RATE = 0.18;
+const MINIMUM_LINEHAUL = 450;
 
 /* Pick the cheapest compatible truck for the given load */
 function autoSelectTruck(l: number, w: number, h: number, lbs: number) {
@@ -264,8 +264,8 @@ export function LoadCalculator() {
     if (distanceMiles < 1) { setError("Locations are too close together."); return; }
 
     const linehaul = Math.max(distanceMiles * truck.ratePerMile, MINIMUM_LINEHAUL);
-    const weightSurcharge = lbs > 44000 ? Math.ceil((lbs - 44000) / 1000) * 35 : 0;
-    const oversizeSurcharge = (w > 8.5 || h > truck.maxHeightFt) ? 250 : 0;
+    const weightSurcharge = lbs > 44000 ? Math.ceil((lbs - 44000) / 1000) * 50 : 0;
+    const oversizeSurcharge = (w > 8.5 || h > truck.maxHeightFt) ? 350 : 0;
     const liftFees = (needLoading ? LOAD_UNLOAD_FEE : 0) + (needUnloading ? LOAD_UNLOAD_FEE : 0);
 
     const subtotal = linehaul + weightSurcharge + oversizeSurcharge + liftFees;

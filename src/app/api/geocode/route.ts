@@ -4,6 +4,7 @@ interface PhotonFeature {
   geometry: { coordinates: [number, number] };
   properties: {
     osm_id: number;
+    countrycode?: string;
     name?: string;
     city?: string;
     state?: string;
@@ -27,8 +28,9 @@ export async function GET(req: NextRequest) {
     q,
     limit: "6",
     lang: "en",
-    // Bias toward Florida bounding box
-    bbox: "-87.63,24.40,-80.03,31.00",
+    // Bias toward center of Florida
+    lat: "28.0",
+    lon: "-82.5",
   });
 
   try {
@@ -44,11 +46,10 @@ export async function GET(req: NextRequest) {
     // Normalize to a simple shape the calculator expects
     const results = data.features
       .filter((f) => {
-        // Keep results in the US
-        const country = f.properties.country ?? "";
-        return country.includes("United States") || country === "USA";
+        const cc = f.properties.countrycode ?? "";
+        return cc === "US";
       })
-      .map((f) => {
+      .map((f, idx) => {
         const p = f.properties;
         const [lon, lat] = f.geometry.coordinates;
 
@@ -62,7 +63,7 @@ export async function GET(req: NextRequest) {
         if (p.postcode) parts.push(p.postcode);
 
         return {
-          place_id: f.properties.osm_id,
+          place_id: p.osm_id ?? idx,
           display_name: parts.join(", "),
           lat: String(lat),
           lon: String(lon),

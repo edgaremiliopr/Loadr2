@@ -362,25 +362,15 @@ export function LoadCalculator() {
 
         {/* Result */}
         {result && (
-          <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-4 mt-1">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[0.6875rem] font-bold text-blue-600 uppercase tracking-wide">Estimate</span>
-              <span className="text-[0.6875rem] text-gray-400">{result.distanceMiles.toLocaleString()} mi</span>
-            </div>
-            <div className="space-y-1">
-              <Row label="Linehaul" value={usd.format(result.baseRate)} />
-              {result.weightSurcharge > 0 && <Row label="Overweight surcharge" value={usd.format(result.weightSurcharge)} />}
-              {result.oversizeSurcharge > 0 && <Row label="Oversize surcharge" value={usd.format(result.oversizeSurcharge)} />}
-            </div>
-            <hr className="border-blue-200 my-2" />
-            <div className="flex items-center justify-between">
-              <span className="text-[0.8125rem] font-semibold text-gray-900">Total</span>
-              <span className="text-[1.5rem] font-bold text-blue-700 tracking-tight">
+          <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-4 mt-1 text-center">
+            <span className="text-[0.6875rem] font-bold text-blue-600 uppercase tracking-wide">Estimated Price</span>
+            <div className="mt-1">
+              <span className="text-[2rem] font-bold text-blue-700 tracking-tight">
                 {usd.format(result.total)}
               </span>
             </div>
-            <p className="text-[0.625rem] text-gray-400 mt-1">
-              {usd.format(Math.round(result.total / result.distanceMiles))}/mi · {TRUCK_TYPES.find((t) => t.id === truckType)?.label}
+            <p className="text-[0.6875rem] text-gray-400 mt-1">
+              {result.distanceMiles.toLocaleString()} mi · {usd.format(Math.round(result.total / result.distanceMiles))}/mi · {TRUCK_TYPES.find((t) => t.id === truckType)?.label}
             </p>
           </div>
         )}

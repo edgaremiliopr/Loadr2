@@ -148,7 +148,7 @@ export function FreightDashboard() {
   ];
 
   return (
-    <div className="flex min-h-screen bg-[#FAFAFA]">
+    <div className="flex min-h-screen bg-[#FAFAFA] max-w-full overflow-hidden">
 
       {/* ── Sidebar ─────────────────────────────────────────── */}
       <aside className="hidden lg:flex flex-col w-[196px] flex-shrink-0 border-r border-gray-200 bg-white">
@@ -191,15 +191,15 @@ export function FreightDashboard() {
       {/* ── Main ────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0">
 
-        <header className="h-14 flex items-center justify-between px-6 border-b border-gray-200 bg-white flex-shrink-0">
-          <div className="lg:hidden flex items-center gap-4">
-            <span className="font-bold text-sm text-gray-900">Loadr Office</span>
-            <div className="flex gap-1">
+        <header className="flex flex-col sm:flex-row sm:h-14 items-start sm:items-center justify-between px-4 sm:px-6 py-2 sm:py-0 gap-2 sm:gap-0 border-b border-gray-200 bg-white flex-shrink-0 overflow-hidden">
+          <div className="lg:hidden flex items-center gap-2 sm:gap-4 min-w-0 overflow-x-auto w-full sm:w-auto">
+            <span className="font-bold text-sm text-gray-900 flex-shrink-0">Loadr Office</span>
+            <div className="flex gap-1 min-w-0">
               {NAV_ITEMS.map(i => (
                 <button
                   key={i.id}
                   onClick={() => setActiveTab(i.id)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-2 sm:px-2.5 py-1 rounded-lg text-xs font-medium transition-colors whitespace-nowrap flex-shrink-0 ${
                     activeTab === i.id ? "bg-blue-50 text-blue-700" : "text-gray-400 hover:text-gray-700"
                   }`}
                 >

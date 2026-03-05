@@ -76,8 +76,8 @@ function companyStyle(kind: Company["kind"], selected: boolean) {
   if (kind === "carrier") {
     return {
       radius: selected ? 10 : 7,
-      fillColor: "#22d3ee",
-      color: "#cffafe",
+      fillColor: "#0066CC",
+      color: selected ? "#003d7a" : "#4d94db",
       weight: selected ? 3 : 2,
       fillOpacity: selected ? 0.95 : 0.82,
     };
@@ -85,8 +85,8 @@ function companyStyle(kind: Company["kind"], selected: boolean) {
 
   return {
     radius: selected ? 10 : 7,
-    fillColor: "#facc15",
-    color: "#fef3c7",
+    fillColor: "#D97706",
+    color: selected ? "#92400e" : "#f59e0b",
     weight: selected ? 3 : 2,
     fillOpacity: selected ? 0.93 : 0.8,
   };
@@ -320,24 +320,16 @@ export function FloridaMarketMap({
       : null;
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(7,16,28,0.97),rgba(3,10,20,0.98))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.34)]">
-      <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="text-xs uppercase tracking-[0.35em] text-cyan-200/65">Florida Coverage</p>
-          <h3 className="mt-2 text-2xl font-semibold text-slate-100">Interactive carrier + shipper map</h3>
-          <p className="mt-2 text-sm text-slate-400">
-            Pan, zoom, toggle segments and tap a carrier to see service coverage.
-          </p>
-        </div>
-
+    <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <div className="px-5 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <button
             type="button"
             onClick={() => setShowCarriers((value) => !value)}
-            className={`rounded-full border px-3 py-1.5 ${
+            className={`rounded-full border px-3 py-1.5 font-medium transition ${
               showCarriers
-                ? "border-cyan-300/50 bg-cyan-300/16 text-cyan-100"
-                : "border-white/15 bg-white/5 text-slate-400"
+                ? "border-blue-400 bg-blue-50 text-blue-700"
+                : "border-gray-200 bg-white text-gray-400 hover:border-gray-300"
             }`}
           >
             Carriers
@@ -345,21 +337,21 @@ export function FloridaMarketMap({
           <button
             type="button"
             onClick={() => setShowShippers((value) => !value)}
-            className={`rounded-full border px-3 py-1.5 ${
+            className={`rounded-full border px-3 py-1.5 font-medium transition ${
               showShippers
-                ? "border-amber-300/50 bg-amber-300/14 text-amber-100"
-                : "border-white/15 bg-white/5 text-slate-400"
+                ? "border-amber-400 bg-amber-50 text-amber-700"
+                : "border-gray-200 bg-white text-gray-400 hover:border-gray-300"
             }`}
           >
             Shippers
           </button>
-          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-slate-300">
-            {mapCompanies.length} visibles
+          <span className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-gray-500 font-medium">
+            {mapCompanies.length} visible
           </span>
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-[1.45rem] border border-white/10">
+      <div className="overflow-hidden">
         <MapContainer
           center={FLORIDA_CENTER}
           zoom={6}
@@ -367,10 +359,10 @@ export function FloridaMarketMap({
           maxZoom={13}
           maxBounds={FLORIDA_BOUNDS}
           scrollWheelZoom
-          className="h-[640px] w-full"
+          className="h-[calc(100vh-200px)] min-h-[500px] w-full"
         >
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; CARTO'
           />
 
@@ -381,8 +373,8 @@ export function FloridaMarketMap({
             <Polygon
               positions={selectedCoverage.points}
               pathOptions={{
-                color: "#facc15",
-                fillColor: "#facc15",
+                color: "#0066CC",
+                fillColor: "#0066CC",
                 fillOpacity: 0.16,
                 weight: 2,
                 dashArray: "6 6",
@@ -395,8 +387,8 @@ export function FloridaMarketMap({
               center={selectedCoverage.center}
               radius={selectedCoverage.radius}
               pathOptions={{
-                color: "#facc15",
-                fillColor: "#facc15",
+                color: "#0066CC",
+                fillColor: "#0066CC",
                 fillOpacity: 0.14,
                 weight: 2,
                 dashArray: "6 6",

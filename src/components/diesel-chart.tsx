@@ -121,7 +121,7 @@ export function DieselChart() {
             strokeLinecap="round"
           />
 
-          {/* Current value dot */}
+          {/* Current value dot – pulsing "live" indicator */}
           {(() => {
             const lx = PAD_X + W - PAD_X * 2;
             const lo2 = Math.min(...DATA) - 0.01;
@@ -129,7 +129,18 @@ export function DieselChart() {
             const ly = PAD_Y + (1 - (current - lo2) / (hi2 - lo2)) * (H - PAD_Y * 2);
             return (
               <>
-                <circle cx={lx} cy={ly} r={4}   fill="#D97706" opacity={0.2} />
+                <circle cx={lx} cy={ly} r={2.5} fill="none" stroke="#D97706" strokeWidth="1">
+                  <animate attributeName="r" values="2.5;12;12" dur="2.4s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.5;0;0" dur="2.4s" repeatCount="indefinite" />
+                </circle>
+                <circle cx={lx} cy={ly} r={2.5} fill="none" stroke="#D97706" strokeWidth="0.8">
+                  <animate attributeName="r" values="2.5;16;16" dur="2.4s" begin="0.6s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.3;0;0" dur="2.4s" begin="0.6s" repeatCount="indefinite" />
+                </circle>
+                <circle cx={lx} cy={ly} r={5} fill="#D97706" opacity={0.12}>
+                  <animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.12;0.06;0.12" dur="2s" repeatCount="indefinite" />
+                </circle>
                 <circle cx={lx} cy={ly} r={2.5} fill="#D97706" />
               </>
             );

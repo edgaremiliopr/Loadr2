@@ -4,6 +4,7 @@ import { MarketTicker } from "@/components/market-ticker";
 import { SpotChart } from "@/components/spot-chart";
 import { DieselChart } from "@/components/diesel-chart";
 import { LoadCalculator } from "@/components/load-calculator";
+import { FreightHeadlines } from "@/components/freight-headlines";
 
 /* ─── Small reusable primitives ──────────────────────────────── */
 
@@ -32,12 +33,11 @@ function Divider() {
   return <hr className="border-gray-100" />;
 }
 
-/* ─── Section: Hero ──────────────────────────────────────────── */
+/* ─── Section: Hero + Calculator ─────────────────────────────── */
 
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-      {/* Very subtle background gradient */}
+    <section className="relative pt-20 pb-12 md:pt-24 md:pb-16 overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -47,44 +47,51 @@ function HeroSection() {
         aria-hidden
       />
 
-      <div className="max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-center py-20 md:py-28">
-        {/* ── Left: copy ── */}
-        <div className="animate-fade-up">
-          <Tag>Florida&apos;s Jobsite Freight Specialist</Tag>
+      <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-[1fr_380px] gap-10 lg:gap-14 items-start">
+        {/* ── Left: copy + map ── */}
+        <div>
+          <div className="animate-fade-up">
+            <Tag>Florida&apos;s Jobsite Freight Specialist</Tag>
 
-          <h1 className="text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] font-bold text-gray-900 leading-[1.04] tracking-[-0.03em] mb-6">
-            Freight that<br />
-            <span className="text-gray-300">moves your</span><br />
-            project forward.
-          </h1>
+            <h1 className="text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-bold text-gray-900 leading-[1.04] tracking-[-0.03em] mb-5">
+              Freight that<br />
+              <span className="text-gray-300">moves your</span><br />
+              project forward.
+            </h1>
 
-          <p className="text-lg md:text-xl text-gray-500 leading-relaxed mb-10 max-w-[420px]">
-            Specialized in construction deliveries that need a forklift on-site.
-            Tampa&nbsp;·&nbsp;Orlando&nbsp;·&nbsp;Miami.
-          </p>
+            <p className="text-lg md:text-xl text-gray-500 leading-relaxed mb-8 max-w-[420px]">
+              Specialized in construction deliveries that need a forklift on-site.
+              Tampa&nbsp;·&nbsp;Orlando&nbsp;·&nbsp;Miami.
+            </p>
 
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="#calculator"
-              className="inline-flex items-center gap-2 bg-gray-900 text-white text-[0.875rem] font-semibold px-7 py-3.5 rounded-full hover:bg-gray-700 transition-colors"
-            >
-              Get a Quote
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
-            <a
-              href="#services"
-              className="inline-flex items-center text-[0.875rem] font-semibold text-gray-600 border border-gray-200 px-7 py-3.5 rounded-full hover:border-gray-400 hover:text-gray-900 transition-all"
-            >
-              How it works
-            </a>
+            <div className="flex flex-wrap gap-3 mb-10">
+              <a
+                href="#calculator"
+                className="inline-flex items-center gap-2 bg-gray-900 text-white text-[0.875rem] font-semibold px-7 py-3.5 rounded-full hover:bg-gray-700 transition-colors"
+              >
+                Get a Quote
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+              <a
+                href="#services"
+                className="inline-flex items-center text-[0.875rem] font-semibold text-gray-600 border border-gray-200 px-7 py-3.5 rounded-full hover:border-gray-400 hover:text-gray-900 transition-all"
+              >
+                How it works
+              </a>
+            </div>
+          </div>
+
+          {/* Map — hidden on mobile, shown on md+ */}
+          <div className="hidden md:block relative h-[380px] animate-fade-up-d2">
+            <HeroMap />
           </div>
         </div>
 
-        {/* ── Right: animated map ── */}
-        <div className="relative h-[420px] md:h-[500px] animate-fade-up-d2">
-          <HeroMap />
+        {/* ── Right: Load Calculator (sticky on desktop) ── */}
+        <div className="animate-fade-up-d1 lg:sticky lg:top-24">
+          <LoadCalculator />
         </div>
       </div>
     </section>
@@ -92,13 +99,6 @@ function HeroSection() {
 }
 
 /* ─── Section: Market Insights ──────────────────────────────── */
-
-const MARKET_STATS = [
-  { label: "Diesel Avg (Natl)",  value: "$3.68", sub: "/gal",  note: "EIA weekly" },
-  { label: "Load / Truck Ratio", value: "3.4",   sub: "x",     note: "FL flatbed" },
-  { label: "Fuel Surcharge",     value: "27.5",  sub: "%",     note: "Current index" },
-  { label: "Active FL Corridors",value: "3",     sub: "",      note: "Tampa · Orlando · Miami" },
-];
 
 function MarketInsightsSection() {
   return (
@@ -118,31 +118,14 @@ function MarketInsightsSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5 items-start">
-          {/* Spot price chart */}
+        {/* Charts side by side */}
+        <div className="grid md:grid-cols-2 gap-5 items-start mb-6">
           <SpotChart />
-
-          {/* Diesel price chart */}
           <DieselChart />
         </div>
 
-        {/* Stat tiles */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
-          {MARKET_STATS.map(({ label, value, sub, note }) => (
-            <div key={label} className="rounded-2xl border border-gray-100 bg-white p-4">
-              <div className="text-[0.625rem] font-bold text-gray-400 tracking-[0.07em] uppercase mb-1.5">
-                {label}
-              </div>
-              <div className="flex items-baseline gap-0.5 mb-0.5">
-                <span className="text-[1.375rem] font-bold text-gray-900 tracking-tight leading-none">
-                  {value}
-                </span>
-                {sub && <span className="text-[0.8125rem] text-gray-400 font-medium">{sub}</span>}
-              </div>
-              <div className="text-[0.6875rem] text-gray-400">{note}</div>
-            </div>
-          ))}
-        </div>
+        {/* Industry Headlines */}
+        <FreightHeadlines />
       </div>
     </section>
   );
@@ -198,7 +181,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Mast Climbers & Hoists",
-    desc: "Oversized and heavy. We coordinate lift equipment with your carrier so the jobsite is never waiting.",
+    desc: "Oversized and heavy. We coordinate lift equipment so the jobsite is never waiting.",
   },
   {
     icon: (
@@ -209,7 +192,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Shoring & Concrete Forms",
-    desc: "Shoring towers, column forms, and bracing — the kind of freight most carriers pass on. We handle it.",
+    desc: "Shoring towers, column forms, and bracing — the kind of freight most pass on. We handle it.",
   },
   {
     icon: (
@@ -223,7 +206,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Forklift-Required Loads",
-    desc: "No forklift, no delivery. Our carrier network is built from the ground up for on-site lift operations.",
+    desc: "No forklift, no delivery. Our network is built from the ground up for on-site lift operations.",
   },
   {
     icon: (
@@ -243,7 +226,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Time-Sensitive Freight",
-    desc: "When the job can't stop, we move fast. Expedited options available for critical deliveries across Florida.",
+    desc: "When the job can&apos;t stop, we move fast. Expedited options available for critical deliveries across Florida.",
   },
 ];
 
@@ -292,8 +275,8 @@ const STEPS = [
   },
   {
     step: "02",
-    title: "We match you with the right carrier",
-    desc: "From our vetted network of forklift-ready carriers who know how to operate on active construction sites.",
+    title: "We secure the right truck for you",
+    desc: "From our vetted network of forklift-equipped trucks that know how to operate on active construction sites.",
   },
   {
     step: "03",
@@ -351,7 +334,6 @@ function CoverageSection() {
     <section id="coverage" className="py-24">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Copy */}
           <div>
             <Tag>Coverage Area</Tag>
             <h2 className="text-[2.5rem] md:text-[3rem] font-bold text-gray-900 leading-tight tracking-tight mb-6">
@@ -381,7 +363,6 @@ function CoverageSection() {
             </div>
           </div>
 
-          {/* Map repeat */}
           <div className="h-[380px] md:h-[440px]">
             <HeroMap />
           </div>
@@ -405,7 +386,6 @@ function AboutSection() {
     <section id="about" className="py-24 bg-gray-900 text-white">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Copy */}
           <div>
             <DarkTag>About Loadr</DarkTag>
             <h2 className="text-[2.5rem] md:text-[3rem] font-bold leading-tight tracking-tight mb-6">
@@ -424,7 +404,6 @@ function AboutSection() {
             </p>
           </div>
 
-          {/* Stat cards */}
           <div className="grid grid-cols-2 gap-4">
             {ABOUT_STATS.map(({ value, label }) => (
               <div
@@ -445,7 +424,7 @@ function AboutSection() {
 /* ─── Section: CTA ───────────────────────────────────────────── */
 
 const TRUST_SIGNALS = [
-  "Forklift-ready carriers",
+  "Forklift-ready trucks",
   "Jobsite delivery specialists",
   "Florida construction experts",
 ];
@@ -484,7 +463,6 @@ function CTASection() {
           </a>
         </div>
 
-        {/* Trust signals */}
         <div className="mt-16 pt-12 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
           {TRUST_SIGNALS.map((t) => (
             <div key={t} className="flex items-center gap-2 text-[0.8125rem] text-gray-400 font-medium">
@@ -532,13 +510,6 @@ export default function Home() {
         <Divider />
         <CoverageSection />
         <AboutSection />
-        <Divider />
-        {/* ── Load Calculator ── */}
-        <section id="calculator" className="py-24">
-          <div className="max-w-6xl mx-auto px-6">
-            <LoadCalculator />
-          </div>
-        </section>
         <CTASection />
       </main>
       <Footer />

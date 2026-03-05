@@ -42,23 +42,23 @@ function HeroSection() {
       {/* ── Background map — behind everything ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
         {/* Faded map occupies left ~65% on desktop, full width on mobile */}
-        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[65%] opacity-[0.40] md:opacity-[0.55]">
+        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[65%] opacity-[0.65] md:opacity-[0.80]">
           <HeroMap />
         </div>
-        {/* White gradient overlay: strong on left (text readable), fades right */}
+        {/* White gradient: just enough to keep text legible on desktop */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 hidden lg:block"
           style={{
             background:
-              "linear-gradient(to right, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.75) 35%, rgba(255,255,255,0.10) 65%, rgba(255,255,255,0) 100%)",
+              "linear-gradient(to right, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.40) 30%, rgba(255,255,255,0.05) 60%, rgba(255,255,255,0) 100%)",
           }}
         />
-        {/* Mobile overlay: covers map so text is always readable */}
+        {/* Mobile overlay: lighter than before */}
         <div
           className="absolute inset-0 lg:hidden"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.70) 60%, rgba(255,255,255,0.88) 100%)",
+              "linear-gradient(to bottom, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.50) 50%, rgba(255,255,255,0.75) 100%)",
           }}
         />
       </div>

@@ -37,7 +37,7 @@ function Divider() {
 
 function HeroSection() {
   return (
-    <section className="relative pt-20 pb-12 md:pt-24 md:pb-16 overflow-hidden min-h-[600px] md:min-h-[680px]">
+    <section className="relative pt-24 pb-16 md:pt-24 md:pb-16 overflow-hidden min-h-[85svh] md:min-h-[680px]">
 
       {/* ── Background map — behind everything ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>

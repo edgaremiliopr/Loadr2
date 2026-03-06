@@ -297,87 +297,62 @@ function HowItWorksSection() {
 
 function TruckIllustration() {
   return (
-    <svg viewBox="0 0 600 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-lg">
-      {/* Ground */}
-      <ellipse cx="296" cy="238" rx="256" ry="6" fill="#F3F4F6" />
+    <svg viewBox="0 0 560 195" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-lg">
 
-      {/* Exhaust stack */}
-      <rect x="106" y="76" width="8" height="46" rx="3" fill="#E5E7EB" stroke="#D1D5DB" strokeWidth="1.5" />
-      <path d="M104 78 Q110 71 116 78" stroke="#D1D5DB" strokeWidth="1.5" strokeLinecap="round" />
+      {/* Ground shadow */}
+      <ellipse cx="272" cy="188" rx="238" ry="5" fill="#F1F5F9" />
 
-      {/* Hood */}
-      <path d="M20 150 L118 150 L118 210 L20 210 Q16 210 16 206 L16 154 Q16 150 20 150 Z" fill="#F9FAFB" stroke="#D1D5DB" strokeWidth="1.5" />
-      {/* Headlight */}
-      <rect x="15" y="165" width="5" height="14" rx="1" fill="#FEF9C3" stroke="#FDE047" strokeWidth="1" />
-      {/* Grille */}
-      <rect x="15" y="174" width="8" height="28" rx="1" fill="#F3F4F6" stroke="#E5E7EB" strokeWidth="1" />
-      {[178, 183, 188, 193, 198].map((y) => (
-        <line key={y} x1="16" y1={y} x2="22" y2={y} stroke="#D1D5DB" strokeWidth="0.8" />
-      ))}
+      {/* ── Wheels (drawn first so truck body masks upper portion) ── */}
+      <circle cx="62" cy="166" r="18" fill="#1E293B" />
+      <circle cx="162" cy="166" r="17" fill="#1E293B" />
+      <circle cx="378" cy="166" r="15" fill="#1E293B" />
+      <circle cx="410" cy="166" r="15" fill="#334155" />
 
-      {/* Cab body */}
-      <rect x="110" y="120" width="88" height="90" rx="5" fill="#F3F4F6" stroke="#D1D5DB" strokeWidth="1.5" />
-      {/* Windshield */}
-      <path d="M114 124 L194 124 L194 162 L114 167 Z" fill="#DBEAFE" stroke="#BAE6FD" strokeWidth="1" />
-      {/* Side mirror */}
-      <rect x="99" y="138" width="13" height="9" rx="2" fill="#E5E7EB" stroke="#D1D5DB" strokeWidth="1" />
-      <line x1="106" y1="147" x2="110" y2="152" stroke="#D1D5DB" strokeWidth="1" />
-      {/* Door line */}
-      <line x1="155" y1="167" x2="155" y2="210" stroke="#D1D5DB" strokeWidth="1" />
-      {/* Handle */}
-      <line x1="161" y1="189" x2="172" y2="189" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" />
+      {/* ── Cab + Hood (single unified silhouette) ── */}
+      <path
+        d="M 24 162 L 24 128 Q 24 122 30 122 L 90 122 L 90 108 L 110 88 L 158 88 Q 162 88 162 92 L 162 162 Z"
+        fill="#F8FAFC" stroke="#CBD5E1" strokeWidth="1.5" strokeLinejoin="round"
+      />
 
-      {/* Chassis */}
-      <rect x="112" y="204" width="85" height="10" rx="1" fill="#E5E7EB" stroke="#D1D5DB" strokeWidth="1" />
+      {/* Windshield glass */}
+      <path d="M 91 108 L 110 88 L 158 88 L 158 108 Z" fill="#DBEAFE" opacity="0.75" />
+      {/* A-pillar */}
+      <line x1="91" y1="108" x2="110" y2="88" stroke="#BFDBFE" strokeWidth="1" strokeLinecap="round" />
+      {/* Hood / sill divider */}
+      <line x1="91" y1="108" x2="162" y2="108" stroke="#E2E8F0" strokeWidth="1" />
 
-      {/* Flatbed platform */}
-      <rect x="194" y="202" width="312" height="12" rx="2" fill="#F9FAFB" stroke="#D1D5DB" strokeWidth="1.5" />
+      {/* ── Chassis frame ── */}
+      <rect x="24" y="158" width="140" height="6" rx="1" fill="#E2E8F0" />
+
+      {/* ── Flatbed platform ── */}
+      <rect x="160" y="155" width="308" height="9" rx="2" fill="#F8FAFC" stroke="#CBD5E1" strokeWidth="1.5" />
+
       {/* Stake posts */}
-      {[212, 260, 308, 356, 404, 452].map((x) => (
-        <line key={x} x1={x} y1="184" x2={x} y2="202" stroke="#D1D5DB" strokeWidth="1.5" strokeLinecap="round" />
+      {[200, 248, 296, 344, 392].map((x) => (
+        <line key={x} x1={x} y1="138" x2={x} y2="155" stroke="#E2E8F0" strokeWidth="1.5" strokeLinecap="round" />
       ))}
       {/* Top rail */}
-      <line x1="202" y1="184" x2="458" y2="184" stroke="#E5E7EB" strokeWidth="1" />
+      <line x1="170" y1="138" x2="400" y2="138" stroke="#ECF0F4" strokeWidth="1" />
 
-      {/* Front wheel */}
-      <circle cx="72" cy="222" r="20" fill="#1F2937" />
-      <circle cx="72" cy="222" r="12" fill="#4B5563" />
-      <circle cx="72" cy="222" r="5" fill="#9CA3AF" />
-      {/* Drive dual wheels */}
-      <circle cx="157" cy="222" r="18" fill="#1F2937" />
-      <circle cx="157" cy="222" r="11" fill="#4B5563" />
-      <circle cx="157" cy="222" r="4.5" fill="#9CA3AF" />
-      <circle cx="178" cy="222" r="18" fill="#374151" />
-      <circle cx="178" cy="222" r="11" fill="#4B5563" />
-      <circle cx="178" cy="222" r="4.5" fill="#9CA3AF" />
-      {/* Flatbed rear axle */}
-      <circle cx="422" cy="222" r="17" fill="#1F2937" />
-      <circle cx="422" cy="222" r="10" fill="#4B5563" />
-      <circle cx="422" cy="222" r="4" fill="#9CA3AF" />
-      <circle cx="454" cy="222" r="17" fill="#374151" />
-      <circle cx="454" cy="222" r="10" fill="#4B5563" />
-      <circle cx="454" cy="222" r="4" fill="#9CA3AF" />
+      {/* ── Piggyback Forklift ── */}
 
-      {/* === Piggyback Forklift === */}
       {/* Body */}
-      <rect x="468" y="158" width="56" height="44" rx="3" fill="white" stroke="#D1D5DB" strokeWidth="1.5" />
-      {/* Overhead guard posts */}
-      <line x1="476" y1="134" x2="476" y2="158" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="516" y1="134" x2="516" y2="158" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" />
-      {/* ROPS crossbar */}
-      <line x1="476" y1="134" x2="516" y2="134" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" />
-      {/* Mast outer */}
-      <rect x="520" y="106" width="11" height="96" rx="2" fill="#DBEAFE" stroke="#93C5FD" strokeWidth="1.5" />
-      {/* Mast inner rail */}
-      <rect x="523" y="112" width="5" height="82" rx="1" fill="#BFDBFE" />
-      {/* Carriage */}
-      <rect x="512" y="188" width="12" height="14" rx="1.5" fill="#DBEAFE" stroke="#93C5FD" strokeWidth="1" />
+      <rect x="440" y="123" width="50" height="32" rx="3" fill="white" stroke="#CBD5E1" strokeWidth="1.5" />
+
+      {/* Overhead guard (ROPS) */}
+      <line x1="449" y1="102" x2="449" y2="123" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="483" y1="102" x2="483" y2="123" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="449" y1="102" x2="483" y2="102" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
+
+      {/* Mast */}
+      <rect x="487" y="77" width="8" height="78" rx="2" fill="#EFF6FF" stroke="#93C5FD" strokeWidth="1.5" />
+      {/* Mast inner */}
+      <rect x="490" y="83" width="3" height="64" rx="1" fill="#BFDBFE" />
+
       {/* Forks */}
-      <rect x="524" y="190" width="44" height="5" rx="1.5" fill="#2563EB" />
-      <rect x="524" y="198" width="44" height="5" rx="1.5" fill="#2563EB" />
-      {/* Forklift wheels */}
-      <ellipse cx="484" cy="203" rx="9" ry="5" fill="#374151" />
-      <ellipse cx="514" cy="203" rx="9" ry="5" fill="#374151" />
+      <rect x="495" y="144" width="28" height="4" rx="1.5" fill="#2563EB" />
+      <rect x="495" y="151" width="28" height="4" rx="1.5" fill="#2563EB" />
+
     </svg>
   );
 }

@@ -297,61 +297,39 @@ function HowItWorksSection() {
 
 function TruckIllustration() {
   return (
-    <svg viewBox="0 0 560 195" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-lg">
+    <svg viewBox="0 0 520 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-xl">
 
-      {/* Ground shadow */}
-      <ellipse cx="272" cy="188" rx="238" ry="5" fill="#F1F5F9" />
+      {/* Ground */}
+      <ellipse cx="252" cy="173" rx="222" ry="5" fill="#F1F5F9" />
 
-      {/* ── Wheels (drawn first so truck body masks upper portion) ── */}
-      <circle cx="62" cy="166" r="18" fill="#1E293B" />
-      <circle cx="162" cy="166" r="17" fill="#1E293B" />
-      <circle cx="378" cy="166" r="15" fill="#1E293B" />
-      <circle cx="410" cy="166" r="15" fill="#334155" />
+      {/* Wheels — drawn first, body covers upper portion */}
+      <circle cx="56"  cy="154" r="22" fill="#94A3B8" />
+      <circle cx="148" cy="154" r="20" fill="#94A3B8" />
+      <circle cx="368" cy="154" r="17" fill="#94A3B8" />
+      <circle cx="398" cy="154" r="17" fill="#94A3B8" />
+      <circle cx="56"  cy="154" r="8"  fill="#CBD5E1" />
+      <circle cx="148" cy="154" r="7"  fill="#CBD5E1" />
+      <circle cx="368" cy="154" r="6"  fill="#CBD5E1" />
+      <circle cx="398" cy="154" r="6"  fill="#CBD5E1" />
 
-      {/* ── Cab + Hood (single unified silhouette) ── */}
+      {/* Truck body — single fill, no strokes */}
       <path
-        d="M 24 162 L 24 128 Q 24 122 30 122 L 90 122 L 90 108 L 110 88 L 158 88 Q 162 88 162 92 L 162 162 Z"
-        fill="#F8FAFC" stroke="#CBD5E1" strokeWidth="1.5" strokeLinejoin="round"
+        d="M 20 132 L 20 72 Q 20 66 26 66 L 86 66 L 86 52 L 106 40 L 152 40 Q 156 40 156 44 L 156 124 L 416 124 L 416 132 Z"
+        fill="#DDE3EB"
       />
 
-      {/* Windshield glass */}
-      <path d="M 91 108 L 110 88 L 158 88 L 158 108 Z" fill="#DBEAFE" opacity="0.75" />
-      {/* A-pillar */}
-      <line x1="91" y1="108" x2="110" y2="88" stroke="#BFDBFE" strokeWidth="1" strokeLinecap="round" />
-      {/* Hood / sill divider */}
-      <line x1="91" y1="108" x2="162" y2="108" stroke="#E2E8F0" strokeWidth="1" />
+      {/* Windshield */}
+      <path d="M 87 52 L 106 40 L 152 40 L 152 52 Z" fill="white" />
 
-      {/* ── Chassis frame ── */}
-      <rect x="24" y="158" width="140" height="6" rx="1" fill="#E2E8F0" />
-
-      {/* ── Flatbed platform ── */}
-      <rect x="160" y="155" width="308" height="9" rx="2" fill="#F8FAFC" stroke="#CBD5E1" strokeWidth="1.5" />
-
-      {/* Stake posts */}
-      {[200, 248, 296, 344, 392].map((x) => (
-        <line key={x} x1={x} y1="138" x2={x} y2="155" stroke="#E2E8F0" strokeWidth="1.5" strokeLinecap="round" />
-      ))}
-      {/* Top rail */}
-      <line x1="170" y1="138" x2="400" y2="138" stroke="#ECF0F4" strokeWidth="1" />
-
-      {/* ── Piggyback Forklift ── */}
-
-      {/* Body */}
-      <rect x="440" y="123" width="50" height="32" rx="3" fill="white" stroke="#CBD5E1" strokeWidth="1.5" />
-
-      {/* Overhead guard (ROPS) */}
-      <line x1="449" y1="102" x2="449" y2="123" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="483" y1="102" x2="483" y2="123" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="449" y1="102" x2="483" y2="102" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
+      {/* Forklift body */}
+      <rect x="416" y="90" width="44" height="34" rx="3" fill="white" />
 
       {/* Mast */}
-      <rect x="487" y="77" width="8" height="78" rx="2" fill="#EFF6FF" stroke="#93C5FD" strokeWidth="1.5" />
-      {/* Mast inner */}
-      <rect x="490" y="83" width="3" height="64" rx="1" fill="#BFDBFE" />
+      <rect x="457" y="52" width="9" height="72" rx="2.5" fill="#3B82F6" />
 
       {/* Forks */}
-      <rect x="495" y="144" width="28" height="4" rx="1.5" fill="#2563EB" />
-      <rect x="495" y="151" width="28" height="4" rx="1.5" fill="#2563EB" />
+      <rect x="466" y="122" width="30" height="5" rx="2" fill="#3B82F6" />
+      <rect x="466" y="130" width="30" height="5" rx="2" fill="#3B82F6" />
 
     </svg>
   );

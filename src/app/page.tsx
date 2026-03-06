@@ -295,26 +295,118 @@ function HowItWorksSection() {
 
 /* ─── Section: Real Cost ─────────────────────────────────────── */
 
+function TruckIllustration() {
+  return (
+    <svg viewBox="0 0 600 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-lg">
+      {/* Ground */}
+      <ellipse cx="296" cy="238" rx="256" ry="6" fill="#F3F4F6" />
+
+      {/* Exhaust stack */}
+      <rect x="106" y="76" width="8" height="46" rx="3" fill="#E5E7EB" stroke="#D1D5DB" strokeWidth="1.5" />
+      <path d="M104 78 Q110 71 116 78" stroke="#D1D5DB" strokeWidth="1.5" strokeLinecap="round" />
+
+      {/* Hood */}
+      <path d="M20 150 L118 150 L118 210 L20 210 Q16 210 16 206 L16 154 Q16 150 20 150 Z" fill="#F9FAFB" stroke="#D1D5DB" strokeWidth="1.5" />
+      {/* Headlight */}
+      <rect x="15" y="165" width="5" height="14" rx="1" fill="#FEF9C3" stroke="#FDE047" strokeWidth="1" />
+      {/* Grille */}
+      <rect x="15" y="174" width="8" height="28" rx="1" fill="#F3F4F6" stroke="#E5E7EB" strokeWidth="1" />
+      {[178, 183, 188, 193, 198].map((y) => (
+        <line key={y} x1="16" y1={y} x2="22" y2={y} stroke="#D1D5DB" strokeWidth="0.8" />
+      ))}
+
+      {/* Cab body */}
+      <rect x="110" y="120" width="88" height="90" rx="5" fill="#F3F4F6" stroke="#D1D5DB" strokeWidth="1.5" />
+      {/* Windshield */}
+      <path d="M114 124 L194 124 L194 162 L114 167 Z" fill="#DBEAFE" stroke="#BAE6FD" strokeWidth="1" />
+      {/* Side mirror */}
+      <rect x="99" y="138" width="13" height="9" rx="2" fill="#E5E7EB" stroke="#D1D5DB" strokeWidth="1" />
+      <line x1="106" y1="147" x2="110" y2="152" stroke="#D1D5DB" strokeWidth="1" />
+      {/* Door line */}
+      <line x1="155" y1="167" x2="155" y2="210" stroke="#D1D5DB" strokeWidth="1" />
+      {/* Handle */}
+      <line x1="161" y1="189" x2="172" y2="189" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" />
+
+      {/* Chassis */}
+      <rect x="112" y="204" width="85" height="10" rx="1" fill="#E5E7EB" stroke="#D1D5DB" strokeWidth="1" />
+
+      {/* Flatbed platform */}
+      <rect x="194" y="202" width="312" height="12" rx="2" fill="#F9FAFB" stroke="#D1D5DB" strokeWidth="1.5" />
+      {/* Stake posts */}
+      {[212, 260, 308, 356, 404, 452].map((x) => (
+        <line key={x} x1={x} y1="184" x2={x} y2="202" stroke="#D1D5DB" strokeWidth="1.5" strokeLinecap="round" />
+      ))}
+      {/* Top rail */}
+      <line x1="202" y1="184" x2="458" y2="184" stroke="#E5E7EB" strokeWidth="1" />
+
+      {/* Front wheel */}
+      <circle cx="72" cy="222" r="20" fill="#1F2937" />
+      <circle cx="72" cy="222" r="12" fill="#4B5563" />
+      <circle cx="72" cy="222" r="5" fill="#9CA3AF" />
+      {/* Drive dual wheels */}
+      <circle cx="157" cy="222" r="18" fill="#1F2937" />
+      <circle cx="157" cy="222" r="11" fill="#4B5563" />
+      <circle cx="157" cy="222" r="4.5" fill="#9CA3AF" />
+      <circle cx="178" cy="222" r="18" fill="#374151" />
+      <circle cx="178" cy="222" r="11" fill="#4B5563" />
+      <circle cx="178" cy="222" r="4.5" fill="#9CA3AF" />
+      {/* Flatbed rear axle */}
+      <circle cx="422" cy="222" r="17" fill="#1F2937" />
+      <circle cx="422" cy="222" r="10" fill="#4B5563" />
+      <circle cx="422" cy="222" r="4" fill="#9CA3AF" />
+      <circle cx="454" cy="222" r="17" fill="#374151" />
+      <circle cx="454" cy="222" r="10" fill="#4B5563" />
+      <circle cx="454" cy="222" r="4" fill="#9CA3AF" />
+
+      {/* === Piggyback Forklift === */}
+      {/* Body */}
+      <rect x="468" y="158" width="56" height="44" rx="3" fill="white" stroke="#D1D5DB" strokeWidth="1.5" />
+      {/* Overhead guard posts */}
+      <line x1="476" y1="134" x2="476" y2="158" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="516" y1="134" x2="516" y2="158" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" />
+      {/* ROPS crossbar */}
+      <line x1="476" y1="134" x2="516" y2="134" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" />
+      {/* Mast outer */}
+      <rect x="520" y="106" width="11" height="96" rx="2" fill="#DBEAFE" stroke="#93C5FD" strokeWidth="1.5" />
+      {/* Mast inner rail */}
+      <rect x="523" y="112" width="5" height="82" rx="1" fill="#BFDBFE" />
+      {/* Carriage */}
+      <rect x="512" y="188" width="12" height="14" rx="1.5" fill="#DBEAFE" stroke="#93C5FD" strokeWidth="1" />
+      {/* Forks */}
+      <rect x="524" y="190" width="44" height="5" rx="1.5" fill="#2563EB" />
+      <rect x="524" y="198" width="44" height="5" rx="1.5" fill="#2563EB" />
+      {/* Forklift wheels */}
+      <ellipse cx="484" cy="203" rx="9" ry="5" fill="#374151" />
+      <ellipse cx="514" cy="203" rx="9" ry="5" fill="#374151" />
+    </svg>
+  );
+}
+
 function RealCostSection() {
   return (
     <section className="py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="max-w-2xl">
-          <Tag>What You&apos;re Really Paying For</Tag>
-          <h2 className="text-[2.5rem] md:text-[3rem] font-bold text-gray-900 leading-tight tracking-tight mb-6">
-            You&apos;re not paying<br />
-            <span className="text-gray-300">for a truck.</span>
-          </h2>
-          <p className="text-[1.0625rem] text-gray-500 leading-relaxed mb-5">
-            When freight doesn&apos;t show — or shows up without a forklift — the hit isn&apos;t the freight rate.
-            It&apos;s a full crew standing idle on an active jobsite. Five hours. Hundreds of dollars an hour.
-            A project behind schedule and a client call you don&apos;t want to make.
-          </p>
-          <p className="text-[1.0625rem] text-gray-500 leading-relaxed">
-            Loadr handles the entire operation: securing the carrier, confirming equipment, tracking the load,
-            managing the paperwork, invoicing the shipper, and paying the carrier.
-            One call. Everything else is on us — so your company keeps moving and your clients never feel the friction.
-          </p>
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <Tag>What You&apos;re Really Paying For</Tag>
+            <h2 className="text-[2.5rem] md:text-[3rem] font-bold text-gray-900 leading-tight tracking-tight mb-6">
+              You&apos;re not paying<br />
+              <span className="text-gray-300">for a truck.</span>
+            </h2>
+            <p className="text-[1.0625rem] text-gray-500 leading-relaxed mb-5">
+              When freight doesn&apos;t show — or shows up without a forklift — the hit isn&apos;t the freight rate.
+              It&apos;s a full crew standing idle on an active jobsite. Five hours. Hundreds of dollars an hour.
+              A project behind schedule and a client call you don&apos;t want to make.
+            </p>
+            <p className="text-[1.0625rem] text-gray-500 leading-relaxed">
+              Loadr handles the entire operation: securing the carrier, confirming equipment, tracking the load,
+              managing the paperwork, invoicing the shipper, and paying the carrier.
+              One call. Everything else is on us — so your company keeps moving and your clients never feel the friction.
+            </p>
+          </div>
+          <div className="flex items-center justify-center">
+            <TruckIllustration />
+          </div>
         </div>
       </div>
     </section>

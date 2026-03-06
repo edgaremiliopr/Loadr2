@@ -297,7 +297,7 @@ function HowItWorksSection() {
 
 function TruckIllustration() {
   return (
-    <svg viewBox="0 0 560 175" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-2xl">
+    <svg viewBox="0 0 620 185" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-2xl">
       <style>{`
         @keyframes cargo-glow {
           0%, 100% { filter: drop-shadow(0 0 4px #4ade80) drop-shadow(0 0 10px #16a34a); }
@@ -307,59 +307,58 @@ function TruckIllustration() {
       `}</style>
 
       {/* Ground */}
-      <ellipse cx="272" cy="170" rx="248" ry="4" fill="#F1F5F9" />
+      <ellipse cx="300" cy="178" rx="288" ry="5" fill="#F1F5F9" />
 
-      {/* ── Wheels — all r=20 ─────────────────────────────────────── */}
-      <circle cx="64"  cy="148" r="20" fill="#64748B" />
-      <circle cx="64"  cy="148" r="7"  fill="#94A3B8" />
-      <circle cx="154" cy="148" r="20" fill="#64748B" />
-      <circle cx="154" cy="148" r="7"  fill="#94A3B8" />
-      {/* Rear tandem — 48 px apart, 8 px gap between tires */}
-      <circle cx="312" cy="148" r="20" fill="#64748B" />
-      <circle cx="312" cy="148" r="7"  fill="#94A3B8" />
-      <circle cx="360" cy="148" r="20" fill="#64748B" />
-      <circle cx="360" cy="148" r="7"  fill="#94A3B8" />
+      {/* ── Truck wheels (r=20, cy=153) ─────────────────────────── */}
+      <circle cx="66"  cy="153" r="20" fill="#64748B" />
+      <circle cx="66"  cy="153" r="7"  fill="#94A3B8" />
+      <circle cx="156" cy="153" r="20" fill="#64748B" />
+      <circle cx="156" cy="153" r="7"  fill="#94A3B8" />
+      {/* Rear tandem — 48 px apart, 8 px gap */}
+      <circle cx="314" cy="153" r="20" fill="#64748B" />
+      <circle cx="314" cy="153" r="7"  fill="#94A3B8" />
+      <circle cx="362" cy="153" r="20" fill="#64748B" />
+      <circle cx="362" cy="153" r="7"  fill="#94A3B8" />
 
-      {/* ── Truck body ─────────────────────────────────────────────── */}
+      {/* ── Truck body (flatbed surface y=120, bottom y=133) ──── */}
       <path
-        d="M 20 128 L 20 68 Q 20 62 26 62 L 84 62 L 84 46 L 104 36 L 160 36 Q 164 36 164 40 L 164 116 L 488 116 L 488 128 Z"
+        d="M 20 133 L 20 72 Q 20 66 26 66 L 86 66 L 86 50 L 106 38 L 162 38 Q 166 38 166 42 L 166 120 L 490 120 L 490 133 Z"
         fill="#DDE3EB"
       />
       {/* Windshield */}
-      <path d="M 85 46 L 104 36 L 160 36 L 160 46 Z" fill="white" />
+      <path d="M 87 50 L 106 38 L 162 38 L 162 50 Z" fill="white" />
 
-      {/* ── Glowing green cargo ────────────────────────────────────── */}
+      {/* ── Glowing green cargo (3 boxes, all bottom at y=120) ── */}
       <g className="loadr-cargo">
-        <rect x="182" y="82"  width="80" height="34" rx="3" fill="#4ADE80" />
-        <rect x="272" y="88"  width="80" height="28" rx="3" fill="#4ADE80" />
+        <rect x="184" y="86"  width="78" height="34" rx="3" fill="#4ADE80" />
+        <rect x="272" y="92"  width="78" height="28" rx="3" fill="#4ADE80" />
+        <rect x="360" y="88"  width="78" height="32" rx="3" fill="#4ADE80" />
       </g>
 
-      {/* ── Moffett / piggyback forklift ───────────────────────────── */}
+      {/* ── Moffett piggyback — HANGS OFF REAR, wheels on ground ── */}
 
-      {/*  Body: asymmetric profile — tall left = counterweight, lower right = operator seat  */}
-      <path
-        d="M 396 116 L 396 84 Q 396 80 400 80 L 418 80 L 418 90 L 452 90 Q 456 90 456 94 L 456 116 Z"
-        fill="#BCC8D0"
-      />
+      {/* Mounting bracket: truck frame → Moffett */}
+      <rect x="483" y="112" width="10" height="26" rx="2" fill="#94A3B8" />
 
-      {/*  ROPS cage: left post rises from counterweight top, right post from seat top,
-           top rail connects them — asymmetric height = classic forklift silhouette  */}
-      <rect x="398" y="56" width="5"  height="24" rx="2" fill="#BCC8D0" />  {/* left post  */}
-      <rect x="447" y="64" width="5"  height="26" rx="2" fill="#BCC8D0" />  {/* right post */}
-      <rect x="398" y="56" width="54" height="5"  rx="2" fill="#BCC8D0" />  {/* top rail   */}
+      {/* Moffett enclosed operator cab — tall boxy shape */}
+      <rect x="472" y="54" width="60" height="79" rx="4" fill="#BCC8D0" />
+      {/* Cab window */}
+      <rect x="480" y="62" width="44" height="32" rx="2" fill="white" opacity="0.9" />
 
-      {/*  Mast — mounted at front of Moffett (rear of truck), rises to cab height  */}
-      <rect x="451" y="36" width="10" height="80" rx="2" fill="#2563EB" />
+      {/* Mast — very tall, extends well above truck cab */}
+      <rect x="530" y="12" width="12" height="121" rx="3" fill="#2563EB" />
 
-      {/*  Forks — extend off the back of the truck  */}
-      <rect x="461" y="105" width="36" height="4" rx="2" fill="#2563EB" />
-      <rect x="461" y="111" width="36" height="4" rx="2" fill="#2563EB" />
+      {/* Forks — at mast base, near ground level (forklift is lowered when parked) */}
+      <rect x="542" y="122" width="44" height="5" rx="2" fill="#2563EB" />
+      <rect x="542" y="129" width="44" height="5" rx="2" fill="#2563EB" />
 
-      {/*  Moffett rear wheels — two small wheels visible below the body  */}
-      <circle cx="404" cy="122" r="7" fill="#94A3B8" />
-      <circle cx="448" cy="122" r="7" fill="#94A3B8" />
-      <circle cx="404" cy="122" r="3" fill="#BCC8D0" />
-      <circle cx="448" cy="122" r="3" fill="#BCC8D0" />
+      {/* Moffett rear wheel — large, under the cab body, at ground level */}
+      <circle cx="498" cy="153" r="20" fill="#64748B" />
+      <circle cx="498" cy="153" r="7"  fill="#94A3B8" />
+
+      {/* Moffett front wheel — single center wheel at mast base */}
+      <circle cx="537" cy="153" r="14" fill="#64748B" />
+      <circle cx="537" cy="153" r="5"  fill="#94A3B8" />
 
     </svg>
   );

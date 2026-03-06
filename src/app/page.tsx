@@ -297,39 +297,42 @@ function HowItWorksSection() {
 
 function TruckIllustration() {
   return (
-    <svg viewBox="0 0 520 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-xl">
+    <svg viewBox="0 0 500 175" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-full max-w-xl">
 
       {/* Ground */}
-      <ellipse cx="252" cy="173" rx="222" ry="5" fill="#F1F5F9" />
+      <ellipse cx="248" cy="170" rx="218" ry="4" fill="#F1F5F9" />
 
-      {/* Wheels — drawn first, body covers upper portion */}
-      <circle cx="56"  cy="154" r="22" fill="#94A3B8" />
-      <circle cx="148" cy="154" r="20" fill="#94A3B8" />
-      <circle cx="368" cy="154" r="17" fill="#94A3B8" />
-      <circle cx="398" cy="154" r="17" fill="#94A3B8" />
-      <circle cx="56"  cy="154" r="8"  fill="#CBD5E1" />
-      <circle cx="148" cy="154" r="7"  fill="#CBD5E1" />
-      <circle cx="368" cy="154" r="6"  fill="#CBD5E1" />
-      <circle cx="398" cy="154" r="6"  fill="#CBD5E1" />
+      {/* ── Wheels — all r=20, drawn first ── */}
+      <circle cx="64"  cy="148" r="20" fill="#64748B" />  {/* front steer */}
+      <circle cx="154" cy="148" r="20" fill="#64748B" />  {/* drive */}
+      <circle cx="316" cy="148" r="20" fill="#64748B" />  {/* tag 1 */}
+      <circle cx="348" cy="148" r="20" fill="#64748B" />  {/* tag 2 */}
+      {/* hubs */}
+      <circle cx="64"  cy="148" r="7"  fill="#94A3B8" />
+      <circle cx="154" cy="148" r="7"  fill="#94A3B8" />
+      <circle cx="316" cy="148" r="7"  fill="#94A3B8" />
+      <circle cx="348" cy="148" r="7"  fill="#94A3B8" />
 
-      {/* Truck body — single fill, no strokes */}
+      {/* ── Truck body — single fill, body bottom at y=128 aligns with wheel tops ── */}
       <path
-        d="M 20 132 L 20 72 Q 20 66 26 66 L 86 66 L 86 52 L 106 40 L 152 40 Q 156 40 156 44 L 156 124 L 416 124 L 416 132 Z"
+        d="M 20 128 L 20 68 Q 20 62 26 62 L 84 62 L 84 46 L 104 36 L 160 36 Q 164 36 164 40 L 164 116 L 460 116 L 460 128 Z"
         fill="#DDE3EB"
       />
 
       {/* Windshield */}
-      <path d="M 87 52 L 106 40 L 152 40 L 152 52 Z" fill="white" />
+      <path d="M 85 46 L 104 36 L 160 36 L 160 46 Z" fill="white" />
 
-      {/* Forklift body */}
-      <rect x="416" y="90" width="44" height="34" rx="3" fill="white" />
+      {/* ── Piggyback forklift ── */}
 
-      {/* Mast */}
-      <rect x="457" y="52" width="9" height="72" rx="2.5" fill="#3B82F6" />
+      {/* Forklift body — white block on rear of flatbed */}
+      <rect x="388" y="82" width="54" height="34" rx="3" fill="white" />
 
-      {/* Forks */}
-      <rect x="466" y="122" width="30" height="5" rx="2" fill="#3B82F6" />
-      <rect x="466" y="130" width="30" height="5" rx="2" fill="#3B82F6" />
+      {/* Mast — tallest element, rises above cab */}
+      <rect x="438" y="24" width="10" height="92" rx="3" fill="#2563EB" />
+
+      {/* Forks extending rearward */}
+      <rect x="448" y="103" width="32" height="5" rx="2" fill="#2563EB" />
+      <rect x="448" y="110" width="32" height="5" rx="2" fill="#2563EB" />
 
     </svg>
   );

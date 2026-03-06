@@ -458,8 +458,8 @@ function CoverageSection() {
 /* ─── Section: About ─────────────────────────────────────────── */
 
 const ABOUT_STATS = [
-  { value: "5,000+",  label: "Loads completed" },
-  { value: "$1.5M+",  label: "Freight moved" },
+  { value: "5,500+",  label: "Loads completed" },
+  { value: "$2M+",    label: "Freight moved" },
   { value: "S&P 500", label: "Operations background" },
   { value: "FL Native", label: "Market knowledge" },
 ];
@@ -481,7 +481,7 @@ function AboutSection() {
               load doesn&apos;t show up, or shows up without the right equipment.
             </p>
             <p className="text-[1.0625rem] text-gray-400 leading-relaxed">
-              Over 5,000 loads moved. More than $1.5M in freight across Florida&apos;s
+              Over 5,500 loads moved. More than $2M in freight across Florida&apos;s
               scaffolding, shoring, swing stage, and mast climber sectors.
               Built from real experience, not theory.
             </p>

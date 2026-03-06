@@ -293,66 +293,29 @@ function HowItWorksSection() {
   );
 }
 
-/* ─── Section: Full Partner ──────────────────────────────────── */
+/* ─── Section: Real Cost ─────────────────────────────────────── */
 
-const PARTNER_ITEMS = [
-  {
-    label: "Coordinates",
-    desc: "Carrier, timing, equipment, and jobsite access — handled.",
-  },
-  {
-    label: "Documents",
-    desc: "BOL, rate confirmation, and proof of delivery — every time.",
-  },
-  {
-    label: "Tracks",
-    desc: "Real-time visibility so you always know where your load is.",
-  },
-  {
-    label: "Bills the shipper",
-    desc: "Clean invoicing. No surprises, no chasing.",
-  },
-  {
-    label: "Pays the carrier",
-    desc: "Fast, reliable payment that keeps our network moving for you.",
-  },
-  {
-    label: "Closes the paperwork",
-    desc: "Every document accounted for. Nothing falls through the cracks.",
-  },
-];
-
-function PartnerSection() {
+function RealCostSection() {
   return (
-    <section className="py-24 bg-[#FAFAFA]">
+    <section className="py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="max-w-2xl mb-14">
-          <Tag>Full-Service Logistics</Tag>
-          <h2 className="text-[2.5rem] md:text-[3rem] font-bold text-gray-900 leading-tight tracking-tight mb-4">
-            We don&apos;t just find<br />
-            <span className="text-gray-300">a truck.</span>
+        <div className="max-w-2xl">
+          <Tag>What You&apos;re Really Paying For</Tag>
+          <h2 className="text-[2.5rem] md:text-[3rem] font-bold text-gray-900 leading-tight tracking-tight mb-6">
+            You&apos;re not paying<br />
+            <span className="text-gray-300">for a truck.</span>
           </h2>
-          <p className="text-lg text-gray-500 leading-relaxed">
-            Loadr manages the entire operation — so your team stays focused on
-            delivering for your clients, not managing freight hiccups.
+          <p className="text-[1.0625rem] text-gray-500 leading-relaxed mb-5">
+            When freight doesn&apos;t show — or shows up without a forklift — the hit isn&apos;t the freight rate.
+            It&apos;s a full crew standing idle on an active jobsite. Five hours. Hundreds of dollars an hour.
+            A project behind schedule and a client call you don&apos;t want to make.
+          </p>
+          <p className="text-[1.0625rem] text-gray-500 leading-relaxed">
+            Loadr handles the entire operation: securing the carrier, confirming equipment, tracking the load,
+            managing the paperwork, invoicing the shipper, and paying the carrier.
+            One call. Everything else is on us — so your company keeps moving and your clients never feel the friction.
           </p>
         </div>
-
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-2xl overflow-hidden">
-          {PARTNER_ITEMS.map(({ label, desc }) => (
-            <div key={label} className="bg-white p-7 hover:bg-gray-50 transition-colors">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0" />
-                <span className="font-semibold text-gray-900 text-[0.9375rem]">{label}</span>
-              </div>
-              <p className="text-[0.8125rem] text-gray-500 leading-relaxed pl-3.5">{desc}</p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-8 text-center text-[0.875rem] text-gray-400">
-          One point of contact. Zero loose ends. Your logistics partner, not just your broker.
-        </p>
       </div>
     </section>
   );
@@ -551,9 +514,9 @@ export default function Home() {
         <Divider />
         <ServicesSection />
         <Divider />
-        <HowItWorksSection />
+        <RealCostSection />
         <Divider />
-        <PartnerSection />
+        <HowItWorksSection />
         <Divider />
         <CoverageSection />
         <AboutSection />

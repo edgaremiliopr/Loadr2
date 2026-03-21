@@ -107,3 +107,47 @@ export interface ResearchQueueItem {
   priority: TaskPriority;
   sourceHint: string;
 }
+
+// ─── PR Shipment Tracker ────────────────────────────────────────
+
+export type PRPort = "San Juan" | "Ponce";
+
+export type BillType = "Master" | "House" | "Simple";
+
+export type ServiceType =
+  | "Door-to-Door"
+  | "Door-to-Port"
+  | "Port-to-Door"
+  | "Port-to-Port";
+
+export interface PRShipment {
+  id: string;
+  runDate: string;
+  masterBOL: string;
+  houseBOL: string;
+  voyageNumber: string;
+  billType: BillType;
+  carrierCode: string;
+  carrierName: string;
+  imoNumber: string;
+  vesselName: string;
+  arrivalDate: string;
+  usPort: PRPort;
+  foreignPort: string;
+  foreignCountry: string;
+  quantity: number;
+  quantityUnit: string;
+  weightKg: number;
+  weightLbs: number;
+  typeOfService: ServiceType;
+  shipper: string;
+  shipperAddress: string;
+  consignee: string;
+  consigneeAddress: string;
+  notifyParty: string;
+  notifyPartyAddress: string;
+  commodity: string;
+  containerCount: number;
+  containerType: string;
+  harmonizedCode: string;
+}

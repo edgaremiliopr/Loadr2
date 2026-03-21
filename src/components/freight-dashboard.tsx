@@ -175,7 +175,17 @@ export function FreightDashboard() {
           ))}
         </nav>
 
-        <div className="p-2.5 border-t border-gray-100">
+        <div className="p-2.5 border-t border-gray-100 space-y-0.5">
+          <Link
+            href="/office/pr-shipments"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl text-[0.75rem] font-medium text-gray-500 hover:text-blue-700 hover:bg-blue-50 transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+              <path d="M3 10h14M10 3c-4 3-4 11 0 14M10 3c4 3 4 11 0 14M3 7h14M3 13h14" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+              <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.3"/>
+            </svg>
+            PR Shipments
+          </Link>
           <Link
             href="/"
             className="flex items-center gap-2 px-3 py-2 rounded-xl text-[0.75rem] text-gray-400 hover:text-gray-600 transition-colors"
